@@ -56,6 +56,15 @@ class EmailVerificationRequired extends AuthState {
   List<Object?> get props => [email];
 }
 
+class EmailVerificationSuccess extends AuthState {
+  final User user;
+
+  const EmailVerificationSuccess({required this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
+
 class AuthCheckingStatus extends AuthState {
   const AuthCheckingStatus();
 }

@@ -1,3 +1,4 @@
+import 'package:color_funland/core/components/circular_indicator.dart';
 import 'package:color_funland/core/components/custom_text_field.dart';
 import 'package:color_funland/core/components/elevated_btn.dart';
 import 'package:color_funland/core/constants/app_common_padding.dart';
@@ -38,14 +39,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          
-         if (state is AuthError) {
+          if (state is AuthError) {
             context.read<AuthCubit>().messageService.showMessage(
                   state.message,
                   MessageType.error,
                 );
           } else if (state is AuthSuccess) {
-            
+            Navigator.pushReplacementNamed(context, '/home');
+          } else if (state is EmailVerificationRequired) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Please verify your email before continuing',
+                  MessageType.warning,
+                );
+            Navigator.pushReplacementNamed(context, '/email-verification');
+          } else if (state is EmailVerificationSuccess) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Email verified successfully!',
+                  MessageType.success,
+                );
             Navigator.pushReplacementNamed(context, '/home');
           }
         },
@@ -148,7 +159,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SizedBox(height: 24.h),
                               // Login Button
-                              ElevatedBtn(
+                                state is AuthLoading
+                                    ?  CircularIndicator()
+                                    :   ElevatedBtn(
                                 text: AppStrings.login,
                                 onPressed: state is AuthLoading
                                     ? () {}
@@ -164,11 +177,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         }
                                       },
                                 width: double.infinity,
-
-                                child: state is AuthLoading
-                                    ?  CircularProgressIndicator(
-                                        color: cWhiteColor)
-                                    : null,
                               ),
 
                               SizedBox(height: 24.h),

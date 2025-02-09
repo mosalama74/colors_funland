@@ -8,7 +8,8 @@ abstract class MessageService {
 enum MessageType {
   error,
   success,
-  info;
+  info,
+  warning;
 
   Color get color {
     switch (this) {
@@ -18,6 +19,8 @@ enum MessageType {
         return Colors.green;
       case MessageType.info:
         return Colors.blue;
+      case MessageType.warning:
+        return Colors.amber;
     }
   }
 }

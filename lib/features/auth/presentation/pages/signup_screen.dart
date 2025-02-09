@@ -49,18 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null;
   }
 
-  void _handleSignUp() {
-    if (_formKey.currentState?.validate() ?? false) {
-      context.read<AuthCubit>().signUp(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            email: _emailController.text,
-            username: _usernameController.text,
-            password: _passwordController.text,
-          );
-       
-    }
-  }
+
 
   @override
   void dispose() {
@@ -137,13 +126,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       onNext: _moveToNextStep,
                                     )
                                   : SignUpSecondBody(
-                                      usernameController: _usernameController,
-                                      passwordController: _passwordController,
-                                      confirmPasswordController:
-                                          _confirmPasswordController,
-                                      onSignUp: _handleSignUp,
-                                      isLoading: state is AuthLoading,
-                                    ),
+                                    firstName: _firstNameController.text,
+                                    lastName: _lastNameController.text,
+                                    email: _emailController.text,
+                                    username: _usernameController.text,
+                                  ),                         
+                                    
                             ],
                           ),
                         ),

@@ -23,12 +23,6 @@ class SignUpFirstBody extends StatelessWidget {
     required this.emailValidator,
   });
 
-String? _validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'This field is required';
-    }
-    return null;
-  }
 
 
   @override
@@ -103,7 +97,8 @@ String? _validateName(String? value) {
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
-              validator: _validateName,
+              validator: emailValidator,
+
             ),
           ],
         ),

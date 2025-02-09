@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PasswordField extends StatefulWidget {
-  const PasswordField({super.key, this.validator, this.controller});
+  const PasswordField({super.key, this.validator, this.controller, this.textInputAction});
   final String? Function(String?)? validator;
   final TextEditingController? controller;
-
+  final TextInputAction? textInputAction;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -16,7 +16,6 @@ class PasswordField extends StatefulWidget {
 class _PasswordFieldState extends State<PasswordField> {
   bool _isPasswordHidden = true;
 
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -24,6 +23,7 @@ class _PasswordFieldState extends State<PasswordField> {
       keyboardType: TextInputType.visiblePassword,
       obscureText: _isPasswordHidden,
       maxLines: 1,
+      textInputAction: widget.textInputAction ?? TextInputAction.next,
       validator: widget.validator,
       decoration: InputDecoration(
         hintText: 'Type here',
@@ -41,7 +41,7 @@ class _PasswordFieldState extends State<PasswordField> {
               _isPasswordHidden = !_isPasswordHidden;
             });
           },
-        ), 
+        ),
       ),
     );
   }
@@ -53,7 +53,7 @@ class SuffixPasswordIcon extends StatefulWidget {
     required this.isPasswordHidden,
     required this.onToggle,
   });
-  
+
   final bool isPasswordHidden;
   final VoidCallback onToggle;
 

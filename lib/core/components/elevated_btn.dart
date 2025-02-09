@@ -49,7 +49,7 @@ class ElevatedBtn extends StatelessWidget {
             heightFactor: 1.0,
             child: Container(
               alignment: Alignment.center,
-              child: child ?? Text(
+              child: Text(
                 text,
                 style: TextStyle(
                   color: cWhite2Color,
