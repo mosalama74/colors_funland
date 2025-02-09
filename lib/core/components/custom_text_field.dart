@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType ?? TextInputType.text,
         style: textFieldTextStyle,
-        textInputAction: textInputAction,
+        textInputAction: textInputAction ?? TextInputAction.next,
         maxLines: 1,
         maxLength: maxLength,
         validator: validator,

@@ -4,6 +4,7 @@ import 'package:color_funland/core/constants/app_common_padding.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/constants/app_strings.dart';
+import 'package:color_funland/core/services/message_service.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
 import 'package:color_funland/core/components/password_text_field.dart';
@@ -37,11 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+          
+         if (state is AuthError) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  state.message,
+                  MessageType.error,
+                );
           } else if (state is AuthSuccess) {
+            
             Navigator.pushReplacementNamed(context, '/home');
           }
         },

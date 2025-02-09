@@ -10,6 +10,8 @@ class SignUpFirstBody extends StatelessWidget {
   final TextEditingController firstNameController;
   final TextEditingController lastNameController;
   final TextEditingController emailController;
+    final String? Function(String?) emailValidator;
+
   final VoidCallback onNext;
 
   const SignUpFirstBody({
@@ -18,18 +20,16 @@ class SignUpFirstBody extends StatelessWidget {
     required this.lastNameController,
     required this.emailController,
     required this.onNext,
+    required this.emailValidator,
   });
 
-  String? _validateEmail(String? value) {
+String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter email';
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email';
+      return 'This field is required';
     }
     return null;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class SignUpFirstBody extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
-              validator: _validateEmail,
+              validator: _validateName,
             ),
           ],
         ),

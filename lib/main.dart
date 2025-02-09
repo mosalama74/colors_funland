@@ -1,4 +1,5 @@
 import 'package:color_funland/color_funland_app.dart';
+import 'package:color_funland/core/services/message_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ await Firebase.initializeApp(
         providers: [
           BlocProvider(
             create: (context) => AuthCubit(
+              messageService: di.sl<MessageService>(),
               signInUseCase: di.sl<SignInUseCase>(),
               signUpUseCase: di.sl<SignUpUseCase>(),
             ),

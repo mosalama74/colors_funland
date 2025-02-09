@@ -5,6 +5,7 @@ import 'package:color_funland/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:color_funland/features/auth/presentation/cubit/auth_state.dart';
 import 'package:color_funland/features/auth/presentation/widgets/sign_up_first_body.dart';
 import 'package:color_funland/features/auth/presentation/widgets/sign_up_second_body.dart';
+import 'package:color_funland/core/services/message_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +37,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
- 
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    }
+    // Regular expression for email validation
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Please enter a valid email';
+    }
+    return null;
+  }
 
   void _handleSignUp() {
     if (_formKey.currentState?.validate() ?? false) {
@@ -47,12 +58,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             username: _usernameController.text,
             password: _passwordController.text,
           );
-          Navigator.pushNamed(context, '/addProfileInfo');        
        
     }
   }
 
-   @override
+  @override
   void dispose() {
     _firstNameController.dispose();
     _lastNameController.dispose();
@@ -74,20 +84,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+           if (state is AuthError) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  state.message,
+                  MessageType.error,
+                );
           } else if (state is AuthSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Sign up successful!'),
-                backgroundColor: Colors.green,
-              ),
-            );
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Sign up successful',
+                  MessageType.success,
+                  
+                );
+             print ('Sign up successful');
+
             Navigator.pushReplacementNamed(context, '/addProfileInfo');
           }
         },
@@ -124,6 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       firstNameController: _firstNameController,
                                       lastNameController: _lastNameController,
                                       emailController: _emailController,
+                                      emailValidator: _validateEmail,
                                       onNext: _moveToNextStep,
                                     )
                                   : SignUpSecondBody(

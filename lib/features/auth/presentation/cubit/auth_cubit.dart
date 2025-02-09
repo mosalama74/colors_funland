@@ -4,20 +4,25 @@ import 'package:color_funland/features/auth/domain/entities/user.dart' as entiti
 import 'package:color_funland/features/auth/domain/usecases/signin_usecase.dart';
 import 'package:color_funland/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:color_funland/features/auth/presentation/cubit/auth_state.dart';
+import 'package:color_funland/core/services/message_service.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SignInUseCase signInUseCase;
   final SignUpUseCase signUpUseCase;
+  final MessageService messageService;
 
   AuthCubit({
     required this.signInUseCase,
     required this.signUpUseCase,
+    required this.messageService,
   }) : super(AuthInitial());
 
   Future<void> signIn({required String email, required String password}) async {
     try {
       if (email.isEmpty || password.isEmpty) {
-        emit(const AuthError(message: 'Email and password cannot be empty'));
+        const message = 'Email and password cannot be empty';
+        messageService.showMessage(message, MessageType.error);
+        emit(const AuthError(message: message));
         return;
       }
 
@@ -25,7 +30,10 @@ class AuthCubit extends Cubit<AuthState> {
        email: email.trim(), password: password);
       
       result.fold(
-        (failure) => emit(AuthError(message: failure.message)),
+        (failure) {
+          messageService.showMessage(failure.message, MessageType.error);
+          emit(AuthError(message: failure.message));
+        },
         (_) async {
           final firebaseUser = FirebaseAuth.instance.currentUser;
           if (firebaseUser != null) {
@@ -37,13 +45,17 @@ class AuthCubit extends Cubit<AuthState> {
               username: '',
               createdAt: DateTime.now(),
             );
+            messageService.showMessage('Successfully logged in', MessageType.success);
             emit(AuthSuccess(user: user));
           } else {
-            emit(const AuthError(message: 'Failed to retrieve user information'));
+            const message = 'Failed to retrieve user information';
+            messageService.showMessage(message, MessageType.error);
+            emit(const AuthError(message: message));
           }
         },
       );
     } catch (e) {
+      messageService.showMessage(e.toString(), MessageType.error);
       emit(AuthError(message: e.toString()));
     }
   }
@@ -69,7 +81,10 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       result.fold(
-        (failure) => emit(AuthError(message: failure.message)),
+        (failure) {
+          messageService.showMessage(failure.message, MessageType.error);
+          emit(AuthError(message: failure.message));
+        },
         (_) async {
           final firebaseUser = FirebaseAuth.instance.currentUser;
           if (firebaseUser != null) {
@@ -81,13 +96,17 @@ class AuthCubit extends Cubit<AuthState> {
               username: '',
               createdAt: DateTime.now(),
             );
+            messageService.showMessage('Account created successfully', MessageType.success);
             emit(AuthSuccess(user: user));
           } else {
-            emit(const AuthError(message: 'Failed to retrieve user information'));
+            const message = 'Failed to retrieve user information';
+            messageService.showMessage(message, MessageType.error);
+            emit(const AuthError(message: message));
           }
         },
       );
     } catch (e) {
+      messageService.showMessage(e.toString(), MessageType.error);
       emit(AuthError(message: e.toString()));
     }
   }

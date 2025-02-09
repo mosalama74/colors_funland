@@ -5,6 +5,7 @@ import 'package:color_funland/features/auth/domain/usecases/sign_out_usecase.dar
 import 'package:color_funland/features/auth/domain/usecases/signin_usecase.dart';
 import 'package:color_funland/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:color_funland/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:color_funland/core/services/message_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +18,7 @@ Future<void> init() async {
     () => AuthCubit(
       signInUseCase: sl(),
       signUpUseCase: sl(),
-     
+      messageService: sl(),
     ),
   );
 
@@ -26,6 +27,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => GetCurrentUserUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUseCase(sl()));
+
+  // Core
+  sl.registerLazySingleton<MessageService>(() => ToastMessageService());
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(
