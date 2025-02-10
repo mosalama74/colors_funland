@@ -5,6 +5,7 @@ class AppStrings {
   static const String secondaryFontFamily = "Gloock";
 
 /* Login Screen */
+
   static const String login = "Login";
   static const String username = "Username";
   static const String password = "Password";
@@ -12,12 +13,14 @@ class AppStrings {
   static const String signUp = "Sign Up";
 
   /* Sign Up Screen */
+  
   static const String parentInfo = "Parent Information";
   static const String firstName= "First name";
   static const String lastName= "Last name";
   static const String email= "Email";
   
 /* Delete Account Screen */
+
   static const String deleteAccount = "Delete Account";
 
   static const String deleteAccountText = "Deleting your account will remove all of your information from our database. This cannot be undone. To confirm this, type \"DELETE\" Delete account";
@@ -25,10 +28,13 @@ class AppStrings {
   static const String confirmDelete = "To Confirm this, type “DELETE”";
   static const String delete = "Delete";
   static const String cancel = "Cancel";
+
 /* Change Password Screen */
+
   static const String changePassword = "Change Password";
   static const String newPassword = "New Password";
   static const String retypePassword = "Retype Password";
+
   /* Forget Password Screen */
   
   static const String emailIdMobileNo = "Email id / Mobile no";
@@ -41,6 +47,9 @@ class AppStrings {
 
     /* add profile info page */
     static const String welcome = "Welcome";
+    static const String letsstart = "Let’s Start" ;
+    static const String saveandlogin = "Save  and Login in" ;
+    static const String childPhoto = "Child Photo" ;
 
 
 }

@@ -17,6 +17,7 @@ class AppImages {
 
   /* add profile info page */
   static const String cardBg = "assets/images/cardBg.png";
+  static const String defaultUploadImage = "assets/images/uploadimg.png";
 }
 
 

@@ -3,16 +3,12 @@ import 'package:color_funland/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class InputChildInfoWidget extends StatefulWidget {
-  const InputChildInfoWidget({super.key});
+class InputChildInfoWidget extends StatelessWidget {
+  const InputChildInfoWidget(
+      {super.key, required this.nameController, required this.ageController});
 
-  @override
-  State<InputChildInfoWidget> createState() => _InputChildInfoWidgetState();
-}
-
-class _InputChildInfoWidgetState extends State<InputChildInfoWidget> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController nameController;
+  final TextEditingController ageController;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,9 +22,9 @@ class _InputChildInfoWidgetState extends State<InputChildInfoWidget> {
               'Your Child Name',
               style: ts18Purble700,
             ),
-             SizedBox(height: 17.h),
+            SizedBox(height: 17.h),
             CustomTextField(
-              controller: _nameController,
+              controller: nameController,
               width: 245.w,
             ),
           ],
@@ -42,9 +38,9 @@ class _InputChildInfoWidgetState extends State<InputChildInfoWidget> {
               'Child Age',
               style: ts18Purble700,
             ),
-             SizedBox(height: 17.h),
+            SizedBox(height: 17.h),
             CustomTextField(
-              controller: _ageController,
+              controller: ageController,
               keyboardType: TextInputType.number,
               maxLength: 2,
               width: 245.w,
