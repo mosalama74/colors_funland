@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:color_funland/features/auth/domain/entities/user.dart' as entities;
 import 'package:color_funland/features/auth/domain/usecases/signin_usecase.dart';
 import 'package:color_funland/features/auth/domain/usecases/signup_usecase.dart';
@@ -18,27 +19,64 @@ class AuthCubit extends Cubit<AuthState> {
     required this.messageService,
   }) : super(AuthInitial());
 
-  // Future<void> sendEmailVerification() async {
-  //   try {
-  //     final user = _auth.currentUser;
-  //     if (user != null && !user.emailVerified) {
-  //       await user.sendEmailVerification();
-  //       emit(EmailVerificationSent(email: user.email!));
-  //     }
-  //   } catch (e) {
-  //     emit(AuthError(message: 'Failed to send verification email'));
-  //   }
-  // }
+  Future<void> sendEmailVerification() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+        emit(EmailVerificationSent(email: user.email!));
+      }
+    } catch (e) {
+      emit(AuthError(message: 'Failed to send verification email'));
+    }
+  }
+
+  Future<void> checkEmailVerification() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        // Reload user to get latest verification status
+        await user.reload();
+        
+        if (user.emailVerified) {
+          // Get user data from Firestore
+          final userData = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+
+          if (userData.exists) {
+            final verifiedUser = entities.User(
+              uid: user.uid,
+              email: user.email ?? '',
+              firstName: userData['firstName'] ?? '',
+              lastName: userData['lastName'] ?? '',
+              username: userData['username'] ?? '',
+              createdAt: (userData['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+            );
+            emit(EmailVerificationSuccess(user: verifiedUser));
+          }
+        } else {
+          emit(EmailVerificationRequired(email: user.email!));
+        }
+      }
+    } catch (e) {
+      emit(AuthError(message: 'Failed to check email verification status'));
+    }
+  }
 
   Future<void> signIn({required String email, required String password}) async {
     try {
+      emit(const AuthLoading());
+      
       if (email.isEmpty || password.isEmpty) {
         emit(const AuthError(message: 'Email and password cannot be empty'));
         return;
       }
 
       final result = await signInUseCase(
-      email: email.trim(), password: password
+        email: email.trim(), 
+        password: password
       );
 
       result.fold(
@@ -46,20 +84,35 @@ class AuthCubit extends Cubit<AuthState> {
         (_) async {
           final firebaseUser = _auth.currentUser;
           if (firebaseUser != null) {
-            // if (!firebaseUser.emailVerified) {
-            //   emit(EmailVerificationRequired(email: firebaseUser.email!));
-            //   await sendEmailVerification();
-            // } else {
+            // Reload user to get latest verification status
+            await firebaseUser.reload();
+            
+            if (!firebaseUser.emailVerified) {
+              // Send a new verification email and require verification
+              await sendEmailVerification();
+              emit(EmailVerificationRequired(email: firebaseUser.email!));
+              return;
+            }
+            
+            // Get user data from Firestore
+            final userData = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(firebaseUser.uid)
+                .get();
+
+            if (userData.exists) {
               final user = entities.User(
                 uid: firebaseUser.uid,
                 email: firebaseUser.email ?? '',
-                firstName: '',
-                lastName: '',
-                username: '',
-                createdAt: DateTime.now(),
+                firstName: userData['firstName'] ?? '',
+                lastName: userData['lastName'] ?? '',
+                username: userData['username'] ?? '',
+                createdAt: (userData['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
               );
               emit(AuthSuccess(user: user, isEmailVerified: true));
-            
+            } else {
+              emit(const AuthError(message: 'User data not found'));
+            }
           } else {
             emit(const AuthError(message: 'Failed to retrieve user information'));
           }
@@ -95,7 +148,7 @@ class AuthCubit extends Cubit<AuthState> {
           final firebaseUser = _auth.currentUser;
           if (firebaseUser != null) {
             // Send verification email immediately after signup
-           // await sendEmailVerification();
+            await sendEmailVerification();
             
             final user = entities.User(
               uid: firebaseUser.uid,

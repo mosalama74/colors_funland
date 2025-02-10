@@ -44,22 +44,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   state.message,
                   MessageType.error,
                 );
+          } else if (state is EmailVerificationRequired) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Please verify your email at ${state.email} before logging in',
+                  MessageType.info,
+                );
+            Navigator.pushReplacementNamed(context, '/email-verification');
+          } else if (state is EmailVerificationSent) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'A new verification email has been sent to ${state.email}',
+                  MessageType.info,
+                );
+            Navigator.pushReplacementNamed(context, '/email-verification');
           } else if (state is AuthSuccess) {
-            Navigator.pushReplacementNamed(context, '/home');
+            if (state.isEmailVerified) {
+              Navigator.pushReplacementNamed(context, '/home');
+            } else {
+              context.read<AuthCubit>().messageService.showMessage(
+                    'Please verify your email before logging in',
+                    MessageType.warning,
+                  );
+              Navigator.pushReplacementNamed(context, '/email-verification');
+            }
           }
-          // } else if (state is EmailVerificationRequired) {
-          //   context.read<AuthCubit>().messageService.showMessage(
-          //         'Please verify your email before continuing',
-          //         MessageType.warning,
-          //       );
-          //   Navigator.pushReplacementNamed(context, '/email-verification');
-          // } else if (state is EmailVerificationSuccess) {
-          //   context.read<AuthCubit>().messageService.showMessage(
-          //         'Email verified successfully!',
-          //         MessageType.success,
-          //       );
-          //   Navigator.pushReplacementNamed(context, '/home');
-          // }
         },
         builder: (context, state) {
           return Container(

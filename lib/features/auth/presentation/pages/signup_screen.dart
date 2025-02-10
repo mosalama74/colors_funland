@@ -121,22 +121,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   state.message,
                   MessageType.error,
                 );
-
-           } else if (state is AuthSuccess) {
+          } else if (state is EmailVerificationRequired) {
             context.read<AuthCubit>().messageService.showMessage(
-                  'Account created successfully!',
+                  'Please verify your email before continuing',
+                  MessageType.info,
+                );
+            Navigator.pushReplacementNamed(context, '/email-verification');
+          } else if (state is EmailVerificationSent) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Verification email sent to ${state.email}',
+                  MessageType.info,
+                );
+            Navigator.pushReplacementNamed(context, '/email-verification');
+          } else if (state is EmailVerificationSuccess) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Email verified successfully!',
                   MessageType.success,
                 );
             Navigator.pushReplacementNamed(context, '/addProfileInfo');
           }
-          // else if (state is EmailVerificationSent) {
-          //   context.read<AuthCubit>().messageService.showMessage(
-          //         'Verification email sent to ${state.email}',
-          //         MessageType.info,
-          //       );
-          //   Navigator.pushReplacementNamed(context, '/email-verification');
-          // }
-          
         },
         builder: (context, state) {
           return Scaffold(
