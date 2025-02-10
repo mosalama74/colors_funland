@@ -1,4 +1,4 @@
-import 'package:color_funland/features/addProfileInfo/presentation/pages/addd_profile_info.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/pages/addd_profile_info_screen.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/pages/change_password_screen.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/pages/delete_account_screen.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/pages/forget_password_screen.dart';
@@ -12,7 +12,7 @@ Map<String, Widget Function(BuildContext)> routes =  {
                 '/': (context) => const LandingPage(),
                 '/login': (context) => const LoginScreen(),
                 '/signup': (context) => const SignUpScreen(isFirstPage: true),
-                '/addProfileInfo': (context) => const AddProfileInfo(),
+                '/addProfileInfo': (context) => const AddProfileInfoScreen(),
                 '/forgetPassword': (context) => const ForgetPasswordScreen(),
                 '/changePassword': (context) => const ChangePasswordScreen(),
                 '/deleteAccount': (context) => const DeleteAccountScreen(),

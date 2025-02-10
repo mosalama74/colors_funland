@@ -18,17 +18,17 @@ class AuthCubit extends Cubit<AuthState> {
     required this.messageService,
   }) : super(AuthInitial());
 
-  Future<void> sendEmailVerification() async {
-    try {
-      final user = _auth.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-        emit(EmailVerificationSent(email: user.email!));
-      }
-    } catch (e) {
-      emit(AuthError(message: 'Failed to send verification email'));
-    }
-  }
+  // Future<void> sendEmailVerification() async {
+  //   try {
+  //     final user = _auth.currentUser;
+  //     if (user != null && !user.emailVerified) {
+  //       await user.sendEmailVerification();
+  //       emit(EmailVerificationSent(email: user.email!));
+  //     }
+  //   } catch (e) {
+  //     emit(AuthError(message: 'Failed to send verification email'));
+  //   }
+  // }
 
   Future<void> signIn({required String email, required String password}) async {
     try {
@@ -46,10 +46,10 @@ class AuthCubit extends Cubit<AuthState> {
         (_) async {
           final firebaseUser = _auth.currentUser;
           if (firebaseUser != null) {
-            if (!firebaseUser.emailVerified) {
-              emit(EmailVerificationRequired(email: firebaseUser.email!));
-              await sendEmailVerification();
-            } else {
+            // if (!firebaseUser.emailVerified) {
+            //   emit(EmailVerificationRequired(email: firebaseUser.email!));
+            //   await sendEmailVerification();
+            // } else {
               final user = entities.User(
                 uid: firebaseUser.uid,
                 email: firebaseUser.email ?? '',
@@ -59,7 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
                 createdAt: DateTime.now(),
               );
               emit(AuthSuccess(user: user, isEmailVerified: true));
-            }
+            
           } else {
             emit(const AuthError(message: 'Failed to retrieve user information'));
           }
@@ -80,8 +80,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(const AuthLoading());
       
-      final result = await signUpUseCase(
-      
+      final result = await signUpUseCase(     
           firstName: firstName,
           lastName: lastName,
           email: email.trim(),
@@ -96,14 +95,14 @@ class AuthCubit extends Cubit<AuthState> {
           final firebaseUser = _auth.currentUser;
           if (firebaseUser != null) {
             // Send verification email immediately after signup
-            await sendEmailVerification();
+           // await sendEmailVerification();
             
             final user = entities.User(
               uid: firebaseUser.uid,
               email: firebaseUser.email ?? '',
-              firstName: '',
-              lastName: '',
-              username: '',
+              firstName: firstName,
+              lastName: lastName,
+              username: username,
               createdAt: DateTime.now(),
             );
             emit(AuthSuccess(user: user, isEmailVerified: false));

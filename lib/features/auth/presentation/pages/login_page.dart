@@ -46,19 +46,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
           } else if (state is AuthSuccess) {
             Navigator.pushReplacementNamed(context, '/home');
-          } else if (state is EmailVerificationRequired) {
-            context.read<AuthCubit>().messageService.showMessage(
-                  'Please verify your email before continuing',
-                  MessageType.warning,
-                );
-            Navigator.pushReplacementNamed(context, '/email-verification');
-          } else if (state is EmailVerificationSuccess) {
-            context.read<AuthCubit>().messageService.showMessage(
-                  'Email verified successfully!',
-                  MessageType.success,
-                );
-            Navigator.pushReplacementNamed(context, '/home');
           }
+          // } else if (state is EmailVerificationRequired) {
+          //   context.read<AuthCubit>().messageService.showMessage(
+          //         'Please verify your email before continuing',
+          //         MessageType.warning,
+          //       );
+          //   Navigator.pushReplacementNamed(context, '/email-verification');
+          // } else if (state is EmailVerificationSuccess) {
+          //   context.read<AuthCubit>().messageService.showMessage(
+          //         'Email verified successfully!',
+          //         MessageType.success,
+          //       );
+          //   Navigator.pushReplacementNamed(context, '/home');
+          // }
         },
         builder: (context, state) {
           return Container(

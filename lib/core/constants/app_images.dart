@@ -14,6 +14,9 @@ class AppImages {
   /* forget Password page */
   static const String gradientBg = "assets/images/gradient_bg.png";
   static const String curvedBtmCardBg = "assets/images/curvedBtmCardBg.png";
+
+  /* add profile info page */
+  static const String cardBg = "assets/images/cardBg.png";
 }
 
 

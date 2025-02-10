@@ -37,6 +37,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  void _handleOnPressed() {
+    if (_formKey.currentState!.validate()) {
+      context.read<AuthCubit>().signUp(
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+            email: _emailController.text,
+            username: _usernameController.text,
+            password: _passwordController.text,
+          );
+    }
+  }
+
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
@@ -49,7 +61,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null;
   }
 
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter password';
+    }
+    // Check for minimum length
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    // Check for uppercase letters
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    // Check for numbers
+    if (!value.contains(RegExp(r'[0-9]'))) {
+      return 'Password must contain at least one number';
+    }
+    // Check for special characters
+    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return 'Password must contain at least one special character';
+    }
+    return null;
+  }
 
+  String? _validateConfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (value != _passwordController.text) {
+      return 'Passwords do not match';
+    }
+    return null;
+  }
 
   @override
   void dispose() {
@@ -73,21 +116,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-           if (state is AuthError) {
+          if (state is AuthError) {
             context.read<AuthCubit>().messageService.showMessage(
                   state.message,
                   MessageType.error,
                 );
-          } else if (state is AuthSuccess) {
-            context.read<AuthCubit>().messageService.showMessage(
-                  'Sign up successful',
-                  MessageType.success,
-                  
-                );
-             print ('Sign up successful');
 
+           } else if (state is AuthSuccess) {
+            context.read<AuthCubit>().messageService.showMessage(
+                  'Account created successfully!',
+                  MessageType.success,
+                );
             Navigator.pushReplacementNamed(context, '/addProfileInfo');
           }
+          // else if (state is EmailVerificationSent) {
+          //   context.read<AuthCubit>().messageService.showMessage(
+          //         'Verification email sent to ${state.email}',
+          //         MessageType.info,
+          //       );
+          //   Navigator.pushReplacementNamed(context, '/email-verification');
+          // }
+          
         },
         builder: (context, state) {
           return Scaffold(
@@ -126,16 +175,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       onNext: _moveToNextStep,
                                     )
                                   : SignUpSecondBody(
-                                    firstName: _firstNameController.text,
-                                    lastName: _lastNameController.text,
-                                    email: _emailController.text,
-                                    username: _usernameController.text,
-                                  ),                         
-                                    
+                                      confirmPasswordController:
+                                          _confirmPasswordController,
+                                      passwordController: _passwordController,
+                                      usernameController: _usernameController,
+                                      validatorpassword: _validatePassword,
+                                      validateConfirmPassword:
+                                          _validateConfirmPassword,
+                                      onPressed: _handleOnPressed,
+                                    ),
                             ],
                           ),
                         ),
-
                       ),
                     ),
                   ),

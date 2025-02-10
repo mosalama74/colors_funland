@@ -38,32 +38,32 @@ class AuthError extends AuthState {
   List<Object?> get props => [message];
 }
 
-class EmailVerificationSent extends AuthState {
-  final String email;
+// class EmailVerificationSent extends AuthState {
+//   final String email;
   
-  const EmailVerificationSent({required this.email});
+//   const EmailVerificationSent({required this.email});
 
-  @override
-  List<Object?> get props => [email];
-}
+//   @override
+//   List<Object?> get props => [email];
+// }
 
-class EmailVerificationRequired extends AuthState {
-  final String email;
+// class EmailVerificationRequired extends AuthState {
+//   final String email;
   
-  const EmailVerificationRequired({required this.email});
+//   const EmailVerificationRequired({required this.email});
 
-  @override
-  List<Object?> get props => [email];
-}
+//   @override
+//   List<Object?> get props => [email];
+// }
 
-class EmailVerificationSuccess extends AuthState {
-  final User user;
+// class EmailVerificationSuccess extends AuthState {
+//   final User user;
 
-  const EmailVerificationSuccess({required this.user});
+//   const EmailVerificationSuccess({required this.user});
 
-  @override
-  List<Object?> get props => [user];
-}
+//   @override
+//   List<Object?> get props => [user];
+// }
 
 class AuthCheckingStatus extends AuthState {
   const AuthCheckingStatus();

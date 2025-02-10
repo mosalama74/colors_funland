@@ -1,7 +1,7 @@
 import 'package:color_funland/core/error/failures.dart';
 import 'package:color_funland/features/auth/domain/repositories/repository.dart';
 import 'package:dartz/dartz.dart';
-import '../entities/user.dart';
+import '../entities/user.dart' as entities;
 
 class SignUpParams {
   final String firstName;
@@ -24,19 +24,34 @@ class SignUpUseCase {
 
   SignUpUseCase(this.repository);
 
-  Future<Either<Failure, User>> call({
+  Future<Either<Failure, entities.User>> call({
     required String firstName,
     required String lastName,
     required String email,
     required String username,
     required String password,
   }) async {
-    return await repository.signUp(
+    final result = await repository.signUp(
       firstName: firstName,
       lastName: lastName,
       email: email,
       username: username,
       password: password,
+    );
+    
+    return result.fold(
+      (exception) => Left(FirebaseAuthFailure(
+        code: 'signup-failed',
+        message: exception.toString(),
+      )),
+      (userCredential) => Right(entities.User(
+        uid: userCredential.uid,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        createdAt: DateTime.now(),
+      )),
     );
   }
 }

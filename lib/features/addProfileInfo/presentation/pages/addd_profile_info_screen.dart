@@ -1,22 +1,23 @@
 import 'package:color_funland/core/components/elevated_btn.dart';
 import 'package:color_funland/core/constants/app_common_padding.dart';
 import 'package:color_funland/core/constants/app_images.dart';
+import 'package:color_funland/core/constants/app_strings.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/widgets/add_photo_widget.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/widgets/input_child_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddProfileInfo extends StatefulWidget {
-  const AddProfileInfo({
+class AddProfileInfoScreen extends StatefulWidget {
+  const AddProfileInfoScreen({
     super.key,
   });
 
   @override
-  State<AddProfileInfo> createState() => _AddProfileInfoState();
+  State<AddProfileInfoScreen> createState() => _AddProfileInfoScreenState();
 }
 
-class _AddProfileInfoState extends State<AddProfileInfo> {
+class _AddProfileInfoScreenState extends State<AddProfileInfoScreen> {
   bool _isFirstPage = true;
 
   @override
@@ -24,7 +25,7 @@ class _AddProfileInfoState extends State<AddProfileInfo> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/gradient_bg.png"),
+          image: AssetImage(AppImages.gradientBg),
           fit: BoxFit.cover,
         ),
       ),
@@ -40,8 +41,8 @@ class _AddProfileInfoState extends State<AddProfileInfo> {
                     image: DecorationImage(
                       image: AssetImage(
                         _isFirstPage
-                            ? "assets/images/curvedBtmCardBg.png"
-                            : "assets/images/cardBg.png",
+                            ? AppImages.curvedBtmCardBg
+                            : AppImages.cardBg,
                       ),
                     ),
                   ),
@@ -62,7 +63,7 @@ class _AddProfileInfoState extends State<AddProfileInfo> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("Welcome", style: ts32Black400),
+                              Text(AppStrings.welcome, style: ts32Black400),
                               Text("Sarah", style: ts64Purple400),
                             ],
                           ),

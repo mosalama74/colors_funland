@@ -39,4 +39,8 @@ class AppStrings {
   /* change password screen */
     static const String next = "Next";
 
+    /* add profile info page */
+    static const String welcome = "Welcome";
+
+
 }
