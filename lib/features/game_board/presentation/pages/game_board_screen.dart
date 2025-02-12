@@ -36,31 +36,19 @@ class GameBoardScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: SafeArea(
-            child: Stack(
-              fit: StackFit.expand,
+            child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(51.5.w, 0, 57.5.w, 0),
-                  child: Column(
-                    children: [
-                      AppBarRow(
-                        userName: 'Adam',
-                        gameGroup: "Activity Board",
-                        inSideGame: false,
-                      ),
-                      SizedBox(height: 21.84.h),
-                      const Games(),
-                      SizedBox(height: 19.h),
-                    ],
-                  ),
+                AppBarRow(
+                  userName: 'Adam',
+                  gameGroup: "Activity Board",
+                  inSideGame: false,
                 ),
-                Positioned(
-                  left: 80.51.w,
-                  right: 0,
-                  bottom: 0,
-                  child: BottomNavigation(
-                    insideGame: false,
-                  ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 31.84.h),
+                  child: const Games(),
+                ),
+                BottomNavigation(
+                  insideGame: false,
                 ),
               ],
             ),

@@ -43,9 +43,7 @@ class _MyPaintingSamplesState extends State<MyPaintingSamples> {
                       child: PaintingWidget(
                         items: paintingAnimals,
                         crossAxisCount: 5,
-                        spacing: 16,
-                        pageGroup: animalsPicture,
-                        leftImage: AppImages.paintingGirl,
+                        pageGroup: myPaintingScreen,
                         insidecategory: false,
                         insideanimals: true,
                       ),

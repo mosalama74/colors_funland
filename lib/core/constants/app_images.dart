@@ -41,6 +41,7 @@ class AppImages {
 
     ///********************* My Painting *********************/
     static const String paintingGirl = "$_myPaintingImagesPath/paintingGirl.svg";
+    static const String myPaintingCardBg = "$_myPaintingImagesPath/myPaintingCardBg.png";
     static const String animals = "$_myPaintingImagesPath/animals.png";
     static const String charactersClosed = "$_myPaintingImagesPath/charactersClosed.png";
     static const String charactersOpened = "$_myPaintingImagesPath/charactersOpened.png";

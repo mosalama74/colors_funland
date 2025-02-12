@@ -6,6 +6,8 @@ import 'package:color_funland/features/my_painting/model.dart';
 import 'package:color_funland/features/my_painting/widgets/painting_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyPaintingScreen extends StatefulWidget {
   const MyPaintingScreen({super.key});
@@ -26,36 +28,58 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
         extendBodyBehindAppBar: true,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60),
+            padding: EdgeInsets.only(left: 45.w, right: 51.w),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    AppBarRow(
-                      userName: "Adam",
-                      gameGroup: "Paintings",
-                      inSideGame: true,
-                      appBarIcon: AppIcons.paintingsIcon,
-                    ),
-                    PaintingWidget(
-                      items: gridItems,
-                      crossAxisCount: 4,
-                      spacing: 16,
-                      pageGroup: myPaintingScreen,
-                      leftImage: AppImages.paintingGirl,
-                      insidecategory: true,
-                      insideanimals: false,
-                    ),
-                  ],
+                AppBarRow(
+                  userName: "Adam",
+                  gameGroup: "Paintings",
+                  inSideGame: true,
+                  appBarIcon: AppIcons.paintingsIcon,
                 ),
+                SizedBox(
+                  height:499.h,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppImages.paintingGirl,
+                        height: 358.65.h,
+                        width: 313.29.w,
+                      ),
+                      SizedBox(
+                        width: 32.w,
+                      ),
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 95.5.h),
+                              child: Image.asset(AppImages.myPaintingCardBg,width: 822.w,),
+                            ),
+                            PaintingWidget(
+                              items: gridItems,
+                              crossAxisCount: 4,
+                              pageGroup: myPaintingSamples,
+                              insidecategory: true,
+                              insideanimals: false,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              SizedBox(height: 7.71.h,),
+                BottomNavigation(
+                            insideGame: true,
+                            onBackPressed: () => Navigator.pop(context),
+                          ),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigation(
-          insideGame: true,
-          onBackPressed: () => Navigator.pop(context),
-        ),
+       
       ),
     );
   }

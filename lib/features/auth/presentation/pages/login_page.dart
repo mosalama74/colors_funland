@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushReplacementNamed(context, '/email-verification');
           } else if (state is AuthSuccess) {
             if (state.isEmailVerified) {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/gameBoard');
             } else {
               context.read<AuthCubit>().messageService.showMessage(
                     'Please verify your email before logging in',

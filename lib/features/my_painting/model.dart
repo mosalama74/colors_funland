@@ -22,7 +22,7 @@ class GridItem {
 }
 
 final List<String> myPaintingScreen = [
-'/myPaintingSamples',
+'/mypaintingScreen',
   "/home",
   '/home',
   '/paintingScreen',
@@ -32,7 +32,7 @@ final List<String> myPaintingScreen = [
   '/paintingScreen',
 ];
 
-final List<String> animalsPicture = [
+final List<String> myPaintingSamples = [
   '/myPaintingSamples',
   '/mypaintingScreen',
   "/bearColor",
