@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.r),
                       ),
-                      color: cWhiteColor,
+                      color:AppColors.cWhiteColor,
                       elevation: 5,
                       child: Padding(
                         padding: EdgeInsets.symmetric(

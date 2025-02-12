@@ -7,7 +7,7 @@ class CircularIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child:CircularProgressIndicator(color: cPurpleColor) ,
+      child:CircularProgressIndicator(color:AppColors.cPurpleColor) ,
     );
   }
 }

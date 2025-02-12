@@ -1,7 +1,6 @@
 import 'package:color_funland/color_funland_app.dart';
 import 'package:color_funland/core/services/message_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
 import 'features/auth/domain/usecases/signin_usecase.dart';
@@ -19,13 +18,7 @@ await Firebase.initializeApp(
 );
   await di.init();
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]).then((_) {
-    runApp(
+ runApp(
       MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -39,5 +32,4 @@ await Firebase.initializeApp(
         child: const ColorFunLandApp(),
       ),
     );
-  });
 }

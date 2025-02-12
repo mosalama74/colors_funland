@@ -45,6 +45,8 @@ dependencies:
   fluttertoast: ^8.2.4
   get_it: ^8.0.3
   image_picker: ^1.1.2
+  flutter_animate: ^4.5.2
+  animate_do: ^4.0.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -62,7 +64,9 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/auth_images/
+    - assets/images/game_board/
+    - assets/images/mypainting_images/
     - assets/icons/
     - assets/fonts/
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -78,6 +82,15 @@ flutter:
     - family: Gloock
       fonts:
         - asset: assets/fonts/Gloock-Regular.ttf
+
+    - family: MagicBubble
+      fonts:
+        - asset: assets/fonts/MagicBubble.ttf
+
+    - family: Minnie
+      fonts:
+        - asset: assets/fonts/Minnie.ttf
+ 
 
     - family: Lato
       fonts:

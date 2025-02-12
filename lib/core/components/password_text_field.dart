@@ -29,7 +29,7 @@ class _PasswordFieldState extends State<PasswordField> {
         hintText: 'Type here',
         hintStyle: ts18Hint400,
         filled: true,
-        fillColor: cTextFieldbg,
+        fillColor: AppColors.cTextFieldbg,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,

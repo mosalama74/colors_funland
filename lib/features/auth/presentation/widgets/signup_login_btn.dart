@@ -1,3 +1,4 @@
+import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
             onPressed: () => _toggleSelection(false),
             style: ElevatedButton.styleFrom(
               backgroundColor:
-                  isLoginSelected ? cWhiteColor : Colors.transparent,
+                  isLoginSelected ? AppColors.cWhiteColor : Colors.transparent,
               padding: EdgeInsets.zero,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0.r)),
@@ -39,7 +40,7 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
                 image: isLoginSelected
                     ? null
                     : const DecorationImage(
-                        image: AssetImage("assets/images/Button.png"),
+                        image: AssetImage(AppImages.purbleBtnBg),
                         fit: BoxFit.cover,
                       ),
                 borderRadius: BorderRadius.circular(10.0.r),
@@ -51,7 +52,7 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
                   child: Text(
                     "Sign Up",
                     style: TextStyle(
-                      color: isLoginSelected ? cBlack2Color : cWhite2Color,
+                      color: isLoginSelected ? AppColors.cBlack2Color :AppColors.cWhite2Color,
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w700,
                     ),
@@ -66,7 +67,7 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
             onPressed: () => _toggleSelection(true),
             style: ElevatedButton.styleFrom(
               backgroundColor:
-                  isLoginSelected ? Colors.transparent : cWhiteColor,
+                  isLoginSelected ? Colors.transparent :AppColors.cWhiteColor,
               padding: EdgeInsets.zero,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0.r)),
@@ -75,7 +76,7 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
               decoration: BoxDecoration(
                 image: isLoginSelected
                     ? const DecorationImage(
-                        image: AssetImage("assets/images/Button.png"),
+                        image: AssetImage(AppImages.purbleBtnBg),
                         fit: BoxFit.cover,
                       )
                     : null,
@@ -88,7 +89,7 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
                   child: Text(
                     "Log in",
                     style: TextStyle(
-                      color: isLoginSelected ? cWhite2Color : cBlack2Color,
+                      color: isLoginSelected ?AppColors.cWhite2Color : AppColors.cBlack2Color,
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w700,
                     ),
@@ -98,7 +99,6 @@ class _ToggleButtonsScreenState extends State<ToggleButtonsScreen> {
             ),
           ),
 
-          // Second Button
         ],
       ),
     );

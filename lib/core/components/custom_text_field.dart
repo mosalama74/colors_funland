@@ -41,7 +41,7 @@ class CustomTextField extends StatelessWidget {
           counterText: "",
           hintStyle: ts18Hint400,
           filled: true,
-          fillColor: cTextFieldbg,
+          fillColor: AppColors.cTextFieldbg,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18.r),
             borderSide: BorderSide.none,

@@ -1,3 +1,4 @@
+import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,8 +39,9 @@ class ElevatedBtn extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(isDelete == null || isDelete == false
-                  ? "assets/images/Button.png"
-                  : "assets/images/deleteBtn.png"),
+                  ? AppImages.purbleBtnBg
+                  : AppImages.redBtnBg,
+                  ),
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.circular(10.0.r),
@@ -52,7 +54,7 @@ class ElevatedBtn extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                  color: cWhite2Color,
+                  color: AppColors.cWhite2Color,
                   fontSize: 17.sp,
                   fontWeight: FontWeight.w700,
                 ),

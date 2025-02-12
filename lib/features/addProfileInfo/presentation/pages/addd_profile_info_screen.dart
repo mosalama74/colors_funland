@@ -144,7 +144,7 @@ class _AddProfileInfoScreenState extends State<AddProfileInfoScreen> {
                                     'Profile updated successfully',
                                     MessageType.success,
                                   );
-                                  Navigator.pushReplacementNamed(context, '/home');
+                                  Navigator.pushReplacementNamed(context, '/gameBoard');
                                 }
                               },
                               builder: (context, state) {
@@ -155,17 +155,19 @@ class _AddProfileInfoScreenState extends State<AddProfileInfoScreen> {
                                   text: _isBtnPressed
                                       ? AppStrings.letsstart
                                       : AppStrings.saveandlogin,
-                                  onPressed: ()=> isLoading
-                                      ? null
-                                      : () {
-                                          if (_isBtnPressed) {
-                                            setState(() {
-                                              _isBtnPressed = false;
-                                            });
-                                          } else {
-                                            _handleSaveAndLogin(state);
-                                          }
-                                        },
+                                  onPressed:(){ Navigator.pushReplacementNamed(context, '/gameBoard');}
+                                  //  ()=>
+                                  //  isLoading
+                                  //     ? null
+                                  //     : () {
+                                  //         if (_isBtnPressed) {
+                                  //           setState(() {
+                                  //             _isBtnPressed = false;
+                                  //           });
+                                  //         } else {
+                                  //           _handleSaveAndLogin(state);
+                                  //         }
+                                  //       },
                                 );
                               },
                             ),

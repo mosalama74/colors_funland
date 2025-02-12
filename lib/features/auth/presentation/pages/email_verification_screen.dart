@@ -66,7 +66,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   Icon(
                     Icons.email_outlined,
                     size: 80.sp,
-                    color: cPurpleColor,
+                    color: AppColors.cPurpleColor,
                   ),
                   SizedBox(height: 24.h),
                   Text(
@@ -89,7 +89,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     ),
                   SizedBox(height: 32.h),
                   state is AuthLoading
-                      ? CircularProgressIndicator(color: cPurpleColor)
+                      ? CircularProgressIndicator(color:AppColors.cPurpleColor)
                       : ElevatedBtn(
                           text: 'Resend Verification Email',
                           onPressed: () {

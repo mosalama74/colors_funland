@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.r),
                       ),
-                      color: cWhiteColor,
+                      color: AppColors.cWhiteColor,
                       elevation: 5,
                       child: Padding(
                         padding: EdgeInsets.symmetric(

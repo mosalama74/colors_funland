@@ -31,7 +31,7 @@ class ChangePasswordScreen extends StatelessWidget {
                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.r),
                   ),
-                  color: cWhiteColor,
+                  color: AppColors.cWhiteColor,
                   elevation: 5,
                   child: Padding(
                     padding: AppCommonPadding.screenInnerPadding,

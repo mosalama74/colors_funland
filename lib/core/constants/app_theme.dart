@@ -6,9 +6,10 @@ import 'package:flutter/services.dart';
 ThemeData? lightTheme = ThemeData(
             fontFamily:AppStrings.primaryFontFamily,
             useMaterial3: true,
-            scaffoldBackgroundColor: cWhiteColor,
+            scaffoldBackgroundColor:AppColors. cWhiteColor,
+          
             appBarTheme: AppBarTheme(
-              backgroundColor: cWhiteColor,
+              backgroundColor: AppColors.cWhiteColor,
               elevation: 0,
               systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarColor: Colors.transparent,

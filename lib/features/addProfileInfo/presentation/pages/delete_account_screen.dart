@@ -31,7 +31,7 @@ class DeleteAccountScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.r),
                   ),
-                  color: cWhiteColor,
+                  color: AppColors.cWhiteColor,
                   elevation: 5,
                   child: Padding(
                     padding: AppCommonPadding.screenInnerPadding,
@@ -61,7 +61,6 @@ class DeleteAccountScreen extends StatelessWidget {
                         const CustomTextField(),
                         SizedBox(height: 32.h),
 
-
                         Row(
                           children: [
                             Expanded(
@@ -80,7 +79,7 @@ class DeleteAccountScreen extends StatelessWidget {
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  backgroundColor: cWhiteColor,
+                                  backgroundColor: AppColors.cWhiteColor,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(8.0.r)),
