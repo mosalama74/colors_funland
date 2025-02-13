@@ -1,7 +1,7 @@
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/app_bar_row.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/bottom_navigation.dart';
+import 'package:color_funland/features/game_board/presentation/widgets/three_items_bottom_navigation.dart';
 import 'package:color_funland/features/my_painting/model.dart';
 import 'package:color_funland/features/my_painting/widgets/painting_widgets.dart';
 import 'package:flutter/material.dart';
@@ -26,20 +26,18 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
       ),
       child: Scaffold(
         extendBodyBehindAppBar: true,
+        appBar: AppBarRow(
+                  gameGroup: "Paintings",
+                  inSideGame: true,
+                  appBarIcon: AppIcons.paintingsIcon,
+                ),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(left: 45.w, right: 51.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppBarRow(
-                  userName: "Adam",
-                  gameGroup: "Paintings",
-                  inSideGame: true,
-                  appBarIcon: AppIcons.paintingsIcon,
-                ),
-                SizedBox(
-                  height:499.h,
+                Expanded(
                   child: Row(
                     children: [
                       SvgPicture.asset(
@@ -63,6 +61,7 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                               pageGroup: myPaintingSamples,
                               insidecategory: true,
                               insideanimals: false,
+                              childAspectRatio: 1 / 1.20,
                             ),
                           ],
                         ),
@@ -70,16 +69,14 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                     ],
                   ),
                 ),
-              SizedBox(height: 7.71.h,),
-                BottomNavigation(
-                            insideGame: true,
-                            onBackPressed: () => Navigator.pop(context),
-                          ),
+              
               ],
             ),
           ),
         ),
-       
+        bottomNavigationBar: ThreeItemsBottomNavigation(
+          insideGame: true,
+        ),
       ),
     );
   }

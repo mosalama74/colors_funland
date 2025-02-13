@@ -1,6 +1,6 @@
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/app_bar_row.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/bottom_navigation.dart';
+import 'package:color_funland/features/game_board/presentation/widgets/three_items_bottom_navigation.dart';
 import 'package:color_funland/features/my_painting/widgets/color_tools.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_canvas.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_state.dart';
@@ -37,7 +37,6 @@ class _PaintScreenState extends State<PaintScreen> {
               children: [
                 // App Bar
                 AppBarRow(
-                  userName: "adam",
                   gameGroup: "Paintings",
                   inSideGame: true,
                   appBarIcon: AppIcons.paintingsIcon,
@@ -79,7 +78,7 @@ class _PaintScreenState extends State<PaintScreen> {
           ),
         ]),
       ),
-      bottomNavigationBar: BottomNavigation(
+      bottomNavigationBar: ThreeItemsBottomNavigation(
         insideGame: true,
         onBackPressed: () => Navigator.of(context).pop(),
       ),

@@ -10,7 +10,7 @@ class GridItem {
   final VoidCallback? onTap;
   final double? imgWidth;
   final double? imgHeight;
-
+  final bool? isSvg;
 
   GridItem({
     this.title = "",
@@ -18,18 +18,22 @@ class GridItem {
     this.onTap,
     this.imgWidth,
     this.imgHeight,
+    this.isSvg = false,
   });
 }
 
-final List<String> myPaintingScreen = [
-'/mypaintingScreen',
-  "/home",
-  '/home',
-  '/paintingScreen',
-  '/paintingScreen',
-  '/paintingScreen',
-  '/paintingScreen',
-  '/paintingScreen',
+final List<String> paintingScreen = [
+ '/duckColor',
+  '/bearColor',
+ '/giraffeColor',
+ '/elephantColor',
+  '/lionColor',
+  '/tigerColor',
+  '/turtleColor',
+  '/beeColor',
+ '/lion2Color',
+ '/kangarooColor',
+
 ];
 
 final List<String> myPaintingSamples = [

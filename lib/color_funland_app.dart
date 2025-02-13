@@ -2,7 +2,6 @@
 import 'package:color_funland/core/constants/app_strings.dart';
 import 'package:color_funland/core/constants/app_theme.dart';
 import 'package:color_funland/core/constants/routes.dart';
-import 'package:color_funland/features/my_painting/pages/myPaintingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

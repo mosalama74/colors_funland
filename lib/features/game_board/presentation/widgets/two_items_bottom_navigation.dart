@@ -5,18 +5,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({
+class TwoItemsBottomNavigation extends StatelessWidget {
+  const TwoItemsBottomNavigation({
     super.key,
     required this.insideGame,
     this.onBackPressed,
-    this.onHomePressed,
     this.onSoundPressed,
   });
 
   final bool insideGame;
   final VoidCallback? onBackPressed;
-  final VoidCallback? onHomePressed;
   final VoidCallback? onSoundPressed;
 
   @override
@@ -24,7 +22,7 @@ class BottomNavigation extends StatelessWidget {
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: 34.51.w),
       child: SizedBox(
-        height: 90.82.h,
+        height: 81.07.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -46,15 +44,7 @@ class BottomNavigation extends StatelessWidget {
                       width: 227.w,
                     ),
             ),
-            insideGame == true
-                ? GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushReplacementNamed("/gameBoard");
-                    },
-                    child: SvgPicture.asset(AppIcons.homeButton,
-                        width: 227.w, height: 90.82.h),
-                  )
-                : Container(),
+            
             GestureDetector(
               onTap: onSoundPressed,
               child: insideGame == true
