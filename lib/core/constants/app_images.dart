@@ -76,6 +76,7 @@ class AppImages {
     static const String lionBabyuncolored = "$_myPaintingImagesPath/lionBabyuncolored.svg";
     static const String turtleuncolored = "$_myPaintingImagesPath/turtleuncolored.svg";
     static const String lionuncolored = "$_myPaintingImagesPath/lionuncolored.svg";
+    static const String duckUncolored = "$_myPaintingImagesPath/duckUncolored.png";
 
 }
 

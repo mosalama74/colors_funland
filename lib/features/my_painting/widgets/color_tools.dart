@@ -21,12 +21,12 @@ class ColorTools extends StatefulWidget {
   ];
 
   const ColorTools({
-    super.key,
+    Key? key,
     required this.onColorSelected,
     required this.selectedColor,
     this.onStrokeWidthChanged,
     this.strokeWidth = 15.0,
-  });
+  }) : super(key: key);
 
   @override
   State<ColorTools> createState() => _ColorToolsState();
@@ -84,8 +84,8 @@ class _ColorToolsState extends State<ColorTools> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: 330.w,
+                          Container(
+                            width: 330,
                             child: SliderTheme(
                               data: SliderTheme.of(context).copyWith(
                                 activeTrackColor: Colors.orange,

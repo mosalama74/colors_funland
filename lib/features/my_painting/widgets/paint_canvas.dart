@@ -2,15 +2,21 @@ import 'package:color_funland/features/my_painting/widgets/paint_state.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_stroke.dart';
 import 'package:color_funland/features/my_painting/widgets/stroke_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class PaintCanvas extends StatefulWidget {
   final PaintState paintState;
   final String uncoloredImage;
+  final double width;
+  final double height;
+
 
   const PaintCanvas({
     super.key,
     required this.paintState, required this.uncoloredImage,
+    required this.width,
+    required this.height,
   });
 
   @override
@@ -21,18 +27,18 @@ class _PaintCanvasState extends State<PaintCanvas> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.30,
-      height: MediaQuery.of(context).size.height * 0.55,
+      width: widget.width,
+      height: widget.height,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
+        borderRadius: BorderRadius.circular(20.r),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.1),
+        //     blurRadius: 10,
+        //     spreadRadius: 1,
+        //   ),
+        // ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -40,7 +46,7 @@ class _PaintCanvasState extends State<PaintCanvas> with SingleTickerProviderStat
           fit: StackFit.expand,
           children: [
             // Background Layer
-            Container(color: Colors.white),
+            Container(color: Colors.transparent),
             
             // Paint Layer with Instant Updates
             RepaintBoundary(
@@ -61,9 +67,10 @@ class _PaintCanvasState extends State<PaintCanvas> with SingleTickerProviderStat
             ),
             
             // Duck Outline Layer
-            Positioned.fill(
-              top: 50,
-              child: IgnorePointer(
+           Center(
+              child: SizedBox(
+                // width: widget.width * 0.8, // Slightly smaller to ensure visibility
+                // height: widget.height * 0.8,
                 child: Image.asset(
                   widget.uncoloredImage,
                   key: widget.paintState.canvasKey,
