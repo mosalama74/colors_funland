@@ -15,6 +15,7 @@ class AppColors {
     static Color cPurbleGradient = const Color(0xff722BFB);
     static Color cTextFieldbg = const Color(0xffF7F3FF);
     static Color cHintColor = const Color(0xff9B83B7);
+    static Color cBorderColor = const Color(0xffC16BF3);
 
 /******************************/
 

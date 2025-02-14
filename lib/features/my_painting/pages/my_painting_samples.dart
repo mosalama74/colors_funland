@@ -1,5 +1,7 @@
+import 'package:color_funland/color_funland_app.dart';
+import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/app_bar_row.dart';
+import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/three_items_bottom_navigation.dart';
 import 'package:color_funland/features/my_painting/model.dart';
 import 'package:color_funland/features/my_painting/widgets/painting_widgets.dart';
@@ -28,11 +30,16 @@ class _MyPaintingSamplesState extends State<MyPaintingSamples> {
           gameGroup: "Paintings",
           inSideGame: true,
           appBarIcon: AppIcons.paintingsIcon,
+          onTap: () {
+            containerKey.currentState?.toggleContainer();
+          },
         ),
         body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(left: 46.w, right: 52.w),
-            child: Column(
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 46.w, right: 52.w),
+                child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 48.09.w),
@@ -52,7 +59,9 @@ class _MyPaintingSamplesState extends State<MyPaintingSamples> {
               ],
             ),
           ),
-        ),
+          AnimatedContainerWidget(key: containerKey),
+       ],
+        ),),
         bottomNavigationBar: ThreeItemsBottomNavigation(
           insideGame: true,
           onBackPressed: () => Navigator.pop(context),

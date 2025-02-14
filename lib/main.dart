@@ -17,6 +17,7 @@ await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
   await di.init();
+  
  runApp(
       MultiBlocProvider(
         providers: [

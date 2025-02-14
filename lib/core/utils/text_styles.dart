@@ -123,6 +123,12 @@ TextStyle ts17Black700 = TextStyle(
     fontSize: 36.sp,
   );
 
+   TextStyle ts18minnie400 = TextStyle(
+    fontFamily: "Minnie",
+    fontWeight: FontWeight.w400,
+    fontSize: 18.sp,
+  );
+
    TextStyle gameNameStyle = TextStyle(
     fontFamily: "Gloock",
     fontWeight: FontWeight.w400,

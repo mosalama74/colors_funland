@@ -1,5 +1,7 @@
+import 'package:color_funland/color_funland_app.dart';
+import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_images.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/app_bar_row.dart';
+import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/two_items_bottom_navigation.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/games_grid.dart';
 import 'package:flutter/material.dart';
@@ -36,24 +38,33 @@ class GameBoardScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBarRow(
-              gameGroup: "Activity Board",
-              inSideGame: false,
-                ),
-          body: SafeArea(
-            child: Column(
+            gameGroup: "Activity Board",
+            inSideGame: false,
+            onTap: () {
+              containerKey.currentState?.toggleContainer();
+            },
+          ),
+          body: Stack(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 31.84.h),
-                  child: const Games(),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 31.84.h),
+                        child: const Games(),
+                      ),
+                      TwoItemsBottomNavigation(
+                        insideGame: false,
+                      ),
+                    ],
+                  ),
                 ),
-                TwoItemsBottomNavigation(
-                  insideGame: false,
-                ),
+                AnimatedContainerWidget(key: containerKey),
               ],
             ),
           ),
         ),
-      ),
+     
     );
   }
 

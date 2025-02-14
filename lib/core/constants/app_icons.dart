@@ -5,6 +5,7 @@
 class AppIcons {
   
   static const String user ="$_iconsPath/user.png";
+  static const String forwardArrow ="$_iconsPath/forwardArrow.png";
   static const String upload ="$_iconsPath/upload.svg";
   static const String camera = "$_iconsPath/camera.svg";
   static const String backButton = "$_iconsPath/backButton.svg";
