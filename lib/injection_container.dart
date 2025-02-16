@@ -1,6 +1,5 @@
 import 'package:color_funland/features/auth/data/repositories/firebase_auth_repository.dart';
 import 'package:color_funland/features/auth/domain/repositories/repository.dart';
-import 'package:color_funland/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:color_funland/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:color_funland/features/auth/domain/usecases/signin_usecase.dart';
 import 'package:color_funland/features/auth/domain/usecases/signup_usecase.dart';
@@ -25,7 +24,6 @@ Future<void> init() async {
   // Use cases
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
-  sl.registerLazySingleton(() => GetCurrentUserUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUseCase(sl()));
 
   // Core

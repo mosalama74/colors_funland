@@ -42,10 +42,10 @@ class _PaintScreenState extends State<PaintScreen> {
           containerKey.currentState?.toggleContainer();
         },
       ),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Padding(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Padding(
               padding: EdgeInsets.only(left: 49.w),
               child: Column(
                 children: [
@@ -113,9 +113,9 @@ class _PaintScreenState extends State<PaintScreen> {
                 ],
               ),
             ),
-          ),
-          AnimatedContainerWidget(key: containerKey),
-        ],
+            AnimatedContainerWidget(key: containerKey),
+          ],
+        ),
       ),
       bottomNavigationBar: ThreeItemsBottomNavigation(
         insideGame: true,

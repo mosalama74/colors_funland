@@ -36,10 +36,10 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
             containerKey.currentState?.toggleContainer();
           },
         ),
-        body: Stack(
-          children: [
-            SafeArea(
-              child: Padding(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Padding(
                 padding: EdgeInsets.only(left: 45.w, right: 51.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,7 +72,7 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                                   pageGroup: myPaintingSamples,
                                   insidecategory: true,
                                   insideanimals: false,
-                                  childAspectRatio: 1 / 1.20,
+                                  childAspectRatio: 1 / 1.25,
                                 ),
                               ],
                             ),
@@ -83,11 +83,11 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                   ],
                 ),
               ),
-            ),
-            AnimatedContainerWidget(key: containerKey),
-          ],
+              AnimatedContainerWidget(key: containerKey),
+            ],
+          ),
         ),
-        bottomNavigationBar: ThreeItemsBottomNavigation(
+         bottomNavigationBar: ThreeItemsBottomNavigation(
           insideGame: true,
         ),
       ),

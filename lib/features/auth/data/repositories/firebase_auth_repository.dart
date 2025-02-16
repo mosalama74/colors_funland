@@ -86,32 +86,6 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, entities.User?>> getCurrentUser() async {
-    try {
-      final firebaseUser = _firebaseAuth.currentUser;
-      if (firebaseUser == null) {
-        return const Right(null);
-      }
-
-      // Get additional user data from Firestore
-      final userData = await _firestore
-          .collection('users')
-          .doc(firebaseUser.uid)
-          .get();
-
-      return Right(entities.User(
-        uid: firebaseUser.uid,
-        email: firebaseUser.email!,
-        firstName: userData.data()?['firstName'],
-        lastName: userData.data()?['lastName'],
-        username: userData.data()?['username'],
-        createdAt: userData.data()?['createdAt'].toDate(),
-      ));
-    } catch (e) {
-      return Left(AuthFailure(e.toString()));
-    }
-  }
 
   String _getErrorMessage(firebase_auth.FirebaseAuthException e) {
     switch (e.code) {

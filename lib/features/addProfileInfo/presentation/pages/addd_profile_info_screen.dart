@@ -23,6 +23,7 @@ class _AddProfileInfoScreenState extends State<AddProfileInfoScreen> {
   final TextEditingController childNameController = TextEditingController();
   final TextEditingController childAgeController = TextEditingController();
   final MessageService _messageService = ToastMessageService();
+
   bool _isBtnPressed = true;
 
   @override
@@ -49,10 +50,14 @@ class _AddProfileInfoScreenState extends State<AddProfileInfoScreen> {
       return;
     }
 
+    if (state.localImagePath != null && state.imageUrl == null) {
+       context.read<ProfileInfoCubit>().uploadSelectedImage();
+    }
+
     context.read<ProfileInfoCubit>().saveChildData(
-      childNameController.text,
-      childAgeController.text,
-    );
+          childNameController.text,
+          childAgeController.text,
+        );
   }
 
   @override
@@ -127,48 +132,54 @@ class _AddProfileInfoScreenState extends State<AddProfileInfoScreen> {
                           // Next Button
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 93.5.w),
-                            child: BlocConsumer<ProfileInfoCubit, ProfileInfoState>(
+                            child: BlocConsumer<ProfileInfoCubit,
+                                ProfileInfoState>(
                               listenWhen: (previous, current) =>
                                   previous.status != current.status &&
-                                  (current.status == ProfileInfoStatus.success ||
-                                      current.status == ProfileInfoStatus.failure),
+                                  (current.status ==
+                                          ProfileInfoStatus.success ||
+                                      current.status ==
+                                          ProfileInfoStatus.failure),
                               listener: (context, state) {
                                 if (state.status == ProfileInfoStatus.failure) {
                                   _messageService.showMessage(
                                     state.errorMessage ?? 'An error occurred',
                                     MessageType.error,
                                   );
-                                } else if (state.status == ProfileInfoStatus.success &&
+                                } else if (state.status ==
+                                        ProfileInfoStatus.success &&
                                     !_isBtnPressed) {
                                   _messageService.showMessage(
                                     'Profile updated successfully',
                                     MessageType.success,
                                   );
-                                  Navigator.pushReplacementNamed(context, '/gameBoard');
+                                  Navigator.pushReplacementNamed(
+                                      context, '/gameBoard');
                                 }
                               },
                               builder: (context, state) {
-                                final bool isLoading =
-                                    state.status == ProfileInfoStatus.loading;
 
                                 return ElevatedBtn(
-                                  text: _isBtnPressed
-                                      ? AppStrings.letsstart
-                                      : AppStrings.saveandlogin,
-                                  onPressed:(){ Navigator.pushReplacementNamed(context, '/gameBoard');}
-                                  //  ()=>
-                                  //  isLoading
-                                  //     ? null
-                                  //     : () {
-                                  //         if (_isBtnPressed) {
-                                  //           setState(() {
-                                  //             _isBtnPressed = false;
-                                  //           });
-                                  //         } else {
-                                  //           _handleSaveAndLogin(state);
-                                  //         }
-                                  //       },
-                                );
+                                    text: _isBtnPressed
+                                        ? AppStrings.letsstart
+                                        : AppStrings.saveandlogin,
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/gameBoard');
+                                    }
+                                    //  ()=>
+                                    //  isLoading
+                                    //     ? null
+                                    //     : () {
+                                    //         if (_isBtnPressed) {
+                                    //           setState(() {
+                                    //             _isBtnPressed = false;
+                                    //           });
+                                    //         } else {
+                                    //           _handleSaveAndLogin(state);
+                                    //         }
+                                    //       },
+                                    );
                               },
                             ),
                           ),

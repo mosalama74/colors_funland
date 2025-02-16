@@ -33,6 +33,7 @@ class AppStrings {
 
   static const String changePassword = "Change Password";
   static const String newPassword = "New Password";
+  static const String currentPassword = "Current Password";
   static const String retypePassword = "Retype Password";
 
   /* Forget Password Screen */

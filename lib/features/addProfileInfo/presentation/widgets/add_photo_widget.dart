@@ -14,49 +14,49 @@ import 'dart:io';
 class AddPhotoWidget extends StatelessWidget {
   const AddPhotoWidget({super.key});
 
-  Future<void> _showImageSourceDialog(BuildContext context) async {
-    final bool isLoading = context.read<ProfileInfoCubit>().state.status ==
-        ProfileInfoStatus.loading;
-    if (isLoading) return;
+  // Future<void> _showImageSourceDialog(BuildContext context) async {
+  //   final bool isLoading = context.read<ProfileInfoCubit>().state.status ==
+  //       ProfileInfoStatus.loading;
+  //   if (isLoading) return;
 
-    final cubit = context.read<ProfileInfoCubit>();
+  //   final cubit = context.read<ProfileInfoCubit>();
 
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.r),
-          ),
-          title: Text(
-            'Choose Image Source',
-            style: ts18Purble700,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  cubit.pickImageFromGallery();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
-                onTap: () {
-                  Navigator.pop(dialogContext);
-                  cubit.pickImageFromCamera();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  //   showDialog(
+  //     context: context,
+  //     builder: (dialogContext) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(15.r),
+  //         ),
+  //         title: Text(
+  //           'Choose Image Source',
+  //           style: ts18Purble700,
+  //         ),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             ListTile(
+  //               leading: const Icon(Icons.photo_library),
+  //               title: const Text('Gallery'),
+  //               onTap: () {
+  //                 Navigator.pop(dialogContext);
+  //                 cubit.pickImageFromGallery();
+  //               },
+  //             ),
+  //             ListTile(
+  //               leading: const Icon(Icons.camera_alt),
+  //               title: const Text('Camera'),
+  //               onTap: () {
+  //                 Navigator.pop(dialogContext);
+  //                 cubit.pickImageFromCamera();
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,17 @@ class AddPhotoWidget extends StatelessWidget {
                     UploadCameraField(
                       icon: AppIcons.upload,
                       text: "Upload",
-                      onTap: (state.localImagePath != null &&
-                              state.imageUrl == null)
-                          ? () => context
+                      onTap:  isLoading
+                          ? null
+                          : () => context
                               .read<ProfileInfoCubit>()
-                              .uploadSelectedImage()
-                          : null,
+                              .pickImageFromGallery(),
+                      // onTap: (state.localImagePath != null &&
+                      //         state.imageUrl == null)
+                      //     ? () => context
+                      //         .read<ProfileInfoCubit>()
+                      //         .uploadSelectedImage()
+                      //     : null,
                     ),
                     SizedBox(width: 10.w),
                     UploadCameraField(
@@ -102,7 +107,9 @@ class AddPhotoWidget extends StatelessWidget {
                       text: "Camera",
                       onTap: isLoading
                           ? null
-                          : () => _showImageSourceDialog(context),
+                          : () => context
+                              .read<ProfileInfoCubit>()
+                              .pickImageFromCamera(),
                     ),
                   ],
                 ),

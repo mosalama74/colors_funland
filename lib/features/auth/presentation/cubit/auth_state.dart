@@ -20,19 +20,79 @@ class AuthSuccess extends AuthState {
   final User user;
   final bool isEmailVerified;
 
+
   const AuthSuccess({
     required this.user,
     this.isEmailVerified = false,
+   
   });
 
   @override
   List<Object?> get props => [user, isEmailVerified];
 }
-
 class AuthError extends AuthState {
   final String message;
 
   const AuthError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+
+class DeleteAccountSuccess extends AuthState {
+ 
+  final String message;
+
+  const DeleteAccountSuccess({
+
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message,];
+}
+
+class DeleteAccountError extends AuthState {
+ 
+  final String message;
+
+  const DeleteAccountError({
+
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message,];
+}
+class ChangePasswordError extends AuthState {
+ 
+  final String message;
+
+  const ChangePasswordError({
+
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message,];
+}
+class ChangePasswordSuccess extends AuthState {
+ 
+  final String message;
+
+  const ChangePasswordSuccess({
+
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message,];
+}
+class AuthSignedOut extends AuthState {
+  final String message;
+
+  const AuthSignedOut({required this.message});
 
   @override
   List<Object?> get props => [message];

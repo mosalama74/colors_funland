@@ -183,25 +183,25 @@ class _ColorToolsState extends State<ColorTools> {
     );
   }
 
-  Widget _buildToolButton({
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 24,
-        ),
-      ),
-    );
-  }
+  // Widget _buildToolButton({
+  //   required IconData icon,
+  //   required VoidCallback onTap,
+  // }) {
+  //   return GestureDetector(
+  //     onTap: onTap,
+  //     child: Container(
+  //       width: 44,
+  //       height: 44,
+  //       decoration: BoxDecoration(
+  //         color: Colors.white.withOpacity(0.1),
+  //         shape: BoxShape.circle,
+  //       ),
+  //       child: Icon(
+  //         icon,
+  //         color: Colors.white,
+  //         size: 24,
+  //       ),
+  //     ),
+  //   );
+  // }
 }

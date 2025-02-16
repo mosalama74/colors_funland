@@ -2,7 +2,10 @@ import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
+import 'package:color_funland/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:color_funland/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -21,7 +24,7 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
   final void Function() onTap;
 
   @override
-  Size get preferredSize => Size.fromHeight(100.h);
+  Size get preferredSize => Size.fromHeight(130.h);
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +40,40 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   appBarlogoImage,
-                  Row(
-                    children: [
-                      Text(
-                        "Adam",
-                        style: bubleStyle,
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(width: 16.w),
-                      divider,
-                      SizedBox(width: 16.w),
-                      Text(
-                        gameGroup,
-                        style: ts36minnie400,
-                      ),
-                      SizedBox(width: 16.w),
-                      if (inSideGame)
-                        SizedBox(
-                          width: 63.w,
-                          height: 63.h,
-                          child: SvgPicture.asset(appBarIcon),
-                        ),
-                    ],
+                  BlocConsumer<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      // Handle state changes if needed
+                    },
+                    builder: (context, state) {
+                      String username = '';
+                      if (state is AuthSuccess) {
+                        username = state.user.firstName; 
+                         // Or combine firstName + lastName
+                      }
+                      return Row(
+                        children: [
+                          Text(
+                            username,  // Display the username
+                            style: bubleStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(width: 16.w),
+                          divider,
+                          SizedBox(width: 16.w),
+                          Text(
+                            gameGroup,
+                            style: ts36minnie400,
+                          ),
+                          SizedBox(width: 16.w),
+                          if (inSideGame)
+                            SizedBox(
+                              width: 63.w,
+                              height: 63.h,
+                              child: SvgPicture.asset(appBarIcon),
+                            ),
+                        ],
+                      );
+                    },
                   ),
                   Row(
                     children: [
@@ -71,11 +86,13 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
                             left: 32.w,
                             right: 26.33.w,
                             child: Container(
+                              width: 68.w,
+                              height: 68.h,
                               decoration: _buildContainerDecoration2(),
                               child: ClipOval(
                                 child: CircleAvatar(
                                     radius:
-                                        36.0, // Radius of the inner CircleAvatar
+                                        36.0.r, // Radius of the inner CircleAvatar
                                     backgroundImage:
                                         AssetImage(AppImages.childPhoto)),
                               ),
@@ -102,6 +119,7 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
 
 BoxDecoration _buildContainerDecoration2() {
   return BoxDecoration(
+
     shape: BoxShape.circle, // Make it circular
     gradient: LinearGradient(
       colors: [

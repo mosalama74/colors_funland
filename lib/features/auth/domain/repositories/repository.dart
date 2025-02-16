@@ -12,4 +12,4 @@ abstract class AuthRepository {
     required String password,
   });
   Future<Either<Failure, void>> signOut();
-  Future<Either<Failure, User?>> getCurrentUser();}
+}

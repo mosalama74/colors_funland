@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -59,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is AuthSuccess) {
             if (state.isEmailVerified) {
               Navigator.pushReplacementNamed(context, '/gameBoard');
+
             } else {
               context.read<AuthCubit>().messageService.showMessage(
                     'Please verify your email before logging in',

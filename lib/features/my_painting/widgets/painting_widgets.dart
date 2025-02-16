@@ -2,7 +2,6 @@ import 'package:color_funland/core/utils/text_styles.dart';
 import 'package:color_funland/features/my_painting/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PaintingWidget extends StatelessWidget {
   final List<GridItem> items;
@@ -67,14 +66,10 @@ class PaintingWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          item.isSvg == true ? SvgPicture.asset(
+           Image.asset(
             item.imageUrl,
-            width: item.imgWidth ?? 180.w,
-            height: item.imgHeight ?? 176.27.h,
-          ) : Image.asset(
-            item.imageUrl,
-            width: item.imgWidth ?? 180.w,
-            height: item.imgHeight ?? 176.27.h,
+            width: item.imgWidth ?? 150.w,
+            height: item.imgHeight ?? 150.h,
           ),
           SizedBox(
             height: 10.h,

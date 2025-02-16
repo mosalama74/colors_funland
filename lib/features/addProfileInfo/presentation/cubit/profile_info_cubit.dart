@@ -172,4 +172,146 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
       ));
     }
   }
+
+  Future<void> uploadChildData({
+    required String childName,
+    required int childAge,
+  }) async {
+    try {
+      emit(state.copyWith(status: ProfileInfoStatus.loading));
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(state.copyWith(
+          status: ProfileInfoStatus.failure,
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      // First upload the image if one is selected
+      String? imageUrl;
+      if (_selectedImage != null) {
+        final String fileName = 
+            '${DateTime.now().millisecondsSinceEpoch}_${_selectedImage!.name}';
+        final storageRef = _storage.ref()
+            .child('child_images')
+            .child(currentUser.uid)
+            .child(fileName);
+        
+        await storageRef.putFile(File(_selectedImage!.path));
+        imageUrl = await storageRef.getDownloadURL();
+      }
+
+      // Create child data map
+      final Map<String, dynamic> childData = {
+        'name': childName,
+        'age': childAge,
+        'imageUrl': imageUrl,
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      // Save child data to Firestore
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .add(childData);
+
+      emit(state.copyWith(
+        status: ProfileInfoStatus.success,
+        imageUrl: imageUrl,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ProfileInfoStatus.failure,
+        errorMessage: 'Failed to upload child data: ${e.toString()}',
+      ));
+    }
+  }
+
+  Future<void> updateChildData({
+    required String childId,
+    required String childName,
+    required int childAge,
+    bool updateImage = false,
+  }) async {
+    try {
+      emit(state.copyWith(status: ProfileInfoStatus.loading));
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(state.copyWith(
+          status: ProfileInfoStatus.failure,
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      // Create base update data
+      final Map<String, dynamic> updateData = {
+        'name': childName,
+        'age': childAge,
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      // Update image if requested and new image is selected
+      if (updateImage && _selectedImage != null) {
+        // Get the child document to check if there's an existing image
+        final childDoc = await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .collection('children')
+            .doc(childId)
+            .get();
+
+        // Delete old image if it exists
+        if (childDoc.exists) {
+          final existingData = childDoc.data();
+          if (existingData != null && existingData['imageUrl'] != null) {
+            try {
+              final oldImageRef = _storage.refFromURL(existingData['imageUrl']);
+              await oldImageRef.delete();
+            } catch (e) {
+              // Continue even if old image deletion fails
+              print('Failed to delete old image: ${e.toString()}');
+            }
+          }
+        }
+
+        // Upload new image
+        final String fileName = 
+            '${DateTime.now().millisecondsSinceEpoch}_${_selectedImage!.name}';
+        final storageRef = _storage.ref()
+            .child('child_images')
+            .child(currentUser.uid)
+            .child(fileName);
+        
+        await storageRef.putFile(File(_selectedImage!.path));
+        final String newImageUrl = await storageRef.getDownloadURL();
+        
+        // Add new image URL to update data
+        updateData['imageUrl'] = newImageUrl;
+      }
+
+      // Update child document in Firestore
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(childId)
+          .update(updateData);
+
+      emit(state.copyWith(
+        status: ProfileInfoStatus.success,
+        imageUrl: updateData['imageUrl'],
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ProfileInfoStatus.failure,
+        errorMessage: 'Failed to update child data: ${e.toString()}',
+      ));
+    }
+  }
 }
