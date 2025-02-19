@@ -1,105 +1,225 @@
+import 'dart:ui' as ui;
 import 'package:color_funland/features/my_painting/widgets/paint_state.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_stroke.dart';
 import 'package:color_funland/features/my_painting/widgets/stroke_painter.dart';
+import 'package:color_funland/core/constants/app_images.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_svg/svg.dart';
 
 class PaintCanvas extends StatefulWidget {
   final PaintState paintState;
   final String uncoloredImage;
-  final double width;
-  final double height;
-
+  final String coloredImage;
+  final String brushImage;
 
   const PaintCanvas({
     super.key,
-    required this.paintState, required this.uncoloredImage,
-    required this.width,
-    required this.height,
+    required this.paintState,
+    required this.uncoloredImage,
+    required this.coloredImage,
+    required this.brushImage,
   });
 
   @override
   State<PaintCanvas> createState() => _PaintCanvasState();
 }
 
-class _PaintCanvasState extends State<PaintCanvas> with SingleTickerProviderStateMixin {
+class _PaintCanvasState extends State<PaintCanvas>
+    with SingleTickerProviderStateMixin {
+  Offset? _currentPosition;
+  late String boardFrame;
+  ui.Image? _coloredReferenceImage;
+  final GlobalKey _paintKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    boardFrame = _getBoardFrame(widget.uncoloredImage);
+    _loadColoredImage();
+  }
+
+  Future<void> _loadColoredImage() async {
+    final ByteData data = await rootBundle.load(widget.coloredImage);
+    final Uint8List bytes = data.buffer.asUint8List();
+    final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+    final ui.FrameInfo fi = await codec.getNextFrame();
+    setState(() {
+      _coloredReferenceImage = fi.image;
+    });
+  }
+
+  Future<bool> compareWithReference() async {
+    if (_coloredReferenceImage == null) return false;
+
+    try {
+      final RenderRepaintBoundary boundary = 
+          _paintKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      final ui.Image image = await boundary.toImage();
+      final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      if (byteData == null) return false;
+
+      // Compare the images pixel by pixel
+      final double similarityThreshold = 0.85; // 85% similarity required
+      int matchingPixels = 0;
+      int totalPixels = image.width * image.height;
+
+      // TODO: Implement pixel comparison logic
+      // This would require processing both images' pixel data
+      // and comparing colors within a tolerance range
+
+      double similarity = matchingPixels / totalPixels;
+      return similarity >= similarityThreshold;
+    } catch (e) {
+      debugPrint('Error comparing images: $e');
+      return false;
+    }
+  }
+
+  String _getBoardFrame(String imagePath) {
+    final imageName = imagePath.split('/').last.toLowerCase();
+    
+    if (imageName.contains('duck')) return AppImages.duckUncolored;
+    if (imageName.contains('cat')) return AppImages.catUncolored;
+    if (imageName.contains('elephant')) return AppImages.elephantUncolored;
+    if (imageName.contains('giraffe')) return AppImages.giraffeUncolored;
+    if (imageName.contains('kangaroo')) return AppImages.kangaroUncolored;
+    if (imageName.contains('lion')) return AppImages.lionBabyUncolored;
+    if (imageName.contains('tiger')) return AppImages.tigerUncolored;
+    if (imageName.contains('turtle')) return AppImages.turtleUncolored;
+    if (imageName.contains('bee')) return AppImages.beeUncolored;
+    
+    return AppImages.duckFram;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width,
-      height: widget.height,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 10,
-        //     spreadRadius: 1,
-        //   ),
-        // ],
-      ),
+      color: Colors.white,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Background Layer
-            Container(color: Colors.transparent),
-            
             // Paint Layer with Instant Updates
-            RepaintBoundary(
-              child: ValueListenableBuilder<List<PaintStroke?>>(
-                valueListenable: widget.paintState,
-                builder: (context, strokes, _) {
-                  return CustomPaint(
-                    painter: StrokePainter(
-                      strokes: strokes,
-                      currentColor: widget.paintState.selectedColor,
-                    ),
-                    size: Size.infinite,
-                    isComplex: true,
-                    willChange: true,
-                  );
-                },
+            Padding(
+              padding: EdgeInsets.all(20.w),
+              child: RepaintBoundary(
+                key: _paintKey,
+                child: ValueListenableBuilder<List<PaintStroke?>>(
+                  valueListenable: widget.paintState,
+                  builder: (context, strokes, _) {
+                    return CustomPaint(
+                      painter: StrokePainter(
+                        strokes: strokes,
+                        currentColor: widget.paintState.selectedColor,
+                        referenceImage: _coloredReferenceImage,
+                      ),
+                      size: Size.infinite,
+                      isComplex: true,
+                      willChange: true,
+                    );
+                  },
+                ),
               ),
             ),
-            
-            // Duck Outline Layer
-           Center(
-              child: SizedBox(
-                // width: widget.width * 0.8, // Slightly smaller to ensure visibility
-                // height: widget.height * 0.8,
+    
+            // Image Layer
+            Padding(
+              padding: EdgeInsets.all(20.w),
+              child: Center(
                 child: Image.asset(
                   widget.uncoloredImage,
                   key: widget.paintState.canvasKey,
                   fit: BoxFit.contain,
+                  width: 300.w,
                 ),
               ),
             ),
-            
-            // Touch Handler
+    
+            // Touch Handler with Direct Updates
             Positioned.fill(
-              child: GestureDetector(
-                onPanStart: (details) {
-                  final RenderBox box = context.findRenderObject() as RenderBox;
-                  final Offset localPosition = box.globalToLocal(details.globalPosition);
-                  widget.paintState.startStroke(localPosition);
+              child: RawGestureDetector(
+                gestures: <Type, GestureRecognizerFactory>{
+                  PanGestureRecognizer: GestureRecognizerFactoryWithHandlers<PanGestureRecognizer>(
+                    () => PanGestureRecognizer(),
+                    (PanGestureRecognizer instance) {
+                      instance
+                        ..onStart = (details) {
+                          final RenderBox box = context.findRenderObject() as RenderBox;
+                          final localPosition = box.globalToLocal(details.globalPosition);
+                          setState(() => _currentPosition = localPosition);
+                          widget.paintState.startStroke(localPosition);
+                        }
+                        ..onUpdate = (details) {
+                          final RenderBox box = context.findRenderObject() as RenderBox;
+                          final localPosition = box.globalToLocal(details.globalPosition);
+                          setState(() => _currentPosition = localPosition);
+                          widget.paintState.addPoint(localPosition);
+                        }
+                        ..onEnd = (details) {
+                          widget.paintState.endStroke();
+                          compareWithReference().then((isAccurate) {
+                            if (isAccurate) {
+                              debugPrint('Painting matches the reference!');
+                            }
+                          });
+                        };
+                    },
+                  ),
                 },
-                onPanUpdate: (details) {
-                  final RenderBox box = context.findRenderObject() as RenderBox;
-                  final Offset localPosition = box.globalToLocal(details.globalPosition);
-                  widget.paintState.addPoint(localPosition);
-                },
-                onPanEnd: (_) {
-                  widget.paintState.endStroke();
-                },
-                child: Container(
-                  color: Colors.transparent,
+                child: MouseRegion(
+                  onHover: (event) {
+                    final RenderBox box = context.findRenderObject() as RenderBox;
+                    final localPosition = box.globalToLocal(event.position);
+                    setState(() => _currentPosition = localPosition);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
                 ),
               ),
             ),
+
+            // Brush Cursor Layer
+            if (_currentPosition != null)
+              Positioned(
+                left: _currentPosition!.dx - 15.w,
+                top: _currentPosition!.dy - 15.w,
+                child: RepaintBoundary(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.topLeft,
+                    children: [
+                      SvgPicture.asset(
+                        AppImages.brushHandle,
+                        width: 15.92.w,
+                        height: 255.57.h,
+                        fit: BoxFit.contain,
+                      ),
+                      Positioned(
+                        top: -20.h,
+                        left: -20.w,
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            widget.paintState.selectedColor,
+                            BlendMode.srcIn,
+                          ),
+                          child: SvgPicture.asset(
+                            AppImages.brushHair,
+                            width: 38.96.w,
+                            height: 58.48.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),

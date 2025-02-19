@@ -1,4 +1,3 @@
-import 'package:color_funland/color_funland_app.dart';
 import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
@@ -40,9 +39,7 @@ class GameBoardScreen extends StatelessWidget {
           appBar: AppBarRow(
             gameGroup: "Activity Board",
             inSideGame: false,
-            onTap: () {
-              containerKey.currentState?.toggleContainer();
-            },
+          
           ),
           body: Stack(
               children: [

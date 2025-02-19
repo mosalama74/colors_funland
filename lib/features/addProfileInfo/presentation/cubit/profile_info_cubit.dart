@@ -314,4 +314,107 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
       ));
     }
   }
+
+
+Future<void> fetchChildren() async {
+    try {
+      emit(state.copyWith(status: ProfileInfoStatus.loading));
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(state.copyWith(
+          status: ProfileInfoStatus.failure,
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      final QuerySnapshot childrenSnapshot = await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      final List<Map<String, dynamic>> children = childrenSnapshot.docs
+          .map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            return {
+              'id': doc.id,
+              'name': data['name'],
+              'age': data['age'],
+              'imageUrl': data['imageUrl'],
+              'createdAt': data['createdAt'],
+              'updatedAt': data['updatedAt'],
+            };
+          })
+          .toList();
+
+      emit(state.copyWith(
+        status: ProfileInfoStatus.success,
+        children: children,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ProfileInfoStatus.failure,
+        errorMessage: 'Failed to fetch children: ${e.toString()}',
+      ));
+    }
+  }
+
+  // Optional: Method to get a single child's data
+  Future<void> fetchChildById(String childId) async {
+    try {
+      emit(state.copyWith(status: ProfileInfoStatus.loading));
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(state.copyWith(
+          status: ProfileInfoStatus.failure,
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      final DocumentSnapshot childDoc = await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(childId)
+          .get();
+
+      if (!childDoc.exists) {
+        emit(state.copyWith(
+          status: ProfileInfoStatus.failure,
+          errorMessage: 'Child not found',
+        ));
+        return;
+      }
+
+      final data = childDoc.data() as Map<String, dynamic>;
+      final List<Map<String, dynamic>> children = [
+        {
+          'id': childDoc.id,
+          'name': data['name'],
+          'age': data['age'],
+          'imageUrl': data['imageUrl'],
+          'createdAt': data['createdAt'],
+          'updatedAt': data['updatedAt'],
+        }
+      ];
+
+      emit(state.copyWith(
+        status: ProfileInfoStatus.success,
+        children: children,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ProfileInfoStatus.failure,
+        errorMessage: 'Failed to fetch child: ${e.toString()}',
+      ));
+    }
+  }
 }
+
+
+  

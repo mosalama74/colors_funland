@@ -18,15 +18,19 @@ class ColorTools extends StatefulWidget {
     Color(0xFF4CAF50), // Green
     Color(0xFFFF9800), // Orange
     Color(0xFF2196F3), // Blue
+    // Color(0xFF882601), // Blue
+    // Color(0xFFFF861A), // Blue
+    // Color(0xFF3498DB), // Blue
+
   ];
 
   const ColorTools({
-    Key? key,
+    super.key,
     required this.onColorSelected,
     required this.selectedColor,
     this.onStrokeWidthChanged,
     this.strokeWidth = 15.0,
-  }) : super(key: key);
+  });
 
   @override
   State<ColorTools> createState() => _ColorToolsState();
@@ -49,10 +53,11 @@ class _ColorToolsState extends State<ColorTools> {
     final rightColors = ColorTools.colors.sublist(midPoint);
 
     return Container(
-      width: 300,
+      width: 300.w,
+      height: 410.h,
       decoration: BoxDecoration(
         color: const Color(0xFF2A0B4F),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: GradientBoxBorder(
           gradient: LinearGradient(
             colors: [AppColors.borderColor, AppColors.borderColor2],
@@ -81,68 +86,68 @@ class _ColorToolsState extends State<ColorTools> {
                   quarterTurns: midPoint,
                   child: Row(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 330,
-                            child: SliderTheme(
-                              data: SliderTheme.of(context).copyWith(
-                                activeTrackColor: Colors.orange,
-                                showValueIndicator: ShowValueIndicator.onlyForDiscrete ,
-                                inactiveTrackColor: Colors.white.withOpacity(0.1),
-                                thumbColor: Colors.white,
-                                trackHeight: 30,
-                                thumbShape: SliderComponentShape.noOverlay ,
-                                overlayColor: Colors.white.withOpacity(0.1),
-                                valueIndicatorColor: Colors.white,
-                                valueIndicatorTextStyle: const TextStyle(
-                                  color: Color(0xFF2A0B4F),
-                                ),
-                              ),
-                              child: Slider(
-                                value: _currentStrokeWidth,
-                                min: 5.0,
-                                max: 50.0,
-                                divisions: 45,
-                                label: _currentStrokeWidth.round().toString(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _currentStrokeWidth = value;
-                                  });
-                                  widget.onStrokeWidthChanged?.call(value);
-                                },
-                              ),
+                      SizedBox(
+                        width: 330,
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Colors.orange,
+                            showValueIndicator: ShowValueIndicator.onlyForDiscrete ,
+                            inactiveTrackColor: Colors.white.withOpacity(0.1),
+                            thumbColor: Colors.white,
+                            trackHeight: 30,
+                            thumbShape: SliderComponentShape.noOverlay ,
+                            overlayColor: Colors.white.withOpacity(0.1),
+                            valueIndicatorColor: Colors.white,
+                            valueIndicatorTextStyle: const TextStyle(
+                              color: Color(0xFF2A0B4F),
                             ),
                           ),
-                        ],
+                          child: Slider(
+                            value: _currentStrokeWidth,
+                            min: 5.0,
+                            max: 50.0,
+                            divisions: 45,
+                            label: _currentStrokeWidth.round().toString(),
+                            onChanged: (value) {
+                              setState(() {
+                                _currentStrokeWidth = value;
+                              });
+                              widget.onStrokeWidthChanged?.call(value);
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 // Left column
                 Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: leftColors.map((color) => _buildColorButton(color)).toList(),
+                  padding:  EdgeInsets.only(top: 20.h),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: leftColors.map((color) => _buildColorButton(color)).toList(),
+                    ),
                   ),
                 ),
                 // // Right column
                 Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: rightColors.map((color) => _buildColorButton(color)).toList(),
+                  padding:  EdgeInsets.only(top: 20.h),
+                  child: SingleChildScrollView(
+                    child: Column(
+
+                      children: rightColors.map((color) => _buildColorButton(color)).toList(),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
 
           // Brush size slider
           if (widget.onStrokeWidthChanged != null) ...[
-
+            
             const SizedBox(height: 16),
           ],
 

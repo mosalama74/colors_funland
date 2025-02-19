@@ -9,9 +9,10 @@ class PaintState extends ValueNotifier<List<PaintStroke?>> {
   static const double kMaxStrokeWidth = 50.0;
 
   // Paint properties
-  Color _selectedColor = Colors.yellow;
+  Color _selectedColor = Colors.red; // Changed initial color for better visibility
   double _strokeWidth = kDefaultStrokeWidth;
   bool _isDrawing = false;
+  PaintStroke? _currentStroke;
 
   // Canvas reference
   final GlobalKey canvasKey = GlobalKey();
@@ -25,12 +26,20 @@ class PaintState extends ValueNotifier<List<PaintStroke?>> {
   List<PaintStroke?> get strokes => value;
 
   void startStroke(Offset point) {
+    if (_isDrawing) return; // Prevent multiple starts
     _isDrawing = true;
-    addPoint(point);
-  }
-
-  void addPoint(Offset point) {
-    if (!_isDrawing) return;
+    
+    // Get the canvas bounds
+    final RenderBox? renderBox = canvasKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+    
+    final Size size = renderBox.size;
+    
+    // Clamp the point within the canvas bounds
+    final clampedPoint = Offset(
+      point.dx.clamp(0, size.width),
+      point.dy.clamp(0, size.height)
+    );
     
     final paint = Paint()
       ..color = _selectedColor
@@ -40,16 +49,54 @@ class PaintState extends ValueNotifier<List<PaintStroke?>> {
       ..strokeJoin = StrokeJoin.round
       ..style = PaintingStyle.stroke;
 
-    final newStroke = PaintStroke(point, paint, _selectedColor, _strokeWidth);
-    value = List.from(value)..add(newStroke);
+    _currentStroke = PaintStroke(clampedPoint, paint, _selectedColor, _strokeWidth);
+    
+    // Create a new list and add the stroke
+    final newStrokes = List<PaintStroke?>.from(value);
+    newStrokes.add(_currentStroke);
+    value = newStrokes;
+    notifyListeners(); // Ensure UI updates
+  }
+
+  void addPoint(Offset point) {
+    if (!_isDrawing || _currentStroke == null) return;
+    
+    // Get the canvas bounds
+    final RenderBox? renderBox = canvasKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+    
+    final Size size = renderBox.size;
+    
+    // Clamp the point within the canvas bounds
+    final clampedPoint = Offset(
+      point.dx.clamp(0, size.width),
+      point.dy.clamp(0, size.height)
+    );
+    
+    // Add point to current stroke
+    _currentStroke!.addPoint(clampedPoint);
+    
+    // Force a rebuild
+    notifyListeners();
   }
 
   void endStroke() {
+    if (!_isDrawing) return;
     _isDrawing = false;
-    value = List.from(value)..add(null); // Mark end of stroke
+    
+    if (_currentStroke != null) {
+      // Only add null marker if we actually had a stroke
+      final newStrokes = List<PaintStroke?>.from(value);
+      newStrokes.add(null);
+      value = newStrokes;
+      _currentStroke = null;
+      notifyListeners();
+    }
   }
 
   void clear() {
+    _isDrawing = false;
+    _currentStroke = null;
     value = [];
     notifyListeners();
   }
@@ -77,5 +124,6 @@ class PaintState extends ValueNotifier<List<PaintStroke?>> {
     }
     
     value = newStrokes;
+    notifyListeners();
   }
 }

@@ -22,22 +22,17 @@ class GridItem {
   });
 }
 
-final List<String> paintingScreen = [
- '/duckColor',
-  '/bearColor',
- '/giraffeColor',
- '/elephantColor',
+final List<String> animalsPaintingScreen = [
+  '/duckColor',
+  '/elephantColor',
+  '/catColor',
+  '/giraffeColor',
   '/lionColor',
-  '/tigerColor',
-  '/turtleColor',
-  '/beeColor',
- '/lion2Color',
- '/kangarooColor',
 
 ];
 
-final List<String> myPaintingSamples = [
-  '/myPaintingSamples',
+final List<String> myPaintingSamplesScreen = [
+ '/animalsSamplesScreen',
   '/mypaintingScreen',
   "/bearColor",
   "/giraffeColor",
@@ -54,46 +49,84 @@ final List<GridItem> gridItems = [
   GridItem(
     title: AppStrings.animals,
     imageUrl: AppImages.animals,
-  ),
-  GridItem(
-    title: AppStrings.flowers,
-    imageUrl: AppImages.flowers,
+    imgWidth: 180.w,
   ),
   GridItem(
     title: AppStrings.fishes,
     imageUrl: AppImages.fishes,
+    imgWidth: 180.w,
+  ),
+  GridItem(
+    title: AppStrings.flowers,
+    imageUrl: AppImages.flowers,
+    imgWidth: 180.w,
   ),
   GridItem(
     title: AppStrings.vehicles,
-    imageUrl: AppImages.vehiclesClosed,
+    imageUrl: AppImages.vehicles,
+    imgWidth: 180.w,
   ),
   GridItem(
     title: AppStrings.dinosaur,
-    imageUrl: AppImages.dinasourClosed,
+    imageUrl: AppImages.dinasour,
+    imgWidth: 180.w,
   ),
   GridItem(
     title: AppStrings.characters,
-    imageUrl: AppImages.charactersClosed,
+    imageUrl: AppImages.characters,
+    imgWidth: 180.w,
   ),
   GridItem(
     title: AppStrings.places,
-    imageUrl: AppImages.placesClosed,
+    imageUrl: AppImages.places,
+    imgWidth: 180.w,
   ),
   GridItem(
     title: AppStrings.paintMyNumbers,
-    imageUrl: AppImages.paintByNumbersClosed,
+    imageUrl: AppImages.paintByNumbers,
+    imgWidth: 180.w,
   ),
 ];
 
-final List<GridItem> paintingAnimals = [
-  GridItem(imageUrl: AppImages.duckFram ,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.bearFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.girafeFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.elephantFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.lionFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.catFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.turtleFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.beeFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.lionBabyFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
-  GridItem(imageUrl: AppImages.kangarooFram,imgWidth: 217.17.w,imgHeight:211.59.h ),
+final List<GridItem> animalsFram = [
+  GridItem(
+    imageUrl: AppImages.duckFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.elephantFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.catFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.girafeFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.lionFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.tigerFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.turtleFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.beeFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.lionBabyFram,
+    imgWidth: 190.17.w,
+  ),
+  GridItem(
+    imageUrl: AppImages.kangarooFram,
+    imgWidth: 190.17.w,
+  ),
 ];

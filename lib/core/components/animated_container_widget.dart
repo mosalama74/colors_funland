@@ -1,4 +1,3 @@
-import 'package:color_funland/color_funland_app.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
@@ -13,7 +12,7 @@ class AnimatedContainerWidget extends StatefulWidget {
 }
 
 class AnimatedContainerState extends State<AnimatedContainerWidget>
-    with SingleTickerProviderStateMixin {
+   with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
   bool _isContainerVisible = false;
@@ -89,28 +88,24 @@ Widget menuList(BuildContext context) => Container(
           rowWithArrowButton(
               title: 'Edit Profile',
               onTap: () {
-                containerKey.currentState!._isContainerVisible = false;
                 Navigator.pushNamed(context, '/addProfileInfo');
               }),
           SizedBox(height: 16.h),
           rowWithArrowButton(
               title: 'Change Password',
               onTap: () {
-                containerKey.currentState!._isContainerVisible = false;
                 Navigator.pushNamed(context, '/changePassword');
               }),
           SizedBox(height: 16.h),
           rowWithArrowButton(
               title: 'Delete Account',
               onTap: () {
-                containerKey.currentState!._isContainerVisible = false;
                 Navigator.pushNamed(context, '/deleteAccount');
               }),
           SizedBox(height: 16.h),
           rowWithArrowButton(
               title: 'Logout',
               onTap: () {
-                containerKey.currentState!._isContainerVisible = false;
                 Navigator.pushReplacementNamed(
                   context,
                   '/login',

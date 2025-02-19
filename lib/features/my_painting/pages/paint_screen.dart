@@ -1,5 +1,3 @@
-import 'package:color_funland/color_funland_app.dart';
-import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
@@ -20,7 +18,7 @@ class PaintScreen extends StatefulWidget {
     super.key,
     required this.uncoloredImage,
     required this.coloredImage,
-    this.categoryName = "Animals",
+    required this.categoryName ,
   });
 
   @override
@@ -29,6 +27,13 @@ class PaintScreen extends StatefulWidget {
 
 class _PaintScreenState extends State<PaintScreen> {
   final PaintState _paintState = PaintState();
+  bool _showReferenceImage = false;
+
+  void _toggleShowReferenceImage() {
+    setState(() {
+      _showReferenceImage = !_showReferenceImage;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +43,6 @@ class _PaintScreenState extends State<PaintScreen> {
         gameGroup: "Paintings",
         inSideGame: true,
         appBarIcon: AppIcons.paintingsIcon,
-        onTap: () {
-          containerKey.currentState?.toggleContainer();
-        },
       ),
       body: SafeArea(
         child: Stack(
@@ -57,7 +59,9 @@ class _PaintScreenState extends State<PaintScreen> {
                             right: MediaQuery.of(context).size.width * 0.27,
                             left: 10.w),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _toggleShowReferenceImage();
+                          },
                           child: SizedBox(
                             width: 67.w,
                             height: 67.h,
@@ -68,43 +72,56 @@ class _PaintScreenState extends State<PaintScreen> {
                         ),
                       ),
                       Text(
-                        "Animals",
+                        widget.categoryName,
                         style: ts64Magic400,
                       ),
                     ],
                   ),
                   Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          child: SvgPicture.asset(
-                            AppImages.coloredduck,
-                            height: 230.53.h,
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding:  EdgeInsets.only(right: 290.w),
+                            child: _showReferenceImage
+                                ? SvgPicture.asset(
+                                    widget.coloredImage,
+                                    height: 230.53.h,
+                                  )
+                                : Container(
+                                    height: 230.53.h,
+                                  ),
                           ),
                         ),
-                        Center(
-                          child: PaintCanvas(
-                            paintState: _paintState,
-                            uncoloredImage: widget.uncoloredImage,
-                            width: 203.w,
-                            height: 424.h,
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: ColorTools(
-                            selectedColor: _paintState.selectedColor,
-                            onColorSelected: (color) => setState(() {
-                              _paintState.setColor(color);
-                            }),
-                            strokeWidth: _paintState.strokeWidth,
-                            onStrokeWidthChanged: (width) => setState(() {
-                              _paintState.setStrokeWidth(width);
-                            }),
+                        Expanded(
+                          flex: 2,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: PaintCanvas(
+                                  paintState: _paintState,
+                                  uncoloredImage: widget.uncoloredImage,
+                                  brushImage: AppImages.brush,
+                                  coloredImage: AppImages.coloredduck,
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                child: ColorTools(
+                                  selectedColor: _paintState.selectedColor,
+                                  onColorSelected: (color) => setState(() {
+                                    _paintState.setColor(color);
+                                  }),
+                                  strokeWidth: _paintState.strokeWidth,
+                                  onStrokeWidthChanged: (width) => setState(() {
+                                    _paintState.setStrokeWidth(width);
+                                  }),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -113,7 +130,7 @@ class _PaintScreenState extends State<PaintScreen> {
                 ],
               ),
             ),
-            AnimatedContainerWidget(key: containerKey),
+            // AnimatedContainerWidget(key: containerKey),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
@@ -9,22 +10,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+final GlobalKey<AnimatedContainerState> containerKey = GlobalKey();
+
 class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
   const AppBarRow({
     super.key,
     required this.gameGroup,
     required this.inSideGame,
     this.appBarIcon = "",
-    required this.onTap,
   });
 
   final String gameGroup;
   final bool inSideGame;
   final String appBarIcon;
-  final void Function() onTap;
 
   @override
-  Size get preferredSize => Size.fromHeight(130.h);
+  Size get preferredSize => Size.fromHeight(100.h);
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +80,12 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       Stack(children: [
                         SvgPicture.asset(AppImages.yellowshadow,
-                            width: 126.w, height: 133.h),
+                            width: 126.w, height: 133.h,fit: BoxFit.contain,),
                         Positioned(
-                            bottom: 20.25.h,
-                            top: 35.75.h,
-                            left: 32.w,
-                            right: 26.33.w,
+                            bottom: 15.25.h,
+                            top: 30.75.h,
+                            left: 27.w,
+                            right: 21.33.w,
                             child: Container(
                               width: 68.w,
                               height: 68.h,
@@ -94,12 +95,14 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
                                     radius:
                                         36.0.r, // Radius of the inner CircleAvatar
                                     backgroundImage:
-                                        AssetImage(AppImages.childPhoto)),
+                                        AssetImage(AppImages.childPhoto,),),
                               ),
                             )),
                       ]),
                       InkWell(
-                        onTap: onTap,
+                        onTap: (){
+                          containerKey.currentState?.toggleContainer();
+                        },
                         child: SvgPicture.asset(
                           AppIcons.menu,
                           width: 49.w,
@@ -142,5 +145,3 @@ Widget divider = Container(
   height: 35.h,
   color: AppColors.cBlackColor,
 );
-
-

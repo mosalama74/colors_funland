@@ -1,80 +1,55 @@
-import 'package:color_funland/features/my_painting/widgets/paint_stroke.dart';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-
+import 'package:color_funland/features/my_painting/widgets/paint_stroke.dart';
 
 class StrokePainter extends CustomPainter {
   final List<PaintStroke?> strokes;
   final Color currentColor;
+  final ui.Image? referenceImage;
 
-  const StrokePainter({
+  StrokePainter({
     required this.strokes,
     required this.currentColor,
+    this.referenceImage,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (strokes.isEmpty) return;
+    for (final stroke in strokes) {
+      if (stroke == null || stroke.points.isEmpty) continue;
 
-    Path? currentPath;
-    Color? currentStrokeColor;
-    double? currentStrokeWidth;
-    
-    void drawCurrentPath() {
-      if (currentPath != null && currentStrokeColor != null && currentStrokeWidth != null) {
-        final paint = Paint()
-          ..color = currentStrokeColor
-          ..strokeWidth = currentStrokeWidth
-          ..strokeCap = StrokeCap.round
-          ..strokeJoin = StrokeJoin.round
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true;
-          
-        canvas.drawPath(currentPath, paint);
-      }
-    }
+      final paint = Paint()
+        ..color = stroke.color
+        ..strokeWidth = stroke.width
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..style = PaintingStyle.stroke;
 
-    for (int i = 0; i < strokes.length; i++) {
-      final stroke = strokes[i];
-      
-      if (stroke == null) {
-        // End of current stroke, draw it
-        drawCurrentPath();
-        currentPath = null;
-        currentStrokeColor = null;
-        currentStrokeWidth = null;
-        continue;
-      }
-
-      // If this is a new stroke or properties changed, start a new path
-      if (currentPath == null || 
-          currentStrokeColor != stroke.color ||
-          currentStrokeWidth != stroke.strokeWidth) {
-        drawCurrentPath();
-        currentPath = Path();
-        currentStrokeColor = stroke.color;
-        currentStrokeWidth = stroke.strokeWidth;
-        currentPath.moveTo(stroke.offset.dx, stroke.offset.dy);
-      } else {
-        currentPath.lineTo(stroke.offset.dx, stroke.offset.dy);
-      }
-
-      // If this is the last point, draw a dot
-      if (i == strokes.length - 1 || strokes[i + 1] == null) {
+      if (stroke.points.length == 1) {
+        // For single points, draw a dot
         canvas.drawCircle(
-          stroke.offset,
-          stroke.strokeWidth / 2,
-          Paint()
-            ..color = stroke.color
-            ..style = PaintingStyle.fill,
+          stroke.points.first,
+          stroke.width / 2,
+          paint..style = PaintingStyle.fill,
         );
+      } else {
+        // For multiple points, draw a path
+        final path = Path();
+        path.moveTo(stroke.points.first.dx, stroke.points.first.dy);
+
+        for (int i = 1; i < stroke.points.length; i++) {
+          path.lineTo(stroke.points[i].dx, stroke.points[i].dy);
+        }
+
+        canvas.drawPath(path, paint);
       }
     }
-
-    // Draw any remaining path
-    drawCurrentPath();
   }
 
   @override
-  bool shouldRepaint(covariant StrokePainter oldDelegate) => 
-    oldDelegate.strokes != strokes || oldDelegate.currentColor != currentColor;
+  bool shouldRepaint(StrokePainter oldDelegate) {
+    return oldDelegate.strokes != strokes ||
+           oldDelegate.currentColor != currentColor ||
+           oldDelegate.referenceImage != referenceImage;
+  }
 }

@@ -1,7 +1,6 @@
-import 'package:color_funland/color_funland_app.dart';
-import 'package:color_funland/core/components/animated_container_widget.dart';
-import 'package:color_funland/core/constants/app_icons.dart';
+
 import 'package:color_funland/core/components/app_bar_row.dart';
+import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/three_items_bottom_navigation.dart';
 import 'package:color_funland/features/my_painting/model.dart';
 import 'package:color_funland/features/my_painting/widgets/painting_widgets.dart';
@@ -9,15 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyPaintingSamples extends StatefulWidget {
-  const MyPaintingSamples({super.key});
+class AnimalsSamplesScreen extends StatefulWidget {
+  const AnimalsSamplesScreen({super.key});
 
   @override
-  State<MyPaintingSamples> createState() => _MyPaintingSamplesState();
+  State<AnimalsSamplesScreen> createState() => _AnimalsSamplesScreenState();
 }
 
-class _MyPaintingSamplesState extends State<MyPaintingSamples> {
-  @override
+class _AnimalsSamplesScreenState extends State<AnimalsSamplesScreen> {
+
+ @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
@@ -30,9 +30,6 @@ class _MyPaintingSamplesState extends State<MyPaintingSamples> {
           gameGroup: "Paintings",
           inSideGame: true,
           appBarIcon: AppIcons.paintingsIcon,
-          onTap: () {
-            containerKey.currentState?.toggleContainer();
-          },
         ),
         body: SafeArea(
           child: Stack(
@@ -40,28 +37,28 @@ class _MyPaintingSamplesState extends State<MyPaintingSamples> {
               Padding(
                 padding: EdgeInsets.only(left: 46.w, right: 52.w),
                 child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 48.09.w),
-                  child: Expanded(
-                    child: PaintingWidget(
-                      gridHeight: 400.h,
-                      items: paintingAnimals,
-                      crossAxisCount: 5,
-                      pageGroup: paintingScreen,
-                      insidecategory: false,
-                      insideanimals: true,
-                      childAspectRatio: 1 /.98,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 48.09.w),
+                      child: Expanded(
+                        child: PaintingWidget(
+                          gridHeight: MediaQuery.of(context).size.height * .56,
+                          items:animalsFram ,
+                          crossAxisCount: 5,
+                          pageGroup: animalsPaintingScreen,
+                          insidecategory: false,
+                          insideanimals: true,
+                          childAspectRatio: 1 / 1.20,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-               
-              ],
-            ),
+              ),
+              // AnimatedContainerWidget(key: containerKey),
+            ],
           ),
-          AnimatedContainerWidget(key: containerKey),
-       ],
-        ),),
+        ),
         bottomNavigationBar: ThreeItemsBottomNavigation(
           insideGame: true,
           onBackPressed: () => Navigator.pop(context),

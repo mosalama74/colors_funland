@@ -1,12 +1,10 @@
 
-import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_strings.dart';
 import 'package:color_funland/core/constants/app_theme.dart';
 import 'package:color_funland/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final GlobalKey<AnimatedContainerState> containerKey = GlobalKey();
 
 
 class ColorFunLandApp extends StatelessWidget {

@@ -1,6 +1,4 @@
-
- const String _iconsPath = "assets/icons";
-
+const String _iconsPath = "assets/icons";
 
 class AppIcons {
   
@@ -17,6 +15,3 @@ class AppIcons {
   static const String help = "$_iconsPath/help.svg";
 
 }
-
-
-

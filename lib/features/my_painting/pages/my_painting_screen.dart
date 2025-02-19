@@ -1,5 +1,3 @@
-import 'package:color_funland/color_funland_app.dart';
-import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
@@ -32,9 +30,6 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
           gameGroup: "Paintings",
           inSideGame: true,
           appBarIcon: AppIcons.paintingsIcon,
-          onTap: () {
-            containerKey.currentState?.toggleContainer();
-          },
         ),
         body: SafeArea(
           child: Stack(
@@ -69,10 +64,10 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                                 PaintingWidget(
                                   items: gridItems,
                                   crossAxisCount: 4,
-                                  pageGroup: myPaintingSamples,
+                                  pageGroup: myPaintingSamplesScreen,
                                   insidecategory: true,
                                   insideanimals: false,
-                                  childAspectRatio: 1 / 1.25,
+                                  childAspectRatio: 1 / 1.15,
                                 ),
                               ],
                             ),
@@ -83,11 +78,11 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                   ],
                 ),
               ),
-              AnimatedContainerWidget(key: containerKey),
+             // AnimatedContainerWidget(key: containerKey),
             ],
           ),
         ),
-         bottomNavigationBar: ThreeItemsBottomNavigation(
+        bottomNavigationBar: ThreeItemsBottomNavigation(
           insideGame: true,
         ),
       ),

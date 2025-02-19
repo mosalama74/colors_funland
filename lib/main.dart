@@ -26,7 +26,6 @@ await Firebase.initializeApp(
               messageService: di.sl<MessageService>(),
               signInUseCase: di.sl<SignInUseCase>(),
               signUpUseCase: di.sl<SignUpUseCase>(),
-
             ),
           ),
         ],
