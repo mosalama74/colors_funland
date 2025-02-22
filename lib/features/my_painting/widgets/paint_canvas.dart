@@ -95,134 +95,167 @@ class _PaintCanvasState extends State<PaintCanvas>
     return AppImages.duckFram;
   }
 
+  bool _isPointWithinBoardFrame(Offset point) {
+    final RenderBox? canvasBox = widget.paintState.canvasKey.currentContext?.findRenderObject() as RenderBox?;
+    if (canvasBox == null) return false;
+
+    final Size canvasSize = canvasBox.size;
+    final Offset canvasPosition = canvasBox.localToGlobal(Offset.zero);
+    
+    // Convert the point to be relative to the canvas position
+    final Offset relativePoint = point - canvasPosition;
+    
+    return relativePoint.dx >= 0 && 
+           relativePoint.dx <= canvasSize.width && 
+           relativePoint.dy >= 0 && 
+           relativePoint.dy <= canvasSize.height;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.r),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            // Paint Layer with Instant Updates
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: RepaintBoundary(
-                key: _paintKey,
-                child: ValueListenableBuilder<List<PaintStroke?>>(
-                  valueListenable: widget.paintState,
-                  builder: (context, strokes, _) {
-                    return CustomPaint(
-                      painter: StrokePainter(
-                        strokes: strokes,
-                        currentColor: widget.paintState.selectedColor,
-                        referenceImage: _coloredReferenceImage,
-                      ),
-                      size: Size.infinite,
-                      isComplex: true,
-                      willChange: true,
-                    );
-                  },
-                ),
-              ),
-            ),
-    
-            // Image Layer
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Center(
-                child: Image.asset(
-                  widget.uncoloredImage,
-                  key: widget.paintState.canvasKey,
-                  fit: BoxFit.contain,
-                  width: 300.w,
-                ),
-              ),
-            ),
-    
-            // Touch Handler with Direct Updates
-            Positioned.fill(
-              child: RawGestureDetector(
-                gestures: <Type, GestureRecognizerFactory>{
-                  PanGestureRecognizer: GestureRecognizerFactoryWithHandlers<PanGestureRecognizer>(
-                    () => PanGestureRecognizer(),
-                    (PanGestureRecognizer instance) {
-                      instance
-                        ..onStart = (details) {
-                          final RenderBox box = context.findRenderObject() as RenderBox;
-                          final localPosition = box.globalToLocal(details.globalPosition);
-                          setState(() => _currentPosition = localPosition);
-                          widget.paintState.startStroke(localPosition);
-                        }
-                        ..onUpdate = (details) {
-                          final RenderBox box = context.findRenderObject() as RenderBox;
-                          final localPosition = box.globalToLocal(details.globalPosition);
-                          setState(() => _currentPosition = localPosition);
-                          widget.paintState.addPoint(localPosition);
-                        }
-                        ..onEnd = (details) {
-                          widget.paintState.endStroke();
-                          compareWithReference().then((isAccurate) {
-                            if (isAccurate) {
-                              debugPrint('Painting matches the reference!');
-                            }
-                          });
-                        };
+    return Stack(
+      children: [
+        //  Image.asset(
+        //   boardFrame,
+        //   width: 230.w,
+        //   key: widget.paintState.canvasKey,
+        //   fit: BoxFit.cover,
+        // ),
+        
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20.r),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Paint Layer with Instant Updates
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: RepaintBoundary(
+                  key: _paintKey,
+                  child: ValueListenableBuilder<List<PaintStroke?>>(
+                    valueListenable: widget.paintState,
+                    builder: (context, strokes, _) {
+                      return CustomPaint(
+                        painter: StrokePainter(
+                          strokes: strokes,
+                          currentColor: widget.paintState.selectedColor,
+                          referenceImage: _coloredReferenceImage,
+                        ),
+                        size: Size.infinite,
+                        isComplex: true,
+                        willChange: true,
+                      );
                     },
                   ),
-                },
-                child: MouseRegion(
-                  onHover: (event) {
-                    final RenderBox box = context.findRenderObject() as RenderBox;
-                    final localPosition = box.globalToLocal(event.position);
-                    setState(() => _currentPosition = localPosition);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
+                ),
+              ),
+             
+      
+              // // Image Layer
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Center(
+                  child: Image.asset(
+                    widget.uncoloredImage,
+                    key: widget.paintState.canvasKey,
+                    fit: BoxFit.contain,
+                    width: 400.w,
                   ),
                 ),
               ),
-            ),
+      
+              // Touch Handler with Direct Updates
+              Positioned.fill(
+                child: RawGestureDetector(
+                  gestures: <Type, GestureRecognizerFactory>{
+                    PanGestureRecognizer: GestureRecognizerFactoryWithHandlers<PanGestureRecognizer>(
+                      () => PanGestureRecognizer(),
+                      (PanGestureRecognizer instance) {
+                        instance
+                          ..onStart = (details) {
+                            final RenderBox box = context.findRenderObject() as RenderBox;
+                            final localPosition = box.globalToLocal(details.globalPosition);
+                            if (_isPointWithinBoardFrame(details.globalPosition)) {
+                              setState(() => _currentPosition = localPosition);
+                              widget.paintState.startStroke(localPosition);
+                            }
+                          }
+                          ..onUpdate = (details) {
+                            final RenderBox box = context.findRenderObject() as RenderBox;
+                            final localPosition = box.globalToLocal(details.globalPosition);
+                            if (_isPointWithinBoardFrame(details.globalPosition)) {
+                              setState(() => _currentPosition = localPosition);
+                              widget.paintState.addPoint(localPosition);
+                            }
+                          }
+                          ..onEnd = (details) {
+                            widget.paintState.endStroke();
+                            compareWithReference().then((isAccurate) {
+                              if (isAccurate) {
+                                debugPrint('Painting matches the reference!');
+                              }
+                            });
+                          };
+                      },
+                    ),
+                  },
+                  child: MouseRegion(
+                    onHover: (event) {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final localPosition = box.globalToLocal(event.position);
+                      if (_isPointWithinBoardFrame(event.position)) {
+                        setState(() => _currentPosition = localPosition);
+                      } else {
+                        setState(() => _currentPosition = null);
+                      }
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+              ),
 
-            // Brush Cursor Layer
-            if (_currentPosition != null)
-              Positioned(
-                left: _currentPosition!.dx - 15.w,
-                top: _currentPosition!.dy - 15.w,
-                child: RepaintBoundary(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.topLeft,
-                    children: [
-                      SvgPicture.asset(
-                        AppImages.brushHandle,
-                        width: 15.92.w,
-                        height: 255.57.h,
-                        fit: BoxFit.contain,
-                      ),
-                      Positioned(
-                        top: -20.h,
-                        left: -20.w,
-                        child: ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            widget.paintState.selectedColor,
-                            BlendMode.srcIn,
-                          ),
-                          child: SvgPicture.asset(
-                            AppImages.brushHair,
-                            width: 38.96.w,
-                            height: 58.48.h,
-                            fit: BoxFit.contain,
+              // Brush Cursor Layer
+              if (_currentPosition != null)
+                Positioned(
+                  left: _currentPosition!.dx - 15.w,
+                  top: _currentPosition!.dy - 15.w,
+                  child: RepaintBoundary(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.topLeft,
+                      children: [
+                        SvgPicture.asset(
+                          AppImages.brushHandle,
+                          width: 15.92.w,
+                          height: 255.57.h,
+                          fit: BoxFit.contain,
+                        ),
+                        Positioned(
+                          top: -20.h,
+                          left: -20.w,
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              widget.paintState.selectedColor,
+                              BlendMode.srcIn,
+                            ),
+                            child: SvgPicture.asset(
+                              AppImages.brushHair,
+                              width: 38.96.w,
+                              height: 58.48.h,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

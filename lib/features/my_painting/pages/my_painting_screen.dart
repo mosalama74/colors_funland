@@ -3,7 +3,7 @@ import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/three_items_bottom_navigation.dart';
 import 'package:color_funland/features/my_painting/model.dart';
-import 'package:color_funland/features/my_painting/widgets/painting_widgets.dart';
+import 'package:color_funland/features/my_painting/widgets/my_painting_screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,7 +61,7 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                                     width: 822.w,
                                   ),
                                 ),
-                                PaintingWidget(
+                                paintingScreenWidget(
                                   items: gridItems,
                                   crossAxisCount: 4,
                                   pageGroup: myPaintingSamplesScreen,

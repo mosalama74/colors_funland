@@ -68,6 +68,8 @@ flutter:
     - assets/images/auth_images/
     - assets/images/game_board/
     - assets/images/mypainting_images/
+    - assets/images/mypainting_images/fishes/
+    - assets/images/mypainting_images/flowers/
     - assets/icons/
     - assets/fonts/
   # An image asset can refer to one or more resolution-specific "variants", see

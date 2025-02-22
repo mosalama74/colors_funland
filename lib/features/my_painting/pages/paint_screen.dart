@@ -18,7 +18,7 @@ class PaintScreen extends StatefulWidget {
     super.key,
     required this.uncoloredImage,
     required this.coloredImage,
-    required this.categoryName ,
+    required this.categoryName,
   });
 
   @override
@@ -56,8 +56,9 @@ class _PaintScreenState extends State<PaintScreen> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            right: MediaQuery.of(context).size.width * 0.27,
-                            left: 10.w),
+                          right: MediaQuery.of(context).size.width * 0.30,
+                          left: 10.w,
+                        ),
                         child: InkWell(
                           onTap: () {
                             _toggleShowReferenceImage();
@@ -79,50 +80,42 @@ class _PaintScreenState extends State<PaintScreen> {
                   ),
                   Expanded(
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding:  EdgeInsets.only(right: 290.w),
-                            child: _showReferenceImage
-                                ? SvgPicture.asset(
-                                    widget.coloredImage,
-                                    height: 230.53.h,
-                                  )
-                                : Container(
-                                    height: 230.53.h,
-                                  ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: 188.w,
+                              child: _showReferenceImage
+                                  ? Image.asset(
+                                      widget.coloredImage,
+                                      height: 230.53.h,
+                                    )
+                                  : Container(
+                                      height: 230.53.h,
+                                    ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 400.w,
+                          child: PaintCanvas(
+                            paintState: _paintState,
+                            uncoloredImage: widget.uncoloredImage,
+                            brushImage: AppImages.brush,
+                            coloredImage: widget.coloredImage,
                           ),
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: PaintCanvas(
-                                  paintState: _paintState,
-                                  uncoloredImage: widget.uncoloredImage,
-                                  brushImage: AppImages.brush,
-                                  coloredImage: AppImages.coloredduck,
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                child: ColorTools(
-                                  selectedColor: _paintState.selectedColor,
-                                  onColorSelected: (color) => setState(() {
-                                    _paintState.setColor(color);
-                                  }),
-                                  strokeWidth: _paintState.strokeWidth,
-                                  onStrokeWidthChanged: (width) => setState(() {
-                                    _paintState.setStrokeWidth(width);
-                                  }),
-                                ),
-                              ),
-                            ],
-                          ),
+                        ColorTools(
+                          selectedColor: _paintState.selectedColor,
+                          onColorSelected: (color) => setState(() {
+                            _paintState.setColor(color);
+                          }),
+                          strokeWidth: _paintState.strokeWidth,
+                          onStrokeWidthChanged: (width) => setState(() {
+                            _paintState.setStrokeWidth(width);
+                          }),
                         ),
                       ],
                     ),

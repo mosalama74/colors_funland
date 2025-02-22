@@ -9,7 +9,7 @@ class PaintState extends ValueNotifier<List<PaintStroke?>> {
   static const double kMaxStrokeWidth = 50.0;
 
   // Paint properties
-  Color _selectedColor = Colors.red; // Changed initial color for better visibility
+  Color _selectedColor = Colors.yellow; // Changed initial color for better visibility
   double _strokeWidth = kDefaultStrokeWidth;
   bool _isDrawing = false;
   PaintStroke? _currentStroke;

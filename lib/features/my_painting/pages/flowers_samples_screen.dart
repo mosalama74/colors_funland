@@ -1,0 +1,22 @@
+
+
+import 'package:color_funland/features/my_painting/model.dart';
+import 'package:color_funland/features/my_painting/widgets/shared_samples_screen.dart';
+import 'package:flutter/material.dart';
+
+
+class FlowersSamplesScreen extends StatefulWidget {
+  const FlowersSamplesScreen({super.key});
+
+  @override
+  State<FlowersSamplesScreen> createState() => _FlowersSamplesScreenState();
+}
+
+class _FlowersSamplesScreenState extends State<FlowersSamplesScreen> {
+
+ @override
+  Widget build(BuildContext context) {
+        return SharedSamplesScreen( frames: flowersFram,paintingImages:flowersPaintingScreen ,title: 'Flowers',);
+
+  }
+}

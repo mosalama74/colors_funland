@@ -22,27 +22,10 @@ class GridItem {
   });
 }
 
-final List<String> animalsPaintingScreen = [
-  '/duckColor',
-  '/elephantColor',
-  '/catColor',
-  '/giraffeColor',
-  '/lionColor',
-
-];
-
 final List<String> myPaintingSamplesScreen = [
- '/animalsSamplesScreen',
-  '/mypaintingScreen',
-  "/bearColor",
-  "/giraffeColor",
-  "/elephantColor",
-  "/lionColor",
-  "/tigerColor",
-  "/turtleColor",
-  "/beeColor",
-  "/lion2Color",
-  "/kangarooColor",
+  '/animalsSamplesScreen',
+  '/fishesSamplesScreen',
+  '/flowersSamplesScreen',
 ];
 
 final List<GridItem> gridItems = [
@@ -88,45 +71,131 @@ final List<GridItem> gridItems = [
   ),
 ];
 
+///*************   Animals Section  ************** */
+
+final List<String> animalsPaintingScreen = [
+  '/duckColor',
+  '/elephantColor',
+  '/catColor',
+  '/giraffeColor',
+  '/lionColor',
+];
+
 final List<GridItem> animalsFram = [
   GridItem(
     imageUrl: AppImages.duckFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.elephantFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.catFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.girafeFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.lionFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.tigerFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.turtleFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.beeFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.lionBabyFram,
-    imgWidth: 190.17.w,
   ),
   GridItem(
     imageUrl: AppImages.kangarooFram,
-    imgWidth: 190.17.w,
+  ),
+];
+
+///*************   Fishes Section  ************** */
+
+final List<String> fishesPaintingScreen = [
+  '/dolphinColor',
+  '/octupusColor',
+  '/fishColor',
+  '/pufferfishColor',
+  '/seahorseColor',
+];
+
+final List<GridItem> fishesFram = [
+  GridItem(
+    imageUrl: AppImages.dolphinFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.octopusFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.fishFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.pufferfishFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.seahorseFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.fishFram2,
+  ),
+  GridItem(
+    imageUrl: AppImages.sharkFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.fishFram3,
+  ),
+  GridItem(
+    imageUrl: AppImages.crabFram,
+  ),
+  GridItem(
+    imageUrl: AppImages.smilefishFram,
+  ),
+];
+
+///*************   Flowers Section  ************** */
+
+final List<String> flowersPaintingScreen = [
+  '/flowerColor1',
+  '/flowerColor2',
+  '/flowerColor3',
+  '/flowerColor4',
+  '/flowerColor5',
+];
+
+final List<GridItem> flowersFram = [
+  GridItem(
+    imageUrl: AppImages.flowerFram1,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram2,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram3,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram4,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram5,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram6,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram7,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram8,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram9,
+  ),
+  GridItem(
+    imageUrl: AppImages.flowerFram10,
   ),
 ];

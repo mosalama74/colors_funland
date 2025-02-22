@@ -4,8 +4,9 @@ import 'package:color_funland/features/my_painting/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PaintingWidget extends StatelessWidget {
+class paintingScreenWidget extends StatelessWidget {
   final List<GridItem> items;
+
   final int crossAxisCount;
   final List<String> pageGroup;
   final bool insidecategory;
@@ -15,7 +16,7 @@ class PaintingWidget extends StatelessWidget {
   final double mainAxisSpacing;
   final double crossAxisSpacing;
 
-  const PaintingWidget({
+  const paintingScreenWidget({
     super.key,
     required this.items,
     required this.crossAxisCount,
@@ -25,7 +26,7 @@ class PaintingWidget extends StatelessWidget {
     this.gridHeight,
     this.childAspectRatio = 1.0,
     this.crossAxisSpacing = 0.0,
-    this.mainAxisSpacing = 0.0,
+    this.mainAxisSpacing = 0.0, 
   });
 
   @override
@@ -35,7 +36,7 @@ class PaintingWidget extends StatelessWidget {
         children: [
           insideanimals == true
               ? Text(
-                  'Animals',
+                 '',
                   textAlign: TextAlign.center,
                   style: ts64Magic400,
                 )
@@ -86,7 +87,7 @@ class PaintingWidget extends StatelessWidget {
                 height: item.imgHeight,
                 fit: BoxFit.cover,
               ),
-              index > 3 ? Image.asset(AppImages.locked,width: 66.w,height: 66.h,) : Container(),
+              index > 1 ? Image.asset(AppImages.locked,width: 66.w,height: 66.h,) : Container(),
             ],
           ),
           SizedBox(
