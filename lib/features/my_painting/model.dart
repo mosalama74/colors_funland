@@ -199,3 +199,42 @@ final List<GridItem> flowersFram = [
     imageUrl: AppImages.flowerFram10,
   ),
 ];
+
+
+///****************** Color Mixing Screen **************/
+final List<GridItem> colorMixingItem = [
+  GridItem(
+    imageUrl: AppImages.number1,
+    imgHeight:223.56.h,
+    imgWidth: 264.w
+  ),
+  GridItem(
+    imageUrl: AppImages.number2,
+      imgHeight:223.56.h,
+      imgWidth: 264.w
+  ),
+  GridItem(
+    imageUrl: AppImages.number3,
+      imgHeight:223.56.h,
+      imgWidth: 264.w
+  ),
+  GridItem(
+    imageUrl: AppImages.number4,
+      imgHeight:223.56.h,
+      imgWidth: 264.w
+  ),
+  GridItem(
+    imageUrl: AppImages.number5,
+      imgHeight:223.56.h,
+      imgWidth: 264.w
+  ),
+  GridItem(
+    imageUrl: AppImages.number6,
+      imgHeight:223.56.h,
+      imgWidth: 264.w
+  ),
+];
+
+final List<String> colorMixingSamples = [
+  '/colorMixingSampls',
+];

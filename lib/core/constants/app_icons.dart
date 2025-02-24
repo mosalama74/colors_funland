@@ -13,5 +13,8 @@ class AppIcons {
   static const String paintingsIcon = "$_iconsPath/paintingsIcon.svg";
   static const String soundButton = "$_iconsPath/soundButton.svg";
   static const String help = "$_iconsPath/help.svg";
+  static const String colorMixingIcon = "$_iconsPath/colormixingicon.svg";
+  static const String colorMatchIcon = "$_iconsPath/colormatchicon.svg";
+  static const String practiceBtn = "$_iconsPath/practice.svg";
 
 }

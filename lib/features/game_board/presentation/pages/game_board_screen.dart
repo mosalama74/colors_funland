@@ -1,7 +1,7 @@
 import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/two_items_bottom_navigation.dart';
+import 'package:color_funland/core/components/two_items_bottom_navigation.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/games_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +47,7 @@ class GameBoardScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 31.84.h),
+                        padding: EdgeInsets.fromLTRB(51.5.w,31.84.h,57.5.w,31.84.w),
                         child: const Games(),
                       ),
                       TwoItemsBottomNavigation(

@@ -2,7 +2,7 @@ import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/three_items_bottom_navigation.dart';
+import 'package:color_funland/core/components/three_items_bottom_navigation.dart';
 import 'package:color_funland/features/my_painting/widgets/color_tools.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_canvas.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_state.dart';

@@ -67,6 +67,8 @@ flutter:
   assets:
     - assets/images/auth_images/
     - assets/images/game_board/
+    - assets/images/color_match_images/
+    - assets/images/color_mixing_images/
     - assets/images/mypainting_images/
     - assets/images/mypainting_images/fishes/
     - assets/images/mypainting_images/flowers/

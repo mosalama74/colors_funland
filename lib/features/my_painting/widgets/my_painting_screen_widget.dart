@@ -26,7 +26,7 @@ class paintingScreenWidget extends StatelessWidget {
     this.gridHeight,
     this.childAspectRatio = 1.0,
     this.crossAxisSpacing = 0.0,
-    this.mainAxisSpacing = 0.0, 
+    this.mainAxisSpacing = 0.0,
   });
 
   @override
@@ -36,7 +36,7 @@ class paintingScreenWidget extends StatelessWidget {
         children: [
           insideanimals == true
               ? Text(
-                 '',
+                  '',
                   textAlign: TextAlign.center,
                   style: ts64Magic400,
                 )
@@ -45,12 +45,12 @@ class paintingScreenWidget extends StatelessWidget {
             height: gridHeight ?? 499.h,
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  childAspectRatio: childAspectRatio,
-                  mainAxisSpacing: 0.w,
-                  crossAxisSpacing: 10.h,
-                  ),
-                  physics: BouncingScrollPhysics(),
+                crossAxisCount: crossAxisCount,
+                childAspectRatio: childAspectRatio,
+                mainAxisSpacing: 0.w,
+                crossAxisSpacing: 10.h,
+              ),
+              physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) => _buildPaintingItem(
                 index: index,
                 item: GridItem(
@@ -74,6 +74,8 @@ class paintingScreenWidget extends StatelessWidget {
     required int index,
   }) {
     return InkWell(
+      highlightColor: Colors.transparent, 
+      splashColor: Colors.transparent,
       onTap: item.onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -87,7 +89,13 @@ class paintingScreenWidget extends StatelessWidget {
                 height: item.imgHeight,
                 fit: BoxFit.cover,
               ),
-              index > 1 ? Image.asset(AppImages.locked,width: 66.w,height: 66.h,) : Container(),
+              index > 1
+                  ? Image.asset(
+                      AppImages.locked,
+                      width: 66.w,
+                      height: 66.h,
+                    )
+                  : Container(),
             ],
           ),
           SizedBox(

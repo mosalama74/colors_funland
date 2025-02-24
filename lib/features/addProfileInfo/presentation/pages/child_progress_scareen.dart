@@ -1,5 +1,5 @@
 import 'package:color_funland/core/components/app_bar_row.dart';
-import 'package:color_funland/features/game_board/presentation/widgets/two_items_bottom_navigation.dart';
+import 'package:color_funland/core/components/two_items_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 
 class ChildProgressScreen extends StatelessWidget {

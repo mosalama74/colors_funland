@@ -10,19 +10,18 @@ class Games extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 440.h,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.transparent,
         image: DecorationImage(
           image: AssetImage(AppImages.cardBoard),
         ),
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 49.w, vertical: 74.5.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
-          children: _buildGameItems(context),
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.min,
+        children: _buildGameItems(context),
       ),
     );
   }
@@ -40,7 +39,10 @@ class Games extends StatelessWidget {
       _buildGameItem(
         image: AppImages.colorMixing,
         title: AppStrings.colorMixing,
-        onTap: () {},
+        onTap: () => Navigator.pushNamed(
+          context,
+          '/colorMixingScreen',
+        ),
       ),
       _buildGameItem(
         image: AppImages.matchColors,
@@ -61,6 +63,8 @@ class Games extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +72,6 @@ class Games extends StatelessWidget {
         children: [
           Image.asset(
             image,
-            height: 284.h,
             width: 233.w,
           ),
           Text(

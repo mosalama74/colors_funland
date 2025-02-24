@@ -27,7 +27,8 @@ class SampleScreenWidget extends StatelessWidget {
     this.gridHeight,
     this.childAspectRatio = 1.0,
     this.crossAxisSpacing = 0.0,
-    this.mainAxisSpacing = 0.0, required this.title,
+    this.mainAxisSpacing = 0.0,
+    required this.title,
   });
 
   @override
@@ -37,7 +38,7 @@ class SampleScreenWidget extends StatelessWidget {
         children: [
           insideanimals == true
               ? Text(
-                 title,
+                  title,
                   textAlign: TextAlign.center,
                   style: ts64Magic400,
                 )
@@ -46,11 +47,10 @@ class SampleScreenWidget extends StatelessWidget {
             height: gridHeight ?? 499.h,
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  childAspectRatio: childAspectRatio,
-                
-                  ),
-                  physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: crossAxisCount,
+                childAspectRatio: childAspectRatio,
+              ),
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => _buildPaintingItem(
                 index: index,
                 item: GridItem(
@@ -74,6 +74,8 @@ class SampleScreenWidget extends StatelessWidget {
     required int index,
   }) {
     return InkWell(
+      highlightColor: Colors.transparent, // Disable highlight effect
+      splashColor: Colors.transparent, // Disable splash effect
       onTap: item.onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -87,10 +89,15 @@ class SampleScreenWidget extends StatelessWidget {
                 height: 211.62.h,
                 fit: BoxFit.contain,
               ),
-              index > 3 ? Image.asset(AppImages.locked,width: 66.w,height: 66.h,) : Container(),
+              index > 3
+                  ? Image.asset(
+                      AppImages.locked,
+                      width: 66.w,
+                      height: 66.h,
+                    )
+                  : Container(),
             ],
           ),
-        
         ],
       ),
     );

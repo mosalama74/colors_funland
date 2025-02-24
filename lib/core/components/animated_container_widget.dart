@@ -75,7 +75,7 @@ Widget menuList(BuildContext context) => Container(
       width: 400.h,
       padding: EdgeInsets.fromLTRB(24.w, 36.h, 16.w, 36.h),
       decoration: BoxDecoration(
-        color: AppColors.cWhiteColor.withOpacity(0.5),
+        color: AppColors.cWhiteColor.withOpacity(0.99),
         borderRadius: BorderRadius.all(Radius.circular(
           64.r,
         )),

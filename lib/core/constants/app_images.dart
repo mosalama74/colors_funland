@@ -7,6 +7,8 @@ const String _gameBoardImagesPath = "assets/images/game_board";
 const String _myPaintingImagesPath = "assets/images/mypainting_images";
 const String _fishesPath = "assets/images/mypainting_images/fishes";
 const String _flowersPath = "assets/images/mypainting_images/flowers";
+ const String _myColorMixingImagePath = "assets/images/color_mixing_images";
+ const String _myColorMatchImagePath = "assets/images/color_match_images";
 
 class AppImages {
 /* Landing Page */
@@ -61,6 +63,7 @@ class AppImages {
   static const String brush = "$_myPaintingImagesPath/brush.svg";
   static const String brushHair = "$_myPaintingImagesPath/brush_hair.svg";
   static const String brushHandle = "$_myPaintingImagesPath/brush_handle.svg";
+  static const String nextbutton = "$_myPaintingImagesPath/nextbutton.png";
 
   ///***************  animals frames  **************** */
 
@@ -175,6 +178,34 @@ static const String flowerUncolored1 =
   static const String flowerUncolored5 =
       "$_flowersPath/flowerUncolored5.png";
   static const String flowerColored5 = "$_flowersPath/flowerColored5.png";
+
+
+    ///********************* Color Mixing *********************/
+  static const String colorMixingGirl = "$_myColorMixingImagePath/colormixinggirl.svg";
+  static const String colorMixingGirl2 = "$_myColorMixingImagePath/colormixinggirl.png";
+  static const String number1 = "$_myColorMixingImagePath/number1.png";
+  static const String number2 = "$_myColorMixingImagePath/number2.png";
+  static const String number3 = "$_myColorMixingImagePath/number3.png";
+  static const String number4 = "$_myColorMixingImagePath/number4.png";
+  static const String number5 = "$_myColorMixingImagePath/number5.png";
+  static const String number6 = "$_myColorMixingImagePath/number6.png";
+
+  ///********************* Color Mixing samples *********************/
+  static const String colorPurple = "$_myColorMixingImagePath/colorpurple.svg";
+  static const String colorRed = "$_myColorMixingImagePath/colorred.svg";
+  static const String colorGreen = "$_myColorMixingImagePath/colorgreen.svg";
+  static const String blueColorLevelForMix = "$_myColorMixingImagePath/bluecolorlevelformix.svg";
+  static const String redColorLevelForMix = "$_myColorMixingImagePath/redcolorformix.svg";
+  static const String yellowColorLevelForMix = "$_myColorMixingImagePath/yellowcolorformix.svg";
+  static const String mixedColor = "$_myColorMixingImagePath/mixedcolor1.png";
+  static const String mixedColored = "$_myColorMixingImagePath/mixedcolored.png";
+  static const String plus = "$_myColorMixingImagePath/plus.svg";
+  static const String equal = "$_myColorMixingImagePath/equal.svg";
+  static const String questionMark = "$_myColorMixingImagePath/questionmark.svg";
+  static const String colorLevelGreen = "$_myColorMixingImagePath/colorlevelgreen.svg";
+  static const String colorLevelPurple = "$_myColorMixingImagePath/colorlevelpurple.svg";
+  static const String colorLevelYellow = "$_myColorMixingImagePath/colorlevelyellow.svg";
+  static const String dvider = "$_myColorMixingImagePath/dvider.svg";
 
 
 }
