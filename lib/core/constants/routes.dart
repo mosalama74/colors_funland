@@ -8,10 +8,10 @@ import 'package:color_funland/features/auth/presentation/pages/email_verificatio
 import 'package:color_funland/features/auth/presentation/pages/landing_page.dart';
 import 'package:color_funland/features/auth/presentation/pages/login_page.dart';
 import 'package:color_funland/features/auth/presentation/pages/signup_screen.dart';
-import 'package:color_funland/features/color_mixing/pages/color_mixing.dart';
-import 'package:color_funland/features/color_mixing/pages/color_mixing_levels.dart';
-import 'package:color_funland/features/color_mixing/pages/color_mixing_next_activity.dart';
-import 'package:color_funland/features/color_mixing/pages/color_mixing_sample.dart';
+// import 'package:color_funland/features/color_mixing/pages/color_mixing.dart';
+// import 'package:color_funland/features/color_mixing/pages/color_mixing_levels.dart';
+// import 'package:color_funland/features/color_mixing/pages/color_mixing_next_activity.dart';
+// import 'package:color_funland/features/color_mixing/pages/color_mixing_sample.dart';
 import 'package:color_funland/features/game_board/presentation/pages/game_board_screen.dart';
 import 'package:color_funland/features/my_painting/pages/animals_samples_screen.dart';
 import 'package:color_funland/features/my_painting/pages/fishes_samples_screen.dart';
@@ -35,10 +35,10 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/animalsSamplesScreen': (context) => const AnimalsSamplesScreen(),
   '/fishesSamplesScreen': (context) => const FishesSamplesScreen(),
   '/flowersSamplesScreen': (context) => const FlowersSamplesScreen(),
-  '/colorMixingScreen' : (context) => const ColorMixingScreen(),
-   '/colorMixingSampls' : (context) => const ColorMixingSampls(),
-   '/colorMixingLevels' : (context) => const ColorMixingLevels2(),
-   '/colorMixingNextActivity' : (context) => const ColorMixingNextActivity(),
+  // '/colorMixingScreen' : (context) => const ColorMixingScreen(),
+  //  '/colorMixingSampls' : (context) => const ColorMixingSampls(),
+  //  '/colorMixingLevels' : (context) => const ColorMixingLevels2(),
+  //  '/colorMixingNextActivity' : (context) => const ColorMixingNextActivity(),
 
   ///*********************  Animals   ********************** */
   

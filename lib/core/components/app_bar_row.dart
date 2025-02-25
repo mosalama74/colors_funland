@@ -3,8 +3,9 @@ import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
-import 'package:color_funland/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:color_funland/features/auth/presentation/cubit/auth_state.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_cubit.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_state.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,24 +37,30 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
       flexibleSpace: SafeArea(
         child: Padding(
           padding: EdgeInsets.fromLTRB(46.w, 0, 52.w, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              appBarlogoImage,
-              BlocConsumer<AuthCubit, AuthState>(
-                listener: (context, state) {
-                  // Handle state changes if needed
-                },
-                builder: (context, state) {
-                  String username = '';
-                  if (state is AuthSuccess) {
-                    username = state.user.firstName;
-                    // Or combine firstName + lastName
-                  }
-                  return Row(
+          child: BlocConsumer<ProfileInfoCubit, ProfileInfoState>(
+            listener: (context, state) {
+              // Fetch child data when profile is saved successfully
+              if (state is SaveChildInfoSuccessState) {
+                context.read<ProfileInfoCubit>().getCurrentChild();
+              }
+            },
+            builder: (context, state) {
+              String childname = '';
+              String? imageUrl;
+
+              if (state is GetChildSuccessState) {
+                childname = state.child['name'] ?? '';
+                imageUrl = state.child['imageUrl'];
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  appBarlogoImage,
+                  Row(
                     children: [
                       Text(
-                        username, // Display the username
+                        childname,
                         style: bubleStyle,
                         textAlign: TextAlign.center,
                       ),
@@ -72,54 +79,57 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
                           child: SvgPicture.asset(appBarIcon),
                         ),
                     ],
-                  );
-                },
-              ),
-              Row(
-                children: [
-                  Stack(children: [
-                    SvgPicture.asset(
-                      AppImages.yellowshadow,
-                      width: 126.w,
-                      height: 133.h,
-                      fit: BoxFit.contain,
-                    ),
-                    Positioned(
-                        bottom: 15.25.h,
-                        top: 30.75.h,
-                        left: 27.w,
-                        right: 21.33.w,
-                        child: Container(
-                          width: 68.w,
-                          height: 68.h,
-                          decoration: _buildContainerDecoration2(),
-                          child: ClipOval(
-                            child: CircleAvatar(
-                              radius:
-                                  36.0.r, // Radius of the inner CircleAvatar
-                              backgroundImage: AssetImage(
-                                AppImages.childPhoto,
+                  ),
+                  Row(
+                    children: [
+                      Stack(children: [
+                        SvgPicture.asset(
+                          AppImages.yellowshadow,
+                          width: 126.w,
+                          height: 133.h,
+                          fit: BoxFit.contain,
+                        ),
+                        Positioned(
+                          bottom: 15.25.h,
+                          top: 30.75.h,
+                          left: 27.w,
+                          right: 21.33.w,
+                          child: Container(
+                            width: 68.w,
+                            height: 68.h,
+                            decoration: _buildContainerDecoration2(),
+                            child: ClipOval(
+                              child: CircleAvatar(
+                                radius: 36.0.r,
+                                backgroundColor: AppColors.cGreyColor,
+                                backgroundImage: imageUrl != null && imageUrl.isNotEmpty
+                                    ? NetworkImage(imageUrl)
+                                    : null,
+                                child: (imageUrl == null || imageUrl.isEmpty)
+                                    ? Icon(Icons.person, color: AppColors.cWhiteColor, size: 24.r)
+                                    : null,
                               ),
                             ),
                           ),
-                        )),
-                  ]),
-                  InkWell(
-                    highlightColor:
-                       Colors.transparent, // Disable highlight effect
-                    splashColor: Colors.transparent, // Disable splash effect
-                    onTap: () {
-                      containerKey.currentState?.toggleContainer();
-                    },
-                    child: SvgPicture.asset(
-                      AppIcons.menu,
-                      width: 49.w,
-                      height: 49.h,
-                    ),
+                        ),
+                      ]),
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          containerKey.currentState?.toggleContainer();
+                        },
+                        child: SvgPicture.asset(
+                          AppIcons.menu,
+                          width: 49.w,
+                          height: 49.h,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

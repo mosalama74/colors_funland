@@ -152,15 +152,26 @@ class AuthCubit extends Cubit<AuthState> {
             // Send verification email immediately after signup
             await sendEmailVerification();
 
-            final user = entities.User(
-              uid: firebaseUser.uid,
-              email: firebaseUser.email ?? '',
-              firstName: firstName,
-              lastName: lastName,
-              username: username,
-              createdAt: DateTime.now(),
-            );
-            emit(AuthSuccess(user: user, isEmailVerified: false));
+            // Get user data from Firestore to ensure it was saved
+            final userData = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(firebaseUser.uid)
+                .get();
+
+            if (userData.exists) {
+              final user = entities.User(
+                uid: firebaseUser.uid,
+                email: firebaseUser.email ?? '',
+                firstName: userData['firstName'] ?? '',
+                lastName: userData['lastName'] ?? '',
+                username: userData['username'] ?? '',
+                createdAt: (userData['createdAt'] as Timestamp?)?.toDate() ??
+                    DateTime.now(),
+              );
+              emit(AuthSuccess(user: user, isEmailVerified: false));
+            } else {
+              emit(const AuthError(message: 'Failed to save user data'));
+            }
           } else {
             emit(const AuthError(
                 message: 'Failed to retrieve user information'));

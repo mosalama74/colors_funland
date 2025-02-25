@@ -14,66 +14,21 @@ import 'dart:io';
 class AddPhotoWidget extends StatelessWidget {
   const AddPhotoWidget({super.key});
 
-  // Future<void> _showImageSourceDialog(BuildContext context) async {
-  //   final bool isLoading = context.read<ProfileInfoCubit>().state.status ==
-  //       ProfileInfoStatus.loading;
-  //   if (isLoading) return;
-
-  //   final cubit = context.read<ProfileInfoCubit>();
-
-  //   showDialog(
-  //     context: context,
-  //     builder: (dialogContext) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(15.r),
-  //         ),
-  //         title: Text(
-  //           'Choose Image Source',
-  //           style: ts18Purble700,
-  //         ),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             ListTile(
-  //               leading: const Icon(Icons.photo_library),
-  //               title: const Text('Gallery'),
-  //               onTap: () {
-  //                 Navigator.pop(dialogContext);
-  //                 cubit.pickImageFromGallery();
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: const Icon(Icons.camera_alt),
-  //               title: const Text('Camera'),
-  //               onTap: () {
-  //                 Navigator.pop(dialogContext);
-  //                 cubit.pickImageFromCamera();
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProfileInfoCubit, ProfileInfoState>(
-      listenWhen: (previous, current) =>
-          previous.status != current.status &&
-          current.status == ProfileInfoStatus.failure,
+     return BlocConsumer<ProfileInfoCubit, ProfileInfoState>(
       listener: (context, state) {
-        if (state.status == ProfileInfoStatus.failure) {
+        if (state is PickedImageErrorState || state is UploadImageErrorState) {
           ToastMessageService().showMessage(
-            state.errorMessage ?? 'An error occurred',
+            'An error occurred while processing the image',
             MessageType.error,
           );
         }
       },
       builder: (context, state) {
-        final bool isLoading = state.status == ProfileInfoStatus.loading;
+        final bool isLoading = state is ProfileInfoLoadingState;
+        final String? imagePath = state is PickedImageSuccessState ? state.localImagePath : null;
+        final String? imageUrl = state is UploadImageSuccessState ? state.imageUrl : null;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -89,19 +44,13 @@ class AddPhotoWidget extends StatelessWidget {
                     UploadCameraField(
                       icon: AppIcons.upload,
                       text: "Upload",
-                      onTap:  isLoading
+                      onTap: isLoading
                           ? null
                           : () => context
                               .read<ProfileInfoCubit>()
                               .pickImageFromGallery(),
-                      // onTap: (state.localImagePath != null &&
-                      //         state.imageUrl == null)
-                      //     ? () => context
-                      //         .read<ProfileInfoCubit>()
-                      //         .uploadSelectedImage()
-                      //     : null,
                     ),
-                    SizedBox(width: 10.w),
+                    SizedBox(width: 12.w),
                     UploadCameraField(
                       icon: AppIcons.camera,
                       text: "Camera",
@@ -120,23 +69,30 @@ class AddPhotoWidget extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 Container(
-                  height: 180.h,
-                  width: 180.w,
+                  width: 170.w,
+                  height: 170.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: _getImageProvider(state),
-                      fit: BoxFit.cover,
-                    ),
+                    image: (imagePath != null || imageUrl != null)
+                        ? DecorationImage(
+                            image: imagePath != null
+                                ? FileImage(File(imagePath)) as ImageProvider
+                                : NetworkImage(imageUrl!),
+                            fit: BoxFit.cover,
+                          )
+                        : const DecorationImage(
+                            image: AssetImage(AppImages.defaultUploadImage),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 if (isLoading)
                   Container(
-                    height: 180.h,
-                    width: 180.w,
+                    width: 170.w,
+                    height: 170.h,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
                       color: Colors.black.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(15.r),
                     ),
                     child: const Center(
                       child: CircularProgressIndicator(
@@ -150,15 +106,5 @@ class AddPhotoWidget extends StatelessWidget {
         );
       },
     );
-  }
-
-  ImageProvider _getImageProvider(ProfileInfoState state) {
-    if (state.localImagePath != null) {
-      return FileImage(File(state.localImagePath!));
-    }
-    if (state.imageUrl != null) {
-      return NetworkImage(state.imageUrl!);
-    }
-    return const AssetImage(AppImages.defaultUploadImage);
   }
 }
