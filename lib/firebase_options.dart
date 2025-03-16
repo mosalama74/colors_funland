@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAeMvN5gQV7uQ5rsZfexTjkPxEMVrDadYQ',
-    appId: '1:112414834945:web:221d2f036c2f298173db00',
-    messagingSenderId: '112414834945',
-    projectId: 'colorsfunland',
-    authDomain: 'colorsfunland.firebaseapp.com',
-    storageBucket: 'colorsfunland.firebasestorage.app',
-    measurementId: 'G-1HFRL7V9BZ',
+    apiKey: 'AIzaSyAu7VVnzhWnpLUgjhevF3eKqVZRFUH6ea8',
+    appId: '1:446110723678:web:c7ba6b4b0ad7128cbd4ecf',
+    messagingSenderId: '446110723678',
+    projectId: 'funcolor-f8bde',
+    authDomain: 'funcolor-f8bde.firebaseapp.com',
+    storageBucket: 'funcolor-f8bde.firebasestorage.app',
+    measurementId: 'G-ZYEPE6NR9M',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAEIOWE9djjKS4mA9SQ0tqyLlIw3W0vhok',
-    appId: '1:112414834945:android:d8f36f243c288e4873db00',
-    messagingSenderId: '112414834945',
-    projectId: 'colorsfunland',
-    storageBucket: 'colorsfunland.firebasestorage.app',
+    apiKey: 'AIzaSyDeMnlUr0c1x4OCvjhEwa4975pkYy-j8MU',
+    appId: '1:446110723678:android:2e90ada40432216ebd4ecf',
+    messagingSenderId: '446110723678',
+    projectId: 'funcolor-f8bde',
+    storageBucket: 'funcolor-f8bde.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA3rQLyn7V7EWZ7GriIjnfMkb9QkTjzD2A',
-    appId: '1:112414834945:ios:4f428aaa1aea75b373db00',
-    messagingSenderId: '112414834945',
-    projectId: 'colorsfunland',
-    storageBucket: 'colorsfunland.firebasestorage.app',
+    apiKey: 'AIzaSyB9wNatuKaNPwlGH2Fdh53J1s2Pg0ZN7Qo',
+    appId: '1:446110723678:ios:3b5a3fbc2ad902f7bd4ecf',
+    messagingSenderId: '446110723678',
+    projectId: 'funcolor-f8bde',
+    storageBucket: 'funcolor-f8bde.firebasestorage.app',
     iosBundleId: 'com.example.colorsFunland',
   );
 }

@@ -7,6 +7,8 @@ class User extends Equatable {
   final String email;
   final String username;
   final DateTime? createdAt;
+  final String? childName;
+  final String? childImageUrl;
 
   const User({
     required this.uid,
@@ -15,10 +17,19 @@ class User extends Equatable {
     required this.email,
     required this.username,
     this.createdAt,
+    this.childName,
+    this.childImageUrl,
   });
 
   @override
-  List<Object?> get props => [uid, firstName, lastName, email, username, createdAt];
-
-
+  List<Object?> get props => [
+        uid,
+        firstName,
+        lastName,
+        email,
+        username,
+        createdAt,
+        childName,
+        childImageUrl,
+      ];
 }

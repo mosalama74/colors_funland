@@ -4,7 +4,7 @@ import 'package:color_funland/features/my_painting/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class paintingScreenWidget extends StatelessWidget {
+class PaintingScreenWidget extends StatelessWidget {
   final List<GridItem> items;
 
   final int crossAxisCount;
@@ -16,7 +16,7 @@ class paintingScreenWidget extends StatelessWidget {
   final double mainAxisSpacing;
   final double crossAxisSpacing;
 
-  const paintingScreenWidget({
+  const PaintingScreenWidget({
     super.key,
     required this.items,
     required this.crossAxisCount,
@@ -31,41 +31,39 @@ class paintingScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          insideanimals == true
-              ? Text(
-                  '',
-                  textAlign: TextAlign.center,
-                  style: ts64Magic400,
-                )
-              : Container(),
-          SizedBox(
-            height: gridHeight ?? 499.h,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                childAspectRatio: childAspectRatio,
-                mainAxisSpacing: 0.w,
-                crossAxisSpacing: 10.h,
-              ),
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index) => _buildPaintingItem(
-                index: index,
-                item: GridItem(
-                  title: items[index].title,
-                  imageUrl: items[index].imageUrl,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(pageGroup[index]);
-                  },
-                ),
-              ),
-              itemCount: items.length,
+    return Column(
+      children: [
+        insideanimals == true
+            ? Text(
+                '',
+                textAlign: TextAlign.center,
+                style: ts64Magic400,
+              )
+            : Container(),
+        SizedBox(
+          height: gridHeight ?? 499.h,
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              childAspectRatio: childAspectRatio,
+              mainAxisSpacing: 0.w,
+              crossAxisSpacing: 10.h,
             ),
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) => _buildPaintingItem(
+              index: index,
+              item: GridItem(
+                title: items[index].title,
+                imageUrl: items[index].imageUrl,
+                onTap: () {
+                  Navigator.of(context).pushNamed(pageGroup[index]);
+                },
+              ),
+            ),
+            itemCount: items.length,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

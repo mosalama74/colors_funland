@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "112414834945",
-    "project_id": "colorsfunland",
-    "storage_bucket": "colorsfunland.firebasestorage.app"
+    "project_number": "446110723678",
+    "project_id": "funcolor-f8bde",
+    "storage_bucket": "funcolor-f8bde.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:112414834945:android:d8f36f243c288e4873db00",
+        "mobilesdk_app_id": "1:446110723678:android:2e90ada40432216ebd4ecf",
         "android_client_info": {
           "package_name": "com.example.colors_funland"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAEIOWE9djjKS4mA9SQ0tqyLlIw3W0vhok"
+          "current_key": "AIzaSyDeMnlUr0c1x4OCvjhEwa4975pkYy-j8MU"
         }
       ],
       "services": {

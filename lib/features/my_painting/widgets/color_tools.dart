@@ -3,26 +3,13 @@ import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class ColorTools extends StatefulWidget {
   final Function(Color) onColorSelected;
   final Color selectedColor;
   final Function(double)? onStrokeWidthChanged;
   final double strokeWidth;
-
-  // Available colors
-  static const List<Color> colors = [
-    Colors.white,
-    Colors.black,
-    Colors.yellow,
-    Color(0xFF4CAF50), // Green
-    Color(0xFFFF9800), // Orange
-    Color(0xFF2196F3), // Blue
-    // Color(0xFF882601), // Blue
-    // Color(0xFFFF861A), // Blue
-    // Color(0xFF3498DB), // Blue
-
-  ];
+  final List<Color> paletteColors;
+  final Color activeTrackColor;
 
   const ColorTools({
     super.key,
@@ -30,6 +17,8 @@ class ColorTools extends StatefulWidget {
     required this.selectedColor,
     this.onStrokeWidthChanged,
     this.strokeWidth = 15.0,
+    required this.paletteColors,
+    required this.activeTrackColor,
   });
 
   @override
@@ -37,32 +26,32 @@ class ColorTools extends StatefulWidget {
 }
 
 class _ColorToolsState extends State<ColorTools> {
-  late double _currentStrokeWidth;
+ // late double _currentStrokeWidth;
 
   @override
   void initState() {
     super.initState();
-    _currentStrokeWidth = widget.strokeWidth;
+    //_currentStrokeWidth = widget.strokeWidth;
   }
 
   @override
   Widget build(BuildContext context) {
     // Split colors into two columns
-    final int midPoint = (ColorTools.colors.length / 2).ceil();
-    final leftColors = ColorTools.colors.sublist(0, midPoint);
-    final rightColors = ColorTools.colors.sublist(midPoint);
+    final int midPoint = (widget.paletteColors.length / 2).ceil();
+    final leftColors = widget.paletteColors.sublist(0, midPoint);
+    final rightColors = widget.paletteColors.sublist(midPoint);
 
     return Container(
-      width: 300.w,
-      height: 410.h,
+      width: 265.w,
+      height: 395.h,
       decoration: BoxDecoration(
         color: const Color(0xFF2A0B4F),
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(32.r),
         border: GradientBoxBorder(
           gradient: LinearGradient(
             colors: [AppColors.borderColor, AppColors.borderColor2],
           ),
-          width: 5.w,
+          width: 12.w,
         ),
         boxShadow: [
           BoxShadow(
@@ -82,76 +71,78 @@ class _ColorToolsState extends State<ColorTools> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RotatedBox(
-                  quarterTurns: midPoint,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 330,
-                        child: SliderTheme(
-                          data: SliderTheme.of(context).copyWith(
-                            activeTrackColor: Colors.orange,
-                            showValueIndicator: ShowValueIndicator.onlyForDiscrete ,
-                            inactiveTrackColor: Colors.white.withOpacity(0.1),
-                            thumbColor: Colors.white,
-                            trackHeight: 30,
-                            thumbShape: SliderComponentShape.noOverlay ,
-                            overlayColor: Colors.white.withOpacity(0.1),
-                            valueIndicatorColor: Colors.white,
-                            valueIndicatorTextStyle: const TextStyle(
-                              color: Color(0xFF2A0B4F),
-                            ),
-                          ),
-                          child: Slider(
-                            value: _currentStrokeWidth,
-                            min: 5.0,
-                            max: 50.0,
-                            divisions: 45,
-                            label: _currentStrokeWidth.round().toString(),
-                            onChanged: (value) {
-                              setState(() {
-                                _currentStrokeWidth = value;
-                              });
-                              widget.onStrokeWidthChanged?.call(value);
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // RotatedBox(
+                //   quarterTurns: midPoint,
+                //   child: Row(
+                //     children: [
+                //       SizedBox(
+                //         width: 330.w,
+    
+                //         // child: SliderTheme(
+                //         //   data: SliderTheme.of(context).copyWith(
+                //         //     activeTrackColor: widget.activeTrackColor,
+                //         //     showValueIndicator:
+                //         //         ShowValueIndicator.onlyForDiscrete,
+                //         //     inactiveTrackColor: Colors.white.withOpacity(0.1),
+                //         //     thumbColor: Colors.white,
+                //         //     trackHeight: 30,
+                //         //     thumbShape: SliderComponentShape.noOverlay,
+                //         //     overlayColor: Colors.white.withOpacity(0.1),
+                //         //     valueIndicatorColor: Colors.white,
+                //         //     valueIndicatorTextStyle: const TextStyle(
+                //         //       color: Color(0xFF2A0B4F),
+                //         //     ),
+                //         //   ),
+                //         //   child: Slider(
+                //         //     value: _currentStrokeWidth,
+                //         //     min: 5.0,
+                //         //     max: 50.0,
+                //         //     divisions: 45,
+                //         //     label: _currentStrokeWidth.round().toString(),
+                //         //     onChanged: (value) {
+                //         //       setState(() {
+                //         //         _currentStrokeWidth = value;
+                //         //       });
+                //         //       widget.onStrokeWidthChanged?.call(value);
+                //         //     },
+                //         //   ),
+                //         // ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 // Left column
                 Padding(
-                  padding:  EdgeInsets.only(top: 20.h),
+                  padding: EdgeInsets.only(top: 20.h),
                   child: SingleChildScrollView(
                     child: Column(
-                      children: leftColors.map((color) => _buildColorButton(color)).toList(),
+                      children: leftColors
+                          .map((color) => _buildColorButton(color))
+                          .toList(),
                     ),
                   ),
                 ),
-                // // Right column
+                //  Right column
                 Padding(
-                  padding:  EdgeInsets.only(top: 20.h),
+                  padding: EdgeInsets.only(top: 20.h),
                   child: SingleChildScrollView(
                     child: Column(
-
-                      children: rightColors.map((color) => _buildColorButton(color)).toList(),
+                      children: rightColors
+                          .map((color) => _buildColorButton(color))
+                          .toList(),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-
-           SizedBox(height: 16.h),
-
+    
+          SizedBox(height: 16.h),
+    
           // Brush size slider
           if (widget.onStrokeWidthChanged != null) ...[
-            
             const SizedBox(height: 16),
           ],
-
-
         ],
       ),
     );
@@ -187,26 +178,4 @@ class _ColorToolsState extends State<ColorTools> {
       ),
     );
   }
-
-  // Widget _buildToolButton({
-  //   required IconData icon,
-  //   required VoidCallback onTap,
-  // }) {
-  //   return GestureDetector(
-  //     onTap: onTap,
-  //     child: Container(
-  //       width: 44,
-  //       height: 44,
-  //       decoration: BoxDecoration(
-  //         color: Colors.white.withOpacity(0.1),
-  //         shape: BoxShape.circle,
-  //       ),
-  //       child: Icon(
-  //         icon,
-  //         color: Colors.white,
-  //         size: 24,
-  //       ),
-  //     ),
-  //   );
-  // }
 }

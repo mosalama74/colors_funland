@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:color_funland/core/components/background_sound.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:color_funland/features/auth/domain/entities/user.dart'
@@ -67,7 +68,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-
   Future<void> signIn({required String email, required String password}) async {
     try {
       emit(const AuthLoading());
@@ -83,46 +83,63 @@ class AuthCubit extends Cubit<AuthState> {
       result.fold(
         (failure) => emit(AuthError(message: failure.message)),
         (_) async {
-          final firebaseUser = _auth.currentUser;
-          if (firebaseUser != null) {
-            // Reload user to get latest verification status
-            await firebaseUser.reload();
+          try {
+            final firebaseUser = _auth.currentUser;
+            if (firebaseUser != null) {
+              await firebaseUser.reload();
 
-            if (!firebaseUser.emailVerified) {
-              // Send a new verification email and require verification
-              await sendEmailVerification();
-              emit(EmailVerificationRequired(email: firebaseUser.email!));
-              return;
-            }
+              if (!firebaseUser.emailVerified) {
+                await sendEmailVerification();
+                emit(EmailVerificationRequired(email: firebaseUser.email!));
+                return;
+              }
 
-            // Get user data from Firestore
-            final userData = await FirebaseFirestore.instance
-                .collection('users')
-                .doc(firebaseUser.uid)
-                .get();
+              final userDoc = await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(firebaseUser.uid)
+                  .get();
 
-            if (userData.exists) {
-              final user = entities.User(
-                uid: firebaseUser.uid,
-                email: firebaseUser.email ?? '',
-                firstName: userData['firstName'] ?? '',
-                lastName: userData['lastName'] ?? '',
-                username: userData['username'] ?? '',
-                createdAt: (userData['createdAt'] as Timestamp?)?.toDate() ??
-                    DateTime.now(),
-              );
-              emit(AuthSuccess(user: user, isEmailVerified: true));
+              if (userDoc.exists) {
+                final userData = userDoc.data()!;
+                final String? currentChildId = userData['currentChildId'];
+
+                final childDoc = await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(firebaseUser.uid)
+                    .collection('children')
+                    .doc(currentChildId)
+                    .get();
+
+                final verifiedUser = entities.User(
+                  uid: firebaseUser.uid,
+                  email: firebaseUser.email ?? '',
+                  firstName: userData['firstName'] ?? '',
+                  lastName: userData['lastName'] ?? '',
+                  username: userData['username'] ?? '',
+                  createdAt: (userData['createdAt'] as Timestamp?)?.toDate() ??
+                      DateTime.now(),
+                  childName: childDoc.exists ? childDoc['name'] ?? '' : '',
+                  childImageUrl:
+                      childDoc.exists ? childDoc['profileImage'] ?? '' : '',
+                );
+
+                emit(AuthSuccess(user: verifiedUser, isEmailVerified: true));
+
+                BackgroundAudio.playBackgroundMusic();
+              } else {
+                emit(const AuthError(message: 'User data not found'));
+              }
             } else {
-              emit(const AuthError(message: 'User data not found'));
+              emit(const AuthError(
+                  message: 'Failed to retrieve user information'));
             }
-          } else {
-            emit(const AuthError(
-                message: 'Failed to retrieve user information'));
+          } catch (e) {
+            emit(AuthError(message: 'Error during login: ${e.toString()}'));
           }
         },
       );
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: 'Login failed: ${e.toString()}'));
     }
   }
 
@@ -271,9 +288,14 @@ class AuthCubit extends Cubit<AuthState> {
       emit(const AuthLoading());
       await _auth.signOut();
       emit(const AuthSignedOut(message: "Signed Out Successfully"));
+
+      // Stop background music on logout
+      BackgroundAudio.stopBackgroundMusic();
     } catch (e) {
       emit(AuthError(message: 'Failed to sign out: ${e.toString()}'));
       messageService.showMessage('Failed to sign out', MessageType.error);
     }
   }
+
+ 
 }

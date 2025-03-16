@@ -54,7 +54,7 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
   }
 
   void _startAnimation() {
-    Future.delayed(const Duration(milliseconds: 5), () {
+    Future.delayed(const Duration(milliseconds: 2), () {
       if (mounted) {
         setState(() {
           for (var particle in confetti) {
@@ -99,7 +99,7 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                 ),
               ),
             );
-          }).toList(),
+          }),
 
           // Win message
           Padding(
@@ -386,7 +386,7 @@ class ConfettiPiece extends StatelessWidget {
 }
 
 // Function to show the win screen
-void showWinScreen(BuildContext context) {
+void showWinScreen(BuildContext context, Future<Object?> Function() param1) {
   showDialog(
     context: context,
     barrierDismissible: false,

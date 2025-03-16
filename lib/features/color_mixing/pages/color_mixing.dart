@@ -1,3 +1,4 @@
+import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
@@ -16,6 +17,8 @@ class ColorMixingScreen extends StatefulWidget {
 }
 
 class _ColorMixingScreenState extends State<ColorMixingScreen> {
+  final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -29,11 +32,12 @@ class _ColorMixingScreenState extends State<ColorMixingScreen> {
           gameGroup: "Color Mixing",
           inSideGame: true,
           appBarIcon: AppIcons.colorMixingIcon,
+          containerKey: _containerKey,
         ),
-        body: Stack(
-          children: [
-            SafeArea(
-              child: Padding(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Padding(
                 padding: EdgeInsets.only(
                   left: 45.w,
                   right: 51.w,
@@ -64,9 +68,9 @@ class _ColorMixingScreenState extends State<ColorMixingScreen> {
                   ),
                 ),
               ),
-            ),
-            
-          ],
+              AnimatedContainerWidget(key: _containerKey,),
+            ],
+          ),
         ),
         bottomNavigationBar: ThreeItemsBottomNavigation(
           insideGame: true,

@@ -33,39 +33,37 @@ class SampleScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          insideanimals == true
-              ? Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: ts64Magic400,
-                )
-              : Container(),
-          SizedBox(
-            height: gridHeight ?? 499.h,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                childAspectRatio: childAspectRatio,
-              ),
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => _buildPaintingItem(
-                index: index,
-                item: GridItem(
-                  title: items[index].title,
-                  imageUrl: items[index].imageUrl,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(pageGroup[index]);
-                  },
-                ),
-              ),
-              itemCount: items.length,
+    return Column(
+      children: [
+        insideanimals == true
+            ? Text(
+                title,
+                textAlign: TextAlign.center,
+                style: ts64Magic400,
+              )
+            : Container(),
+        SizedBox(
+          height: gridHeight ?? 499.h,
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              childAspectRatio: childAspectRatio,
             ),
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => _buildPaintingItem(
+              index: index,
+              item: GridItem(
+                title: items[index].title,
+                imageUrl: items[index].imageUrl,
+                onTap: () {
+                  Navigator.of(context).pushNamed(pageGroup[index]);
+                },
+              ),
+            ),
+            itemCount: items.length,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

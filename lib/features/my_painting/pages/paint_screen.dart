@@ -1,12 +1,14 @@
+import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
-import 'package:color_funland/core/constants/app_images.dart';
-import 'package:color_funland/core/utils/text_styles.dart';
+
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/core/components/three_items_bottom_navigation.dart';
+import 'package:color_funland/core/utils/text_styles.dart';
 import 'package:color_funland/features/my_painting/widgets/color_tools.dart';
-import 'package:color_funland/features/my_painting/widgets/paint_canvas.dart';
 import 'package:color_funland/features/my_painting/widgets/paint_state.dart';
+import 'package:color_funland/features/my_painting/widgets/svg_canvas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -14,11 +16,13 @@ class PaintScreen extends StatefulWidget {
   final String uncoloredImage;
   final String coloredImage;
   final String categoryName;
+  final List<Color> colorTools;
   const PaintScreen({
     super.key,
     required this.uncoloredImage,
     required this.coloredImage,
     required this.categoryName,
+    required this.colorTools,
   });
 
   @override
@@ -26,14 +30,34 @@ class PaintScreen extends StatefulWidget {
 }
 
 class _PaintScreenState extends State<PaintScreen> {
-  final PaintState _paintState = PaintState();
-  bool _showReferenceImage = false;
+  final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
 
-  void _toggleShowReferenceImage() {
+  final PaintState _paintState = PaintState();
+
+  VectorImage? _vectorImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSvg();
+  }
+
+  // Load and parse the SVG file
+  Future<void> _loadSvg() async {
+    final String svgData = await rootBundle.loadString(widget.uncoloredImage);
     setState(() {
-      _showReferenceImage = !_showReferenceImage;
+      _vectorImage = parseSvg(svgData);
     });
   }
+
+  // Method to reset the SVG image
+void _resetSvg() async {
+  final String svgData = await rootBundle.loadString(widget.uncoloredImage);
+  setState(() {
+    _vectorImage = parseSvg(svgData); // Reload the original SVG
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +67,7 @@ class _PaintScreenState extends State<PaintScreen> {
         gameGroup: "Paintings",
         inSideGame: true,
         appBarIcon: AppIcons.paintingsIcon,
+        containerKey: _containerKey,
       ),
       body: SafeArea(
         child: Stack(
@@ -51,63 +76,50 @@ class _PaintScreenState extends State<PaintScreen> {
               padding: EdgeInsets.only(left: 49.w),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width * 0.30,
-                          left: 10.w,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            _toggleShowReferenceImage();
-                          },
-                          child: SizedBox(
-                            width: 67.w,
-                            height: 67.h,
-                            child: SvgPicture.asset(
-                              AppIcons.help,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        widget.categoryName,
-                        style: ts64Magic400,
-                      ),
-                    ],
+                  Text(
+                    widget.categoryName,
+                    style: ts64Magic400,
                   ),
                   Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
                           children: [
                             SizedBox(
-                              width: 188.w,
-                              child: _showReferenceImage
-                                  ? Image.asset(
-                                      widget.coloredImage,
-                                      height: 230.53.h,
-                                    )
-                                  : Container(
-                                      height: 230.53.h,
-                                    ),
-                            ),
+                                width: 188.w,
+                                child: SvgPicture.asset(
+                                  widget.coloredImage,
+                                  height: 230.53.h,
+                                )),
+                            InkWell(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onTap: () {
+                                Navigator.pushNamed(context, '/winScreen');
+                              },
+                              child: Image.asset(
+                                AppIcons.donebtn,
+                                height: 86.h,
+                                width: 164.w,
+                              ),
+                            )
                           ],
                         ),
-                        SizedBox(
-                          width: 400.w,
-                          child: PaintCanvas(
-                            paintState: _paintState,
-                            uncoloredImage: widget.uncoloredImage,
-                            brushImage: AppImages.brush,
-                            coloredImage: widget.coloredImage,
+                        Expanded(
+                          child: Center(
+                            child: _vectorImage != null
+                                ? SvgCanvas(
+                                    vectorImage: _vectorImage!,
+                                    selectedColor: _paintState.selectedColor,
+                                    scaleFactor: 1.10,
+                                  )
+                                : const CircularProgressIndicator(), // Show a loading indicator until SVG is loaded
                           ),
                         ),
                         ColorTools(
+                          paletteColors: widget.colorTools,
                           selectedColor: _paintState.selectedColor,
                           onColorSelected: (color) => setState(() {
                             _paintState.setColor(color);
@@ -116,6 +128,7 @@ class _PaintScreenState extends State<PaintScreen> {
                           onStrokeWidthChanged: (width) => setState(() {
                             _paintState.setStrokeWidth(width);
                           }),
+                          activeTrackColor: _paintState.selectedColor,
                         ),
                       ],
                     ),
@@ -123,7 +136,21 @@ class _PaintScreenState extends State<PaintScreen> {
                 ],
               ),
             ),
-            // AnimatedContainerWidget(key: containerKey),
+            Positioned(
+              top: 110.h,
+              right: 230.w,
+              child: InkWell(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap:_resetSvg,
+                child: SvgPicture.asset(
+                  AppIcons.reset,
+                  width: 60.w,
+                  height: 60.h,
+                ),
+              ),
+            ),
+            AnimatedContainerWidget(key: _containerKey),
           ],
         ),
       ),

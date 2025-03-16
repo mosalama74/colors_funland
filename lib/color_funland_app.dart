@@ -21,7 +21,7 @@ class ColorFunLandApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner:false,
             title: AppStrings.appName,
             theme: lightTheme,
             routes: routes,

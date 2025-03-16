@@ -84,33 +84,53 @@ final List<String> animalsPaintingScreen = [
 final List<GridItem> animalsFram = [
   GridItem(
     imageUrl: AppImages.duckFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.elephantFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.catFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.girafeFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.lionFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.tigerFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.turtleFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.beeFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.lionBabyFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
   GridItem(
     imageUrl: AppImages.kangarooFram,
+    imgWidth: 193.93.w,
+    imgHeight: 186.47.h,
   ),
 ];
 
@@ -200,41 +220,75 @@ final List<GridItem> flowersFram = [
   ),
 ];
 
-
 ///****************** Color Mixing Screen **************/
 final List<GridItem> colorMixingItem = [
-  GridItem(
-    imageUrl: AppImages.number1,
-    imgHeight:223.56.h,
-    imgWidth: 264.w
-  ),
-  GridItem(
-    imageUrl: AppImages.number2,
-      imgHeight:223.56.h,
-      imgWidth: 264.w
-  ),
-  GridItem(
-    imageUrl: AppImages.number3,
-      imgHeight:223.56.h,
-      imgWidth: 264.w
-  ),
-  GridItem(
-    imageUrl: AppImages.number4,
-      imgHeight:223.56.h,
-      imgWidth: 264.w
-  ),
-  GridItem(
-    imageUrl: AppImages.number5,
-      imgHeight:223.56.h,
-      imgWidth: 264.w
-  ),
-  GridItem(
-    imageUrl: AppImages.number6,
-      imgHeight:223.56.h,
-      imgWidth: 264.w
-  ),
+  GridItem(imageUrl: AppImages.number1, imgHeight: 223.56.h, imgWidth: 264.w),
+  GridItem(imageUrl: AppImages.number2, imgHeight: 223.56.h, imgWidth: 264.w),
+  GridItem(imageUrl: AppImages.number3, imgHeight: 223.56.h, imgWidth: 264.w),
+  GridItem(imageUrl: AppImages.number4, imgHeight: 223.56.h, imgWidth: 264.w),
+  GridItem(imageUrl: AppImages.number5, imgHeight: 223.56.h, imgWidth: 264.w),
+  GridItem(imageUrl: AppImages.number6, imgHeight: 223.56.h, imgWidth: 264.w),
 ];
 
 final List<String> colorMixingSamples = [
   '/colorMixingSampls',
+  '/colorMixingSampls2',
+  '/colorMixingSampls3',
+];
+
+List<String> imageSample1 = [
+  AppImages.colorPurple,
+  AppImages.colorRed,
+  AppImages.colorGreen,
+];
+List<String> imageSample2 = [
+  AppImages.colorPurple,
+  AppImages.colorRed,
+  AppImages.colorGreen,
+  AppImages.colorYellow,
+  AppImages.colorOrange,
+];
+List<String> imageSample3 = [
+  AppImages.colorPurple,
+  AppImages.colorRed,
+  AppImages.colorGreen,
+  AppImages.colorYellow,
+  AppImages.colorOrange,
+  AppImages.colorBrown,
+  AppImages.colorBlue,
+  AppImages.colorPink,
+];
+
+///****************** Color match Screen **************/
+
+final List<GridItem> colorMatchItem = [
+  GridItem(
+      // title:"Shapes",
+      imageUrl: AppImages.colorMatchShapes,
+      imgWidth: 264.w,
+      imgHeight: 392.h),
+  GridItem(
+    // title: "Food",
+    imageUrl: AppImages.colorMatchFoods,
+    imgWidth: 264.w,
+    imgHeight: 392.h,
+  ),
+  GridItem(
+    // title: "Animals",
+    imageUrl: AppImages.colorMatchAnimals,
+    imgWidth: 264.w,
+    imgHeight: 392.h,
+  ),
+  GridItem(
+    // title: "Numbers",
+    imageUrl: AppImages.colorMatchNumbers,
+    imgWidth: 264.w,
+    imgHeight: 392.h,
+  ),
+];
+final List<String> colorMatchSamplesScreens = [
+  '/colorMatchShapes',
+  '/colorMatchFoods',
+  "/colorMatchAnimals",
+  "/coloringScreen",
 ];

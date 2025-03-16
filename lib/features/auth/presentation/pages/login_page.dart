@@ -167,25 +167,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SizedBox(height: 24.h),
                               // Login Button
-                                state is AuthLoading
-                                    ?  CircularIndicator()
-                                    :   ElevatedBtn(
-                                text: AppStrings.login,
-                                onPressed: state is AuthLoading
-                                    ? () {}
-                                    : () {
+                              state is AuthLoading
+                                  ? const Center(child: CircularIndicator())
+                                  : ElevatedBtn(
+                                      text: AppStrings.login,
+                                      onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           context.read<AuthCubit>().signIn(
-                                                email:
-                                                    _emailController.text,
-                                                password:
-                                                    _passwordController.text,
+                                                email: _emailController.text.trim(),
+                                                password: _passwordController.text,
                                               );
-                                           
                                         }
                                       },
-                                width: double.infinity,
-                              ),
+                                      width: double.infinity,
+                                    ),
 
                               SizedBox(height: 24.h),
                               // Sign Up Row

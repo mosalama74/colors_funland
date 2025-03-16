@@ -5,14 +5,8 @@ import 'package:color_funland/features/my_painting/widgets/shared_samples_screen
 import 'package:flutter/material.dart';
 
 
-class FlowersSamplesScreen extends StatefulWidget {
+class FlowersSamplesScreen extends StatelessWidget {
   const FlowersSamplesScreen({super.key});
-
-  @override
-  State<FlowersSamplesScreen> createState() => _FlowersSamplesScreenState();
-}
-
-class _FlowersSamplesScreenState extends State<FlowersSamplesScreen> {
 
  @override
   Widget build(BuildContext context) {

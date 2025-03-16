@@ -47,7 +47,7 @@ class Games extends StatelessWidget {
       _buildGameItem(
         image: AppImages.matchColors,
         title: AppStrings.matchColors,
-        onTap: () {},
+        onTap: () => Navigator.pushNamed(context, "/colorMatchScreen"),
       ),
       _buildGameItem(
         image: AppImages.learningColors,

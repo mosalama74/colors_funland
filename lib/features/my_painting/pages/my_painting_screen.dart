@@ -1,3 +1,4 @@
+import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
@@ -17,6 +18,8 @@ class MyPaintingScreen extends StatefulWidget {
 }
 
 class _MyPaintingScreenState extends State<MyPaintingScreen> {
+  final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -30,6 +33,7 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
           gameGroup: "Paintings",
           inSideGame: true,
           appBarIcon: AppIcons.paintingsIcon,
+          containerKey: _containerKey,
         ),
         body: SafeArea(
           child: Stack(
@@ -39,7 +43,8 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.7.h),
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -50,7 +55,7 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                           SizedBox(
                             width: 32.w,
                           ),
-                          Expanded(
+                          Flexible(
                             child: Stack(
                               children: [
                                 Padding(
@@ -61,13 +66,16 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                                     width: 822.w,
                                   ),
                                 ),
-                                paintingScreenWidget(
-                                  items: gridItems,
-                                  crossAxisCount: 4,
-                                  pageGroup: myPaintingSamplesScreen,
-                                  insidecategory: true,
-                                  insideanimals: false,
-                                  childAspectRatio: 1 / 1.20,
+                                SizedBox(
+                                  height: 500.h,
+                                  child: PaintingScreenWidget(
+                                    items: gridItems,
+                                    crossAxisCount: 4,
+                                    pageGroup: myPaintingSamplesScreen,
+                                    insidecategory: true,
+                                    insideanimals: false,
+                                    childAspectRatio: 1 / 1.20,
+                                  ),
                                 ),
                               ],
                             ),
@@ -78,7 +86,7 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
                   ],
                 ),
               ),
-             // AnimatedContainerWidget(key: containerKey),
+              AnimatedContainerWidget(key: _containerKey),
             ],
           ),
         ),

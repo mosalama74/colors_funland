@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:color_funland/core/components/background_sound.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,14 +26,13 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
         super(const ProfileInfoState());
 
   Future<void> pickImageFromCamera() async {
-
-     emit(ProfileInfoLoadingState());
+    emit(ProfileInfoLoadingState());
 
     await _pickImage(ImageSource.camera);
   }
 
   Future<void> pickImageFromGallery() async {
-          emit(ProfileInfoLoadingState());
+    emit(ProfileInfoLoadingState());
 
     await _pickImage(ImageSource.gallery);
   }
@@ -66,8 +66,8 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
   }
 
   Future<void> uploadSelectedImage() async {
-          emit(ProfileInfoLoadingState());
-  
+    emit(ProfileInfoLoadingState());
+
     if (_selectedImage == null) {
       emit(UploadImageErrorState(
         errorMessage: 'No image selected to upload',
@@ -165,7 +165,7 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
       });
 
       emit(SaveChildInfoSuccessState(messag: "Success Save Child Info"));
-      
+
       // Fetch the current child data
       await getCurrentChild();
     } catch (e) {
@@ -230,7 +230,8 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
     }
   }
 
-  Future<void> updateChildData(String childId, {
+  Future<void> updateChildData(
+    String childId, {
     required String childName,
     required String childAge,
     String? imageUrl,
@@ -271,8 +272,9 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
           .doc(childId)
           .update(updateData);
 
-      emit(UpdateChildDataSuccessState(message: 'Child data updated successfully'));
-      
+      emit(UpdateChildDataSuccessState(
+          message: 'Child data updated successfully'));
+
       // Fetch updated child data
       await getCurrentChild();
     } catch (e) {
@@ -296,10 +298,8 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
       }
 
       // Get user document to find current child ID
-      final userDoc = await _firestore
-          .collection('users')
-          .doc(currentUser.uid)
-          .get();
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
 
       if (!userDoc.exists) {
         emit(UpdateChildDataErrorState(
@@ -393,57 +393,6 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
     }
   }
 
-  // Optional: Method to get a single child's data
-  Future<void> getChildById(String childId) async {
-    try {
-      emit(ProfileInfoLoadingState());
-
-      final User? currentUser = _auth.currentUser;
-      if (currentUser == null) {
-        emit(GetChildErrorState(
-          errorMessage: 'User not authenticated',
-        ));
-
-        return;
-      }
-
-      final DocumentSnapshot childDoc = await _firestore
-          .collection('users')
-          .doc(currentUser.uid)
-          .collection('children')
-          .doc(childId)
-          .get();
-
-      if (!childDoc.exists) {
-          emit(GetChildErrorState(
-          errorMessage: 'Child not found',
-        ));
-   
-        return;
-      }
-
-      final data = childDoc.data() as Map<String, dynamic>;
-      final List<Map<String, dynamic>> children = [
-        {
-          'id': childDoc.id,
-          'name': data['name'],
-          'age': data['age'],
-          'imageUrl': data['imageUrl'],
-          'createdAt': data['createdAt'],
-          'updatedAt': data['updatedAt'],
-        }
-      ];
-
-      emit(GetChildSuccessState(child: children.first));
-      
-    } catch (e) {
-         emit(GetChildErrorState(
-        errorMessage: 'Failed to fetch child: ${e.toString()}',
-        ));
-      
-    }
-  }
-
   Future<void> getCurrentChild() async {
     try {
       emit(ProfileInfoLoadingState());
@@ -457,10 +406,8 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
       }
 
       // Get user document to find current child ID
-      final userDoc = await _firestore
-          .collection('users')
-          .doc(currentUser.uid)
-          .get();
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
 
       if (!userDoc.exists) {
         emit(GetChildErrorState(
@@ -503,6 +450,7 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
           'imageUrl': childData['profileImage'],
         },
       ));
+      BackgroundAudio.playBackgroundMusic();
     } catch (e) {
       emit(GetChildErrorState(
         errorMessage: e.toString(),
