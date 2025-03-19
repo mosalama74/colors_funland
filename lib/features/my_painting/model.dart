@@ -225,9 +225,7 @@ final List<GridItem> colorMixingItem = [
   GridItem(imageUrl: AppImages.number1, imgHeight: 223.56.h, imgWidth: 264.w),
   GridItem(imageUrl: AppImages.number2, imgHeight: 223.56.h, imgWidth: 264.w),
   GridItem(imageUrl: AppImages.number3, imgHeight: 223.56.h, imgWidth: 264.w),
-  GridItem(imageUrl: AppImages.number4, imgHeight: 223.56.h, imgWidth: 264.w),
-  GridItem(imageUrl: AppImages.number5, imgHeight: 223.56.h, imgWidth: 264.w),
-  GridItem(imageUrl: AppImages.number6, imgHeight: 223.56.h, imgWidth: 264.w),
+
 ];
 
 final List<String> colorMixingSamples = [
@@ -239,24 +237,21 @@ final List<String> colorMixingSamples = [
 List<String> imageSample1 = [
   AppImages.colorPurple,
   AppImages.colorRed,
-  AppImages.colorGreen,
+  AppImages.colorYellow,
 ];
 List<String> imageSample2 = [
-  AppImages.colorPurple,
-  AppImages.colorRed,
+
+  AppImages.colordarkpurple,
   AppImages.colorGreen,
-  AppImages.colorYellow,
   AppImages.colorOrange,
 ];
 List<String> imageSample3 = [
-  AppImages.colorPurple,
   AppImages.colorRed,
   AppImages.colorGreen,
-  AppImages.colorYellow,
+  AppImages.colorPurple,
   AppImages.colorOrange,
   AppImages.colorBrown,
-  AppImages.colorBlue,
-  AppImages.colorPink,
+  AppImages.colordarkgreen,
 ];
 
 ///****************** Color match Screen **************/

@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TwoItemsBottomNavigation extends StatelessWidget {
+class TwoItemsBottomNavigation extends StatefulWidget {
   const TwoItemsBottomNavigation({
     super.key,
     required this.insideGame,
@@ -16,6 +16,31 @@ class TwoItemsBottomNavigation extends StatelessWidget {
 
   final bool insideGame;
   final VoidCallback? onBackPressed;
+
+  @override
+  _TwoItemsBottomNavigationState createState() => _TwoItemsBottomNavigationState();
+}
+
+class _TwoItemsBottomNavigationState extends State<TwoItemsBottomNavigation> {
+  bool isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isPlaying = BackgroundAudio.isPlaying();
+  }
+
+  void _toggleMusic() async {
+    setState(() {
+      isPlaying = !isPlaying;
+    });
+
+    if (isPlaying) {
+      await BackgroundAudio.resumeAllSounds();
+    } else {
+      await BackgroundAudio.pauseAllSounds();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +59,8 @@ class TwoItemsBottomNavigation extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: onBackPressed,
-                  child: insideGame == true
+                  onTap: widget.onBackPressed,
+                  child: widget.insideGame == true
                       ? SvgPicture.asset(
                           AppIcons.backButton,
                           height: 81.07.h,
@@ -57,15 +82,9 @@ class TwoItemsBottomNavigation extends StatelessWidget {
                 InkWell(
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () async{
-                    if (BackgroundAudio.isPlaying()) {
-                      BackgroundAudio.pauseBackgroundMusic();
-                    } else {
-                      BackgroundAudio.resumeBackgroundMusic();
-                    }
-                  },
+                  onTap: _toggleMusic, // ✅ Toggle sound correctly
                   child: SvgPicture.asset(
-                    AppIcons.soundButton,
+                   AppIcons.soundButton,
                     width: 79.08.w,
                     height: 81.07.h,
                   ),

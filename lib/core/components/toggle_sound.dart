@@ -1,63 +1,63 @@
 import 'package:color_funland/core/components/background_sound.dart';
 import 'package:color_funland/core/constants/app_images.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ToggleSound extends StatefulWidget {
-  const ToggleSound({
-    super.key,
-  });
+  const ToggleSound({super.key});
 
   @override
   _ToggleSoundState createState() => _ToggleSoundState();
 }
 
 class _ToggleSoundState extends State<ToggleSound> {
-  late bool isToggled;
+  bool isToggled = false;
 
   @override
   void initState() {
     super.initState();
-    isToggled = BackgroundAudio.isPlaying();
+    isToggled = BackgroundAudio.isPlaying(); // ✅ Ensure correct state on load
+  }
+
+  void _toggleSound() async {
+    setState(() {
+      isToggled = !isToggled;
+    });
+
+    if (isToggled) {
+      await BackgroundAudio.resumeAllSounds(); // ✅ Resume if toggled on
+    } else {
+      await BackgroundAudio.pauseAllSounds(); // ✅ Pause if toggled off
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        setState(() {
-          isToggled = !isToggled;
-    
-          if (BackgroundAudio.isPlaying()) {
-            BackgroundAudio.pauseBackgroundMusic();
-          } else {
-            BackgroundAudio.resumeBackgroundMusic();
-          }
-        });
-      },
+      onTap: _toggleSound,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         width: 63.w,
         height: 36.h,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: AssetImage(
-              isToggled ?  AppImages.switchbutton : AppImages.switchbuttonfalse,
-              ),
-              fit: BoxFit.cover,
-            )),
+          borderRadius: BorderRadius.circular(20),
+          image: DecorationImage(
+            image: AssetImage(
+              isToggled ? AppImages.switchbutton : AppImages.switchbuttonfalse, // ✅ Reflects real state
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Stack(
           children: [
             AnimatedPositioned(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               left: isToggled ? 35.w : 5.w,
               top: 8.h,
               child: Container(
                 width: 21.w,
                 height: 21.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                   boxShadow: [

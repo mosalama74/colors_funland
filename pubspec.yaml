@@ -29,7 +29,6 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animate_do: ^4.0.0
-  audioplayers: ^6.2.0
   bloc: ^9.0.0
   cached_network_image: ^3.4.1
   cloud_firestore: ^5.6.3
@@ -49,9 +48,9 @@ dependencies:
   fluttertoast: ^8.2.4
   get_it: ^8.0.3
   image_picker: ^1.1.2
+  just_audio: ^0.9.35
   path_drawing: ^1.0.1
   xml: ^6.5.0
-
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -105,5 +104,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Lato-Regular.ttf
         - asset: assets/fonts/Lato-Bold.ttf
+
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-VariableFont_wght.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

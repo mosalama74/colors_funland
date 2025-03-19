@@ -23,7 +23,7 @@ class _ColorMixingSamplsState extends State<ColorMixingSampls3> {
     AppImages.colorYellow,
     AppImages.colorOrange,
     AppImages.colorBrown,
-    AppImages.colorBlue,
+    AppImages.colorPurple,
     AppImages.colorPink,
   ];
   @override
@@ -34,7 +34,7 @@ class _ColorMixingSamplsState extends State<ColorMixingSampls3> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(child: Text("Level 3- 3 Colors",style: ts64Magic400,)),
+          Center(child: Text("Level 1- 3 Colors",style: ts64Magic400,)),
           SizedBox(height: 48.h,),
           Container(
             height: 189.42.h,

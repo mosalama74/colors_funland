@@ -39,45 +39,38 @@ class _MyPaintingScreenState extends State<MyPaintingScreen> {
           child: Stack(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 45.w, right: 51.w),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                padding: EdgeInsets.only(left: 45.w, right: 51.w,top: 8.7.h),
+                child: Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 8.7.h),
-                      child: Row(
+                    SvgPicture.asset(
+                      AppImages.paintingGirl,
+                      height: 358.65.h,
+                      width: 313.29.w,
+                    ),
+                    SizedBox(
+                      width: 32.w,
+                    ),
+                    Flexible(
+                      child: Stack(
                         children: [
-                          SvgPicture.asset(
-                            AppImages.paintingGirl,
-                            height: 358.65.h,
-                            width: 313.29.w,
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(vertical: 95.5.h),
+                            child: Image.asset(
+                              AppImages.myPaintingCardBg,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                           SizedBox(
-                            width: 32.w,
-                          ),
-                          Flexible(
-                            child: Stack(
-                              children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: 95.5.h),
-                                  child: Image.asset(
-                                    AppImages.myPaintingCardBg,
-                                    width: 822.w,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 500.h,
-                                  child: PaintingScreenWidget(
-                                    items: gridItems,
-                                    crossAxisCount: 4,
-                                    pageGroup: myPaintingSamplesScreen,
-                                    insidecategory: true,
-                                    insideanimals: false,
-                                    childAspectRatio: 1 / 1.20,
-                                  ),
-                                ),
-                              ],
+                            height:MediaQuery.of(context).size.height,
+                            child: PaintingScreenWidget(
+                              items: gridItems,
+                              crossAxisCount: 4,
+                              pageGroup: myPaintingSamplesScreen,
+                              insidecategory: true,
+                              insideanimals: false,
+                              childAspectRatio: 1 / 1.20,
                             ),
                           ),
                         ],

@@ -9,6 +9,7 @@ class User extends Equatable {
   final DateTime? createdAt;
   final String? childName;
   final String? childImageUrl;
+  final bool isAdmin;
 
   const User({
     required this.uid,
@@ -19,6 +20,7 @@ class User extends Equatable {
     this.createdAt,
     this.childName,
     this.childImageUrl,
+    this.isAdmin = false,
   });
 
   @override
@@ -31,5 +33,6 @@ class User extends Equatable {
         createdAt,
         childName,
         childImageUrl,
+        isAdmin,
       ];
 }

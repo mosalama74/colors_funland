@@ -35,13 +35,14 @@ class ColorMixingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: gridHeight ?? 499.h,
+            height: gridHeight ?? 268.h,
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio: 1 / 1,
+                childAspectRatio: .9 / 1,
               ),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => _buildColorMixing(

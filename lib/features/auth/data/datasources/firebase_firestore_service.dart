@@ -10,6 +10,7 @@ class FirebaseFirestoreService {
     required String lastName,
     required String username,
     required DateTime createdAt,
+    bool isAdmin = false,
   }) async {
     try {
       await _firestore.collection('users').doc(uid).set({
@@ -19,6 +20,7 @@ class FirebaseFirestoreService {
         'username': username,
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': DateTime.now().toIso8601String(),
+        'isAdmin': isAdmin,
       });
     } catch (e) {
       throw Exception('Failed to create user data: ${e.toString()}');
@@ -31,6 +33,17 @@ class FirebaseFirestoreService {
       return doc.data();
     } catch (e) {
       throw Exception('Failed to get user data: ${e.toString()}');
+    }
+  }
+
+  Future<void> setUserAsAdmin(String uid, bool isAdmin) async {
+    try {
+      await _firestore.collection('users').doc(uid).update({
+        'isAdmin': isAdmin,
+        'updatedAt': DateTime.now().toIso8601String(),
+      });
+    } catch (e) {
+      throw Exception('Failed to update admin status: ${e.toString()}');
     }
   }
 }

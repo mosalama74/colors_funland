@@ -4,6 +4,7 @@ import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/core/components/two_items_bottom_navigation.dart';
+import 'package:color_funland/core/services/feature_management_service.dart';
 import 'package:color_funland/core/utils/app_colors.dart';
 import 'package:color_funland/features/game_board/presentation/widgets/games_grid.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class GameBoardScreen extends StatefulWidget {
 
 class _GameBoardScreenState extends State<GameBoardScreen> {
   final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
+  final _featureService = FeatureManagementService();
 
   @override
   void initState() {
@@ -38,16 +40,6 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-      builder: (context, orientation) {
-        return orientation == Orientation.landscape
-            ? _buildLandscapeLayout()
-            : _buildPortraitLayout();
-      },
-    );
-  }
-
-  Widget _buildLandscapeLayout() {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.white,
@@ -56,7 +48,9 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(ToggleTheme.isLightMode() ? AppImages.darkGamBoard : AppImages.lightGameBoard),
+            image: AssetImage(ToggleTheme.isLightMode()
+                ? AppImages.darkGamBoard
+                : AppImages.lightGameBoard),
             fit: BoxFit.cover,
           ),
         ),
@@ -66,44 +60,30 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
             gameGroup: "Activity Board",
             inSideGame: false,
             containerKey: _containerKey,
-            gameGroupColor: ToggleTheme.isLightMode() ? const Color(0xffEADCFF) : const Color(0xff302442),
-            dividerColor: ToggleTheme.isLightMode() ? const Color(0xffEADCFF) : AppColors.cBlackColor,
-            menu:  ToggleTheme.isLightMode() ? AppIcons.lightmenu :  AppIcons.menu  ,
+            gameGroupColor: ToggleTheme.isLightMode()
+                ? const Color(0xffEADCFF)
+                : const Color(0xff302442),
+            dividerColor: ToggleTheme.isLightMode()
+                ? const Color(0xffEADCFF)
+                : AppColors.cBlackColor,
+            menu:
+                ToggleTheme.isLightMode() ? AppIcons.lightmenu : AppIcons.menu,
           ),
           body: Stack(
             children: [
               SafeArea(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.fromLTRB(51.5.w, 31.84.h, 57.5.w, 31.84.w),
-                      child: const Games(),
-                    ),
-                    const TwoItemsBottomNavigation(insideGame: false),
-                  ],
-                ),
+                child: Games(featureService: _featureService),
               ),
               AnimatedContainerWidget(key: _containerKey),
             ],
           ),
+          bottomNavigationBar:
+              Padding(
+                padding:  EdgeInsets.only(bottom: 68.h),
+                child: const TwoItemsBottomNavigation(insideGame: false),
+              ),
         ),
       ),
     );
   }
 }
-
-
-  Widget _buildPortraitLayout() {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
-      body: Image.asset(
-        "assets/images/maskgroup.png",
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-

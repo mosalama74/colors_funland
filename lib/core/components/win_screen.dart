@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WinScreen extends StatefulWidget {
-  const WinScreen({Key? key}) : super(key: key);
+  const WinScreen({super.key,  this.onTap});
+  final void Function()? onTap;
 
   @override
   _WinScreenState createState() => _WinScreenState();
@@ -138,9 +139,7 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                       ),
                       const SizedBox(width: 64),
                       InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
+                        onTap: widget.onTap,
                         child: SizedBox(
                           width: 222,
                           height: 86,
@@ -386,10 +385,12 @@ class ConfettiPiece extends StatelessWidget {
 }
 
 // Function to show the win screen
-void showWinScreen(BuildContext context, Future<Object?> Function() param1) {
+void showWinScreen(BuildContext context,void Function()? onTap) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => const WinScreen(),
+    builder: (context) =>  WinScreen(
+      onTap: onTap,
+    ),
   );
 }

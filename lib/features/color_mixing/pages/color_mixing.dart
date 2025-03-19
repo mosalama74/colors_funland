@@ -58,7 +58,7 @@ class _ColorMixingScreenState extends State<ColorMixingScreen> {
                       ColorMixingWidget(
                         items: colorMixingItem,
                         crossAxisCount: 3,
-                        gridHeight: 496.h,
+                        gridHeight: 268.h,
                         pageGroup: colorMixingSamples,
                         insidecategory: true,
                         insideanimals: false,

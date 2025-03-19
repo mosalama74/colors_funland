@@ -88,7 +88,7 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
                           Container(
                             width: 4.w,
                             height: 35.h,
-                            color: dividerColor,
+                            color: dividerColor ?? AppColors.cBlackColor,
                           ),
                           SizedBox(width: 16.w),
                           Text(

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:color_funland/core/components/background_sound.dart';
+import 'package:color_funland/core/components/success_sound.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:color_funland/features/auth/domain/entities/user.dart'
@@ -124,8 +125,10 @@ class AuthCubit extends Cubit<AuthState> {
                 );
 
                 emit(AuthSuccess(user: verifiedUser, isEmailVerified: true));
+                
+                await SuccessSound.playAfterLogin();
 
-                BackgroundAudio.playBackgroundMusic();
+                BackgroundAudio.listenForSoundUpdates();
               } else {
                 emit(const AuthError(message: 'User data not found'));
               }
@@ -289,13 +292,11 @@ class AuthCubit extends Cubit<AuthState> {
       await _auth.signOut();
       emit(const AuthSignedOut(message: "Signed Out Successfully"));
 
-      // Stop background music on logout
-      BackgroundAudio.stopBackgroundMusic();
+      // ✅ Stop background music on logout
+      await BackgroundAudio.stopAllSounds();
     } catch (e) {
       emit(AuthError(message: 'Failed to sign out: ${e.toString()}'));
       messageService.showMessage('Failed to sign out', MessageType.error);
     }
   }
-
- 
 }

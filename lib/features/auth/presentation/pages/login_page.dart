@@ -35,48 +35,48 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state is AuthError) {
-            context.read<AuthCubit>().messageService.showMessage(
-                  state.message,
-                  MessageType.error,
-                );
-          } else if (state is EmailVerificationRequired) {
-            context.read<AuthCubit>().messageService.showMessage(
-                  'Please verify your email at ${state.email} before logging in',
-                  MessageType.info,
-                );
-            Navigator.pushReplacementNamed(context, '/email-verification');
-          } else if (state is EmailVerificationSent) {
-            context.read<AuthCubit>().messageService.showMessage(
-                  'A new verification email has been sent to ${state.email}',
-                  MessageType.info,
-                );
-            Navigator.pushReplacementNamed(context, '/email-verification');
-          } else if (state is AuthSuccess) {
-            if (state.isEmailVerified) {
-              Navigator.pushReplacementNamed(context, '/gameBoard');
-
-            } else {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(AppImages.loginBg),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthError) {
               context.read<AuthCubit>().messageService.showMessage(
-                    'Please verify your email before logging in',
-                    MessageType.warning,
+                    state.message,
+                    MessageType.error,
+                  );
+            } else if (state is EmailVerificationRequired) {
+              context.read<AuthCubit>().messageService.showMessage(
+                    'Please verify your email at ${state.email} before logging in',
+                    MessageType.info,
                   );
               Navigator.pushReplacementNamed(context, '/email-verification');
+            } else if (state is EmailVerificationSent) {
+              context.read<AuthCubit>().messageService.showMessage(
+                    'A new verification email has been sent to ${state.email}',
+                    MessageType.info,
+                  );
+              Navigator.pushReplacementNamed(context, '/email-verification');
+            } else if (state is AuthSuccess) {
+              if (state.isEmailVerified) {
+                Navigator.pushReplacementNamed(context, '/gameBoard');
+              } else {
+                context.read<AuthCubit>().messageService.showMessage(
+                      'Please verify your email before logging in',
+                      MessageType.warning,
+                    );
+                Navigator.pushReplacementNamed(context, '/email-verification');
+              }
             }
-          }
-        },
-        builder: (context, state) {
-          return Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.loginBg),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: SafeArea(
+          },
+          builder: (context, state) {
+            return SafeArea(
               child: Center(
                 child: Padding(
                   padding: AppCommonPadding.loginPagePadding,
@@ -157,7 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, "/forgetPassword");
+                                    Navigator.pushNamed(
+                                        context, "/forgetPassword");
                                   },
                                   child: Text(
                                     AppStrings.forgetPassword,
@@ -174,8 +175,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           context.read<AuthCubit>().signIn(
-                                                email: _emailController.text.trim(),
-                                                password: _passwordController.text,
+                                                email: _emailController.text
+                                                    .trim(),
+                                                password:
+                                                    _passwordController.text,
                                               );
                                         }
                                       },
@@ -210,9 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

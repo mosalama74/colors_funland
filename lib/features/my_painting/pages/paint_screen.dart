@@ -44,7 +44,7 @@ class _PaintScreenState extends State<PaintScreen> {
 
   // Load and parse the SVG file
   Future<void> _loadSvg() async {
-    final String svgData = await rootBundle.loadString(widget.uncoloredImage);
+    final String svgData = await rootBundle.loadString('assets/images/mypainting_images/monkeyuncolored.svg');
     setState(() {
       _vectorImage = parseSvg(svgData);
     });
@@ -52,7 +52,7 @@ class _PaintScreenState extends State<PaintScreen> {
 
   // Method to reset the SVG image
 void _resetSvg() async {
-  final String svgData = await rootBundle.loadString(widget.uncoloredImage);
+  final String svgData = await rootBundle.loadString('assets/images/mypainting_images/monkeyuncolored.svg');
   setState(() {
     _vectorImage = parseSvg(svgData); // Reload the original SVG
   });
@@ -113,7 +113,7 @@ void _resetSvg() async {
                                 ? SvgCanvas(
                                     vectorImage: _vectorImage!,
                                     selectedColor: _paintState.selectedColor,
-                                    scaleFactor: 1.10,
+                                    scaleFactor: .60,
                                   )
                                 : const CircularProgressIndicator(), // Show a loading indicator until SVG is loaded
                           ),

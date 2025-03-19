@@ -10,7 +10,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnimatedContainerWidget extends StatefulWidget {
-  const AnimatedContainerWidget({super.key, });
+  const AnimatedContainerWidget({
+    super.key,
+  });
 
   @override
   AnimatedContainerState createState() => AnimatedContainerState();
@@ -76,8 +78,7 @@ class AnimatedContainerState extends State<AnimatedContainerWidget>
   }
 }
 
-Widget menuList(BuildContext context) =>
-    Container(
+Widget menuList(BuildContext context) => Container(
       width: 400.h,
       padding: EdgeInsets.fromLTRB(24.w, 36.h, 16.w, 36.h),
       decoration: BoxDecoration(
@@ -89,7 +90,11 @@ Widget menuList(BuildContext context) =>
       ),
       child: Column(
         children: [
-          rowWithArrowButton(title: 'Progress', onTap: () {}),
+          rowWithArrowButton(
+              title: 'Progress',
+              onTap: () {
+                Navigator.pushNamed(context, '/childProgress');
+              }),
           SizedBox(height: 16.h),
           rowWithArrowButton(
               title: 'Edit Profile',
@@ -104,8 +109,7 @@ Widget menuList(BuildContext context) =>
           SizedBox(height: 16.h),
           toggleItem(
             title: 'Theme',
-            widget: ToggleTheme(
-            ),
+            widget: ToggleTheme(),
           ),
           SizedBox(height: 16.h),
           rowWithArrowButton(
@@ -134,6 +138,7 @@ Widget menuList(BuildContext context) =>
                   });
             },
           ),
+           
         ],
       ),
     );

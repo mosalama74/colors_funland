@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_state.dart';
 import 'dart:io';
 
+
 class ProfileInfoCubit extends Cubit<ProfileInfoState> {
   final ImagePicker _picker;
   final FirebaseAuth _auth;
@@ -450,7 +451,7 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
           'imageUrl': childData['profileImage'],
         },
       ));
-      BackgroundAudio.playBackgroundMusic();
+      BackgroundAudio.listenForSoundUpdates();
     } catch (e) {
       emit(GetChildErrorState(
         errorMessage: e.toString(),

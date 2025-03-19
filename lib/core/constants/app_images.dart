@@ -43,6 +43,7 @@ class AppImages {
   static const String darkGamBoard = "$_gameBoardImagesPath/darkGamBoard.png";
   static const String yellowshadow = "$_gameBoardImagesPath/yellowshadow.svg";
   static const String childPhoto = "$_gameBoardImagesPath/childPhoto.png";
+  static const String progressBg = "$_gameBoardImagesPath/progressBg.png";
   static const String childphotoframe =
       "$_gameBoardImagesPath/childphotoframe.png";
   static const String switchbutton = "$_gameBoardImagesPath/switchbutton.png";
@@ -185,14 +186,13 @@ class AppImages {
   static const String number1 = "$_myColorMixingImagePath/number1.png";
   static const String number2 = "$_myColorMixingImagePath/number2.png";
   static const String number3 = "$_myColorMixingImagePath/number3.png";
-  static const String number4 = "$_myColorMixingImagePath/number4.png";
-  static const String number5 = "$_myColorMixingImagePath/number5.png";
-  static const String number6 = "$_myColorMixingImagePath/number6.png";
   static const String colorYellow = "$_myColorMixingImagePath/coloryellow.svg";
   static const String colorOrange = "$_myColorMixingImagePath/colororange.svg";
   static const String colorBrown = "$_myColorMixingImagePath/colorbrown.svg";
   static const String colorBlue = "$_myColorMixingImagePath/colorblue.svg";
   static const String colorPink = "$_myColorMixingImagePath/colorpink.svg";
+  static const String colordarkpurple = "$_myColorMixingImagePath/colordarkpurple.svg";
+  static const String colordarkgreen = "$_myColorMixingImagePath/colordarkgreen.svg";
   static const String greenColorLevelForMix =
       "$_myColorMixingImagePath/greencolorformix.svg";
   static const String mixedColor1 = "$_myColorMixingImagePath/mixedcolor.svg";
@@ -200,6 +200,18 @@ class AppImages {
       "$_myColorMixingImagePath/colorlevelorange.svg";
   static const String colorLevelBrown =
       "$_myColorMixingImagePath/colorlevelbrown.svg";
+  static const String colorDarkOrange =
+      "$_myColorMixingImagePath/colordarkorang.svg";
+  static const String colorBlueGreen =
+      "$_myColorMixingImagePath/colorbluegreen.svg";
+  static const String colorLevelPink =
+      "$_myColorMixingImagePath/colorlevelpink.svg";
+  static const String colorLevelBlueGreen =
+      "$_myColorMixingImagePath/colorlevelbluegreen.svg";
+  static const String colorLevelDarkOrange =
+      "$_myColorMixingImagePath/colorleveldarkorange.svg";
+  static const String colorLevelBluePurple =
+      "$_myColorMixingImagePath/colorlevelbluepurple.svg";
 
   ///********************* Color Mixing samples *********************/
 

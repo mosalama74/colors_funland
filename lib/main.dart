@@ -1,3 +1,4 @@
+
 import 'package:color_funland/color_funland_app.dart';
 import 'package:color_funland/core/services/message_service.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_cubit.dart';
@@ -17,6 +18,7 @@ void main() async {
   );
   await di.init();
 
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -31,8 +33,7 @@ void main() async {
           create: (context) => ProfileInfoCubit(),
         ),
       ],
-      child: const ColorFunLandApp(),
+      child: ColorFunLandApp(),
     ),
   );
 }
- 
