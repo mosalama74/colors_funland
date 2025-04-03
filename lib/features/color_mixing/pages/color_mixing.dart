@@ -4,7 +4,7 @@ import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/features/color_mixing/widgets/color_mixing_widget.dart';
 import 'package:color_funland/core/components/three_items_bottom_navigation.dart';
-import 'package:color_funland/features/my_painting/model.dart';
+import 'package:color_funland/core/constants/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -36,14 +36,15 @@ class AppColors {
 
 
   ///******************** painting items colors *****************/
-  static List<Color> duckColors = [ 
-    Colors.white,
-    Colors.black,
-    Colors.yellow,
-    Color(0xFF4CAF50),  
-    Color(0xFFFF9800),  
+ static List<Color> penguinColors = [ 
+    Color(0xffffffff),
+    Color(0xff000000),
+    Color(0xFFef2e14),
+    Color(0xFF474747),  
+    Color(0xFFFA8A1F),  
     Color(0xFF2196F3),  
     ];
+
   static List<Color> elephantColors = [  
     Color(0xffC8D4ED),
     Colors.black,
@@ -52,29 +53,30 @@ class AppColors {
     Color(0xFFDE829A),
     Color(0xFF5872AB),  
     ];
-  static List<Color> catColors = [  
-    Color(0xffffffff),
-    Color(0xFFBDC3C7), 
-    Color(0xffE47664),
-    Color(0xFF843233), 
-    Color(0xFF3498DB), 
-    Color(0xFF2980B9),  
+  static List<Color> monkey2Colors = [  
+    Color(0xFF000000), 
+    Color(0xFF20a500),  
+    Color(0xffffe1ab),
+    Color(0xFF915600), 
+    Color(0xffe08a22),
+    Color(0xFFe81844), 
     ];
-  static List<Color> giraffeColors = [  
+
+  static List<Color> elephante2Colors = [  
     Color(0xFFffffff),
-    Colors.black,
-    Color(0xFF2B2B2B), 
-    Color(0xFFFFCD02), 
-    Color(0xFFFFA800), 
-    Color(0xffFF861A),
+    Color(0xff231F20),
+    Color(0xFF97a9af), 
+    Color(0xff728084), 
+    Color(0xFFf982c0), 
+    Color(0xff505151),
     ];
-  static List<Color> lionColors = [  
+  static List<Color> turtleColors = [  
     Color(0xffffffff),
-    Colors.black,
-    Color(0xFFFB7F1B), 
-    Color(0xFFC0392B), 
-    Color(0xFFAB410F), 
-    Color(0xff882601),
+    Color(0xff231e1f),
+    Color(0xff725522),
+    Color(0xff19bc25), 
+    Color(0xFFc98306), 
+    Color(0xFF704706), 
     ];
   static List<Color> dolphinColors = [  
     Color(0xffffffff),
@@ -119,34 +121,34 @@ class AppColors {
   static List<Color>flower1Colors = [  
     Color(0xffffffff),
     Color(0xFF000000), 
-    Color(0xFFFFCD02), 
-    Color(0xFFFFA800), 
-    Color(0xFF27AE60),
-    Color(0xffFF861A),
+    Color(0xFFCBBBA0), 
+    Color(0xFF3AAA35), 
+    Color(0xFFB17F4A),
+    Color(0xffF39200),
     ];
   static List<Color>flower2Colors = [  
-    Color(0xffffffff),
-    Color(0xFF000000), 
-    Color(0xFFFF861A), 
-    Color(0xFF2980B9), 
-    Color(0xFFFFCD02),
-    Color(0xffFF861A),
+    Color(0xffE400EA),
+    Color(0xFF2B2B2B), 
+    Color(0xFFF785A0), 
+    Color(0xFF2C9156), 
+    Color(0xFFE3252F),
+    Color(0xffFBCE34),
     ];
   static List<Color>flower3Colors = [  
     Color(0xffffffff),
-    Color(0xFFFFCD02), 
-    Color(0xFF27AE60), 
-    Color(0xFFFFA800), 
-    Color(0xFF9F1CD2),
-    Color(0xffA31694),
+    Color(0xFF2B2B2B), 
+    Color(0xFFe400ea), 
+    Color(0xFF3aaa35), 
+    Color(0xFF5b13ca),
+    Color(0xfffbce34),
     ];
   static List<Color>flower4Colors = [  
     Color(0xffffffff),
     Color(0xFF000000), 
-    Color(0xFFE7605D), 
-    Color(0xFFFFA800), 
-    Color(0xFF27AE60),
-    Color(0xffFF861A),
+    Color(0xFFCE7B90), 
+    Color(0xFFEDD45B), 
+    Color(0xFF2ECC71),
+    Color(0xffD1783B),
     ];
   static List<Color>flower5Colors = [  
     Color(0xffffffff),

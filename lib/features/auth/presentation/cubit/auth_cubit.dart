@@ -102,14 +102,7 @@ class AuthCubit extends Cubit<AuthState> {
 
               if (userDoc.exists) {
                 final userData = userDoc.data()!;
-                final String? currentChildId = userData['currentChildId'];
 
-                final childDoc = await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(firebaseUser.uid)
-                    .collection('children')
-                    .doc(currentChildId)
-                    .get();
 
                 final verifiedUser = entities.User(
                   uid: firebaseUser.uid,
@@ -119,16 +112,13 @@ class AuthCubit extends Cubit<AuthState> {
                   username: userData['username'] ?? '',
                   createdAt: (userData['createdAt'] as Timestamp?)?.toDate() ??
                       DateTime.now(),
-                  childName: childDoc.exists ? childDoc['name'] ?? '' : '',
-                  childImageUrl:
-                      childDoc.exists ? childDoc['profileImage'] ?? '' : '',
                 );
 
                 emit(AuthSuccess(user: verifiedUser, isEmailVerified: true));
-                
-                await SuccessSound.playAfterLogin();
 
+                await SuccessSound.playAfterLogin();
                 BackgroundAudio.listenForSoundUpdates();
+              await  getCurrentChildData();
               } else {
                 emit(const AuthError(message: 'User data not found'));
               }
@@ -203,6 +193,19 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+
+
+  Future<void> resetPassword(String email) async {
+  emit(AuthLoading());
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    emit(ForgetPasswordSuccess(message: "Password reset email sent."));
+  } catch (e) {
+    emit(ForgetPasswordError(message: e.toString()));
+  }
+}
+
+
   Future<void> changePassword({
     required String currentPassword,
     required String newPassword,
@@ -254,7 +257,7 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-      //  // Re-authenticate user before deleting account
+    
       //   final credential = EmailAuthProvider.credential(
       //     email: user.email!,
       //     password: currentPassword,
@@ -286,6 +289,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+
   Future<void> signOut() async {
     try {
       emit(const AuthLoading());
@@ -297,6 +301,79 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(AuthError(message: 'Failed to sign out: ${e.toString()}'));
       messageService.showMessage('Failed to sign out', MessageType.error);
+    }
+  }
+
+  Future<void> getCurrentChildData() async {
+    try {
+      emit(AuthLoading());
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(GetChildDataErrorState(
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      // Get user document to find current child ID
+      final userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+
+      if (!userDoc.exists) {
+        emit(GetChildDataErrorState(
+          errorMessage: 'User document not found',
+        ));
+        return;
+      }
+
+      final userData = userDoc.data();
+      final String? currentChildId = userData?['currentChildId'];
+
+      if (currentChildId == null) {
+        emit(GetChildDataErrorState(
+          errorMessage: 'No current child set',
+        ));
+        return;
+      }
+
+      // Get child document using the ID
+      final childDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(currentChildId)
+          .get();
+
+      if (!childDoc.exists) {
+        emit(GetChildDataErrorState(
+          errorMessage: 'Child not found',
+        ));
+        return;
+      }
+
+      final childData = childDoc.data() as Map<String, dynamic>;
+      emit(GetChildDataSuccessState(
+        child: {
+          'id': childDoc.id,
+          'name': childData['name'],
+          'age': childData['age'],
+          'profileImage': childData['profileImage'],
+          'paintingGameCounter': childData['paintingGameCounter'],
+          'paintingLevelCounter': childData['paintingLevelCounter'],
+          'colorMixingGameCounter': childData['colorMixingGameCounter'],
+          'colorMixingLevelCounter': childData['colorMixingLevelCounter'],
+          'colorMatchGameCounter': childData['colorMatchGameCounter'],
+          'colorMatchLevelCounter': childData['colorMatchLevelCounter'],
+          'learningColorsGameCounter': childData['learningColorsGameCounter'],
+          'learningColorsLevelCounter': childData['learningColorsLevelCounter'],
+        },
+      ));
+   //   BackgroundAudio.listenForSoundUpdates();
+    } catch (e) {
+      emit(GetChildDataErrorState(
+        errorMessage: e.toString(),
+      ));
     }
   }
 }

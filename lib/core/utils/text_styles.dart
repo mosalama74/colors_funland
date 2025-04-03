@@ -98,7 +98,7 @@ TextStyle ts17Black700 = TextStyle(
 );
 
 
-/***************************************/
+/// ************************************
 
  TextStyle bubleStyle = TextStyle(
     fontFamily: "MagicBubble",
@@ -127,6 +127,12 @@ TextStyle ts17Black700 = TextStyle(
     fontFamily: "Minnie",
     fontWeight: FontWeight.w400,
     fontSize: 18.sp,
+  );
+   TextStyle ts32minnie400 = TextStyle(
+    fontFamily: "Minnie",
+    fontWeight: FontWeight.w400,
+    color: Color(0xff372246),
+    fontSize: 32.sp,
   );
 
    TextStyle gameNameStyle = TextStyle(

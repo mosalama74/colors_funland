@@ -1,6 +1,7 @@
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
-import 'package:color_funland/features/my_painting/model.dart';
+import 'package:color_funland/core/constants/model.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/pages/child_progress_scareen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,7 +52,15 @@ class ColorMixingWidget extends StatelessWidget {
                   title: items[index].title,
                   imageUrl: items[index].imageUrl,
                   onTap: () {
-                    Navigator.of(context).pushNamed(pageGroup[index]);
+                    if ( index == 0) {
+                      Navigator.of(context).pushNamed(pageGroup[0]);
+                    } else if (ColorMixingProgress.gamesCounter >=3 &&
+                        index == 1) {
+                      Navigator.of(context).pushNamed(pageGroup[1]);
+                    } else if (ColorMixingProgress.gamesCounter >= 6 &&
+                        index == 2) {
+                      Navigator.of(context).pushNamed(pageGroup[2]);
+                    }
                   },
                 ),
               ),
@@ -66,6 +75,7 @@ class ColorMixingWidget extends StatelessWidget {
   Widget _buildColorMixing({
     required GridItem item,
     required int index,
+  
   }) {
     return InkWell(
       highlightColor: Colors.transparent,
@@ -83,7 +93,8 @@ class ColorMixingWidget extends StatelessWidget {
                 height: item.imgHeight,
                 fit: BoxFit.cover,
               ),
-              index > 0
+              
+             index > ColorMixingProgress.lockedIndex
                   ? Image.asset(
                       AppImages.locked,
                       width: 66.w,

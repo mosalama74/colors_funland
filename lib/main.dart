@@ -2,6 +2,7 @@
 import 'package:color_funland/color_funland_app.dart';
 import 'package:color_funland/core/services/message_service.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_cubit.dart';
+import 'package:color_funland/features/my_painting/services/painting_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
@@ -16,8 +17,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await di.init();
+    await PaintingService.initialize();
 
+  await di.init();
 
   runApp(
     MultiBlocProvider(

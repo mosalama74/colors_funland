@@ -4,20 +4,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FailureScreen extends StatefulWidget {
   const FailureScreen({super.key});
+  
 
   @override
   _WinScreenState createState() => _WinScreenState();
 }
 
 class _WinScreenState extends State<FailureScreen> with SingleTickerProviderStateMixin {
+  late Size screenSize;
 
 
   @override
   void initState() {
+                screenSize = Size.zero;
+
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+        screenSize = MediaQuery.of(context).size;
+
+
     return Material(
       color: Color(0xff2C005E).withOpacity(.20),
       child: Stack(

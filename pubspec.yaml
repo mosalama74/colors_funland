@@ -30,7 +30,6 @@ environment:
 dependencies:
   animate_do: ^4.0.0
   bloc: ^9.0.0
-  cached_network_image: ^3.4.1
   cloud_firestore: ^5.6.3
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
@@ -47,9 +46,13 @@ dependencies:
   flutter_svg: ^2.0.17
   fluttertoast: ^8.2.4
   get_it: ^8.0.3
+  image: ^4.1.3
   image_picker: ^1.1.2
   just_audio: ^0.9.35
+  palette_generator: ^0.3.3
   path_drawing: ^1.0.1
+  shared_preferences: ^2.5.3
+  video_player: ^2.9.3
   xml: ^6.5.0
 
 dev_dependencies:
@@ -72,6 +75,7 @@ flutter:
     - assets/images/game_board/
     - assets/images/color_match_images/
     - assets/images/color_mixing_images/
+    - assets/images/learning_colors_images/
     - assets/images/mypainting_images/
     - assets/images/mypainting_images/fishes/
     - assets/images/mypainting_images/flowers/

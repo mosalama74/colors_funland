@@ -1,10 +1,14 @@
 import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/core/components/three_items_bottom_navigation.dart';
+import 'package:color_funland/core/components/win_screen.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_cubit.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/pages/child_progress_scareen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,6 +21,22 @@ class ColorMatchAnimals extends StatefulWidget {
 
 class _ColorMatchAnimalsState extends State<ColorMatchAnimals> {
   final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
+
+  void _increaseCounterGame() {
+    setState(() {
+      if (ColorMatchProgress.gamesCounter < 4) {
+        ColorMatchProgress.gamesCounter++;
+      }
+    });
+  }
+
+  void _increaseLevelCounter() {
+    setState(() {
+      if (ColorMatchProgress.gamesCounter < 4) {
+        ColorMatchProgress.levelsCounter++;
+      }
+    });
+  }
 
   List<String> sourceList = [
     AppImages.animalColorMatchFish,
@@ -39,10 +59,29 @@ class _ColorMatchAnimalsState extends State<ColorMatchAnimals> {
 
   void checkAnimalMatch(String selectedAnimal) {
     setState(() {
-      if (animalColorGroups[AppImages.animalColorMatchTiger] ?.contains(selectedAnimal) ?? false) {
-        sourceList.remove(selectedAnimal); 
+      if (animalColorGroups[AppImages.animalColorMatchTiger]
+              ?.contains(selectedAnimal) ??
+          false) {
+        sourceList.remove(selectedAnimal);
         targetList.add(selectedAnimal);
-      }
+          }
+          if(targetList.length==3){
+
+          if (ColorMatchProgress.gamesCounter == 2) {
+            _increaseCounterGame();
+            _increaseLevelCounter();
+            context.read<ProfileInfoCubit>().updateColorMatchProgress(
+                colorMatchGameCounter: ColorMatchProgress.gamesCounter,
+                colorMatchLevelCounter: ColorMatchProgress.levelsCounter);
+          }
+          ColorMatchProgress.lockedIndex = 3;
+          showWinScreen(
+            context,
+            () => Navigator.pushReplacementNamed(context, "/colorMatchScreen"),
+          );
+          
+          }
+      
     });
   }
 
@@ -62,27 +101,7 @@ class _ColorMatchAnimalsState extends State<ColorMatchAnimals> {
               padding: EdgeInsets.only(right: 52.w, left: 46.w),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 37.w),
-                        child: InkWell(
-                          onTap: () {},
-                          child: SizedBox(
-                            width: 67.w,
-                            height: 67.h,
-                            child: SvgPicture.asset(AppIcons.help),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: AlignmentDirectional.center,
-                          child: Text("Animals", style: ts64Magic400),
-                        ),
-                      ),
-                    ],
-                  ),
+                 Text("Animals", style: ts64Magic400),
                   SizedBox(height: 24.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 91.w),
@@ -119,7 +138,7 @@ class _ColorMatchAnimalsState extends State<ColorMatchAnimals> {
                   SizedBox(
                     height: 153.h,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: sourceList
                           .map(
                             (item) => Draggable(
@@ -128,8 +147,7 @@ class _ColorMatchAnimalsState extends State<ColorMatchAnimals> {
                                 child: _Card(image: item),
                               ),
                               childWhenDragging: Opacity(
-                                opacity:
-                                    0.5, 
+                                opacity: 0.5,
                                 child: _Card(image: item),
                               ),
                               child: _Card(image: item),

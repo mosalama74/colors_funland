@@ -79,7 +79,7 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
           ),
           bottomNavigationBar:
               Padding(
-                padding:  EdgeInsets.only(bottom: 68.h),
+                padding:  EdgeInsets.only(bottom: 50.h),
                 child: const TwoItemsBottomNavigation(insideGame: false),
               ),
         ),

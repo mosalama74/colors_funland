@@ -19,10 +19,10 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
     required this.gameGroup,
     required this.inSideGame,
     this.appBarIcon = "",
-    this.containerKey,// Receive the key
+    this.containerKey, // Receive the key
     this.gameGroupColor,
-    this.dividerColor, 
-    this.menu, 
+    this.dividerColor,
+    this.menu,
   });
 
   final String gameGroup;
@@ -42,15 +42,11 @@ class AppBarRow extends StatelessWidget implements PreferredSizeWidget {
     String childname = '';
     String? imageUrl;
     return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthSuccess) {
-          context.read<AuthCubit>().signInUseCase;
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        if (state is AuthSuccess) {
-          childname = state.user.childName ?? '';
-          imageUrl = state.user.childImageUrl;
+        if (state is GetChildDataSuccessState) {
+          childname = state.child['name'] ?? '';
+          imageUrl = state.child['profileImage'];
         }
 
         return AppBar(

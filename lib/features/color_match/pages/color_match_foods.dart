@@ -1,10 +1,14 @@
 import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/core/components/three_items_bottom_navigation.dart';
+import 'package:color_funland/core/components/win_screen.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_cubit.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/pages/child_progress_scareen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,6 +23,7 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
   final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
 
   Set<String> usedColors = {};
+  int _counter = 0;
 
   Widget _buildDraggableColor(String colorImage) {
     final isUsed = usedColors.contains(colorImage);
@@ -35,17 +40,17 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
               : getColorForImage(colorImage).withOpacity(0.8),
         ),
       ),
-      child: SvgPicture.asset(
-        colorImage,
-        width: 128.w,
-        height: 116.h,
-        color: isUsed ? Colors.grey.withOpacity(0.3) : null,
-      ),
       childWhenDragging: SvgPicture.asset(
         colorImage,
         width: 128.w,
         height: 116.h,
         color: Colors.grey.withOpacity(0.3),
+      ),
+      child: SvgPicture.asset(
+        colorImage,
+        width: 128.w,
+        height: 116.h,
+        color: isUsed ? Colors.grey.withOpacity(0.3) : null,
       ),
     );
   }
@@ -77,86 +82,66 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
               padding: EdgeInsets.only(right: 52.w, left: 46.w),
               child: Column(
                 children: [
-                  Row(children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 37.w),
-                      child: InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          width: 67.w,
-                          height: 67.h,
-                          child: SvgPicture.asset(
-                            AppIcons.help,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                        child: Align(
-                            alignment: AlignmentDirectional.center,
-                            child: Text(
-                              "Food",
-                              style: ts64Magic400,
-                            ))),
-                  ]),
+                  Text(
+                    "Food",
+                    style: ts64Magic400,
+                  ),
                   SizedBox(
                     height: 24.h,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 71.75.w),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _Item(
-                              image: AppImages.carrot,
-                              unColoredArea: AppImages.unColoredArea,
-                              containerWidth: 147.36.w,
-                              containerHeight: 219.51.h,
-                              imageWidth: 89.94.w,
-                              imageheight: 219.51.h),
-                          SizedBox(
-                            width: 48.w,
-                          ),
-                          _Item(
-                              image: AppImages.cabbage,
-                              unColoredArea: AppImages.unColoredArea,
-                              containerWidth: 190.w,
-                              containerHeight: 220.h,
-                              imageWidth: 130.16.w,
-                              imageheight: 150.91.h),
-                          SizedBox(
-                            width: 48.w,
-                          ),
-                          _Item(
-                              image: AppImages.eggplant,
-                              unColoredArea: AppImages.unColoredArea,
-                              containerWidth: 150.14.w,
-                              containerHeight: 189.91.h,
-                              imageWidth: 100.78.w,
-                              imageheight: 189.91.h),
-                          SizedBox(
-                            width: 48.w,
-                          ),
-                          _Item(
-                              image: AppImages.tomato,
-                              unColoredArea: AppImages.unColoredArea,
-                              containerWidth: 195.39.w,
-                              containerHeight: 148.09.h,
-                              imageWidth: 139.17.w,
-                              imageheight: 148.09.h),
-                          SizedBox(
-                            width: 48.w,
-                          ),
-                          _Item(
-                              image: AppImages.banana,
-                              unColoredArea: AppImages.unColoredArea,
-                              containerWidth: 163.6.w,
-                              containerHeight: 165.51.h,
-                              imageWidth: 87.99.w,
-                              imageheight: 165.51.h),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _Item(
+                            image: AppImages.carrot,
+                            unColoredArea: AppImages.unColoredArea,
+                            containerWidth: 147.36.w,
+                            containerHeight: 219.51.h,
+                            imageWidth: 89.94.w,
+                            imageheight: 219.51.h),
+                        SizedBox(
+                          width: 48.w,
+                        ),
+                        _Item(
+                            image: AppImages.cabbage,
+                            unColoredArea: AppImages.unColoredArea,
+                            containerWidth: 190.w,
+                            containerHeight: 220.h,
+                            imageWidth: 130.16.w,
+                            imageheight: 150.91.h),
+                        SizedBox(
+                          width: 48.w,
+                        ),
+                        _Item(
+                            image: AppImages.eggplant,
+                            unColoredArea: AppImages.unColoredArea,
+                            containerWidth: 150.14.w,
+                            containerHeight: 189.91.h,
+                            imageWidth: 100.78.w,
+                            imageheight: 189.91.h),
+                        SizedBox(
+                          width: 48.w,
+                        ),
+                        _Item(
+                            image: AppImages.tomato,
+                            unColoredArea: AppImages.unColoredArea,
+                            containerWidth: 195.39.w,
+                            containerHeight: 148.09.h,
+                            imageWidth: 139.17.w,
+                            imageheight: 148.09.h),
+                        SizedBox(
+                          width: 48.w,
+                        ),
+                        _Item(
+                            image: AppImages.banana,
+                            unColoredArea: AppImages.unColoredArea,
+                            containerWidth: 163.6.w,
+                            containerHeight: 165.51.h,
+                            imageWidth: 87.99.w,
+                            imageheight: 165.51.h),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -174,7 +159,6 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
                           height: 40.h,
                         ),
                       ),
-                     
                       _buildDraggableColor(AppImages.foodsColorMatchOrange),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 41.w),
@@ -184,7 +168,6 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
                           height: 40.h,
                         ),
                       ),
-                     
                       _buildDraggableColor(AppImages.foodsColorMatchGreen),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 41.w),
@@ -194,7 +177,6 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
                           height: 40.h,
                         ),
                       ),
-                     
                       _buildDraggableColor(AppImages.foodsColorMatchYellow),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 41.w),
@@ -204,7 +186,6 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
                           height: 40.h,
                         ),
                       ),
-                     
                       _buildDraggableColor(AppImages.foodsColorMatchRed),
                     ],
                   )
@@ -222,8 +203,7 @@ class _ColorMatchFoodsState extends State<ColorMatchFoods> {
 
 class _Item extends StatefulWidget {
   const _Item(
-      {
-      required this.image,
+      {required this.image,
       required this.unColoredArea,
       required this.containerWidth,
       required this.containerHeight,
@@ -241,6 +221,22 @@ class _Item extends StatefulWidget {
 }
 
 class _ItemState extends State<_Item> {
+  void _increaseCounterGame() {
+    setState(() {
+      if (ColorMatchProgress.gamesCounter < 4) {
+        ColorMatchProgress.gamesCounter++;
+      }
+    });
+  }
+
+  void _increaseLevelCounter() {
+    setState(() {
+      if (ColorMatchProgress.gamesCounter < 4) {
+        ColorMatchProgress.levelsCounter++;
+      }
+    });
+  }
+
   Color? areaColor;
 
   Map<String, Color> colorMap = {
@@ -261,7 +257,7 @@ class _ItemState extends State<_Item> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.containerWidth,
       height: widget.containerHeight,
       child: Stack(
@@ -304,6 +300,24 @@ class _ItemState extends State<_Item> {
                 if (parentState != null) {
                   parentState.setState(() {
                     parentState.usedColors.add(colorImage);
+                    parentState._counter++;
+                    if (parentState._counter == 5) {
+                      if (ColorMatchProgress.gamesCounter == 1 ) {
+                      _increaseCounterGame();
+                      _increaseLevelCounter();
+                      context.read<ProfileInfoCubit>().updateColorMatchProgress(
+                          colorMatchGameCounter:
+                              ColorMatchProgress.gamesCounter,
+                          colorMatchLevelCounter:
+                              ColorMatchProgress.levelsCounter);
+                    }
+                    ColorMatchProgress.lockedIndex = 2;
+                    showWinScreen(
+                      context,
+                      () => Navigator.pushReplacementNamed(
+                          context, "/colorMatchScreen"),
+                    );
+                    }
                   });
                 }
               },

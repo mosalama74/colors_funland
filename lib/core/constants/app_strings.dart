@@ -38,7 +38,7 @@ class AppStrings {
 
   /* Forget Password Screen */
 
-  static const String emailIdMobileNo = "Email id / Mobile no";
+  static const String emailIdMobileNo = "Email";
   static const String forgetPassword = "Forget Password?";
   static const String send = "Send";
   static const String enterEmailOrPhone =

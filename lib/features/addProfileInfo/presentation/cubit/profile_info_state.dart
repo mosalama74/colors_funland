@@ -155,3 +155,26 @@ class GetChildErrorState extends ProfileInfoState {
     );
 
 }
+class UpdateChildProgressSuccessState extends ProfileInfoState {
+  final String message;
+
+  const UpdateChildProgressSuccessState({
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class UpdateChildProgressErrorState extends ProfileInfoState {
+  final String? errorMessage;
+
+  const UpdateChildProgressErrorState({
+    required this.errorMessage,
+  });
+
+  @override
+  List<Object?> get props => [errorMessage];
+}
+
+

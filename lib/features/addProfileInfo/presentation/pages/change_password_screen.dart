@@ -55,7 +55,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       return 'Please confirm your password';
     }
     if (value != _newPasswordController.text) {
-      return 'Passwords do not match';
+      return "Password doesn't match";
     }
     return null;
   }

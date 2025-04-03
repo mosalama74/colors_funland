@@ -1,5 +1,6 @@
 import 'package:color_funland/core/constants/app_images.dart';
-import 'package:color_funland/features/my_painting/model.dart';
+import 'package:color_funland/core/constants/model.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/pages/child_progress_scareen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -47,7 +48,18 @@ class ColorMatchWidget extends StatelessWidget {
             title: items[index].title,
             imageUrl: items[index].imageUrl,
             onTap: () {
-              Navigator.of(context).pushNamed(pageGroup[index]);
+                if ( index == 0) {
+                      Navigator.of(context).pushReplacementNamed(pageGroup[0]);
+                    } else if (ColorMatchProgress.gamesCounter >=1 &&
+                        index == 1) {
+                      Navigator.of(context).pushReplacementNamed(pageGroup[1]);
+                    } else if (ColorMatchProgress.gamesCounter >= 2 &&
+                        index == 2) {
+                      Navigator.of(context).pushReplacementNamed(pageGroup[2]);
+                    } else if (ColorMatchProgress.gamesCounter >= 3 &&
+                        index == 3) {
+                      Navigator.of(context).pushReplacementNamed(pageGroup[3]);
+                    }
             },
           ),
         ),
@@ -74,7 +86,7 @@ class ColorMatchWidget extends StatelessWidget {
                 height: item.imgHeight,
                 fit: BoxFit.contain,
               ),
-              index > 0
+              index > ColorMatchProgress.lockedIndex
                   ? Image.asset(
                       AppImages.locked,
                       width: 66.w,

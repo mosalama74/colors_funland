@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/services/feature_management_service.dart';
 
 class FeatureAwareGameItem extends StatelessWidget {

@@ -1,10 +1,14 @@
 import 'package:color_funland/core/components/animated_container_widget.dart';
 import 'package:color_funland/core/components/app_bar_row.dart';
 import 'package:color_funland/core/components/three_items_bottom_navigation.dart';
+import 'package:color_funland/core/components/win_screen.dart';
 import 'package:color_funland/core/constants/app_icons.dart';
 import 'package:color_funland/core/constants/app_images.dart';
 import 'package:color_funland/core/utils/text_styles.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_cubit.dart';
+import 'package:color_funland/features/addProfileInfo/presentation/pages/child_progress_scareen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,6 +21,23 @@ class ColorMatchShapes extends StatefulWidget {
 
 class _ColorMixingSamplsState extends State<ColorMatchShapes> {
   final GlobalKey<AnimatedContainerState> _containerKey = GlobalKey();
+
+  int _counter = 0;
+  void _increaseCounterGame() {
+    setState(() {
+      if (ColorMatchProgress.gamesCounter < 4) {
+        ColorMatchProgress.gamesCounter++;
+      }
+    });
+  }
+
+  void _increaseLevelCounter() {
+    setState(() {
+      if (ColorMatchProgress.gamesCounter < 4) {
+        ColorMatchProgress.levelsCounter++;
+      }
+    });
+  }
 
   // Map to track which colors have been correctly placed
   Map<String, bool> colorMatched = {
@@ -54,28 +75,10 @@ class _ColorMixingSamplsState extends State<ColorMatchShapes> {
               padding: EdgeInsets.only(right: 52.w, left: 46.w),
               child: Column(
                 children: [
-                  Row(children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 37.w),
-                      child: InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          width: 67.w,
-                          height: 67.h,
-                          child: SvgPicture.asset(
-                            AppIcons.help,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                        child: Align(
-                            alignment: AlignmentDirectional.center,
-                            child: Text(
-                              "Shapes",
-                              style: ts64Magic400,
-                            ))),
-                  ]),
+                  Text(
+                    "Shapes",
+                    style: ts64Magic400,
+                  ),
                   SizedBox(
                     height: 75.5.h,
                   ),
@@ -164,6 +167,9 @@ class _ColorMixingSamplsState extends State<ColorMatchShapes> {
           return Container(
             width: 220.w,
             height: 220.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+            ),
             child: SvgPicture.asset(
               image,
               height: 220,
@@ -172,15 +178,29 @@ class _ColorMixingSamplsState extends State<ColorMatchShapes> {
                   ? targetColor
                   : null,
             ),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-            ),
           );
         },
         onWillAccept: (color) => color == targetColor,
         onAccept: (color) {
           setState(() {
             colorMatched[_getColorName(targetColor)] = true;
+            _counter++;
+            if (_counter == 6) {
+             // print('success');
+              if (ColorMatchProgress.gamesCounter < 1) {
+                _increaseCounterGame();
+                _increaseLevelCounter();
+                context.read<ProfileInfoCubit>().updateColorMatchProgress(
+                    colorMatchGameCounter: ColorMatchProgress.gamesCounter,
+                    colorMatchLevelCounter: ColorMatchProgress.levelsCounter);
+              }
+              ColorMatchProgress.lockedIndex = 1;
+              showWinScreen(
+                context,
+                () => Navigator.pushReplacementNamed(
+                    context, "/colorMatchScreen"),
+              );
+            }
           });
         },
       ),
@@ -197,14 +217,6 @@ class _ColorMixingSamplsState extends State<ColorMatchShapes> {
       offset: Offset(offsetX, offsetY),
       child: Draggable<Color>(
         data: color,
-        child: Container(
-          width: 173.w,
-          height: 173.h,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
         feedback: Container(
           width: 173.w,
           height: 173.h,
@@ -218,6 +230,14 @@ class _ColorMixingSamplsState extends State<ColorMatchShapes> {
           height: 173.h,
           decoration: BoxDecoration(
             color: color.withOpacity(0.3),
+            shape: BoxShape.circle,
+          ),
+        ),
+        child: Container(
+          width: 173.w,
+          height: 173.h,
+          decoration: BoxDecoration(
+            color: color,
             shape: BoxShape.circle,
           ),
         ),

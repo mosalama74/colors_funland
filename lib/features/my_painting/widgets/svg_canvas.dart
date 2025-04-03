@@ -14,8 +14,10 @@ class VectorImage {
 class PathSvgItem {
   final Path path;
   Color fill;
+  final Color originalColor; // Store correct color from colored SVG
 
-  PathSvgItem({required this.path, required this.fill});
+  PathSvgItem(
+      {required this.path, required this.fill, required this.originalColor});
 }
 
 // Painter class for rendering SVG paths
@@ -34,23 +36,22 @@ class SvgPainter extends CustomPainter {
     canvas.scale(scaleFactor);
     canvas.translate(-size.width / 2, -size.height / 2);
 
+  Paint defaultStrokePaint = Paint()
+    ..color = Colors.black  // Default stroke color
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 1.0;  // Adjust stroke width
+
     for (var item in items) {
-        // 1. Draw the black border **slightly larger** to appear around the shape
-    final borderPaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0  // Adjust border thickness as needed
-      ..strokeJoin = StrokeJoin.miter; // Smooth edges
+          // Ensure all shapes have an outline
+    canvas.drawPath(item.path, defaultStrokePaint);
+    
 
-    // 2. Draw the original shape **with the border first**
-    canvas.drawPath(item.path, borderPaint);
+      // 3. Draw the filled shape **on top of the border**
+      final fillPaint = Paint()
+        ..color = item.fill
+        ..style = PaintingStyle.fill;
 
-    // 3. Draw the filled shape **on top of the border**
-    final fillPaint = Paint()
-      ..color = item.fill
-      ..style = PaintingStyle.fill;
-
-    canvas.drawPath(item.path, fillPaint);
+      canvas.drawPath(item.path, fillPaint);
     }
 
     canvas.restore();
@@ -87,7 +88,8 @@ VectorImage parseSvg(String svgData) {
       color = Color(int.parse('0xff${fillColor.substring(1)}'));
     }
 
-    items.add(PathSvgItem(path: path, fill: color));
+  items.add(PathSvgItem(path: path, fill: color, originalColor: color));
+
   }
 
   return VectorImage(items: items, size: size);
@@ -96,14 +98,18 @@ VectorImage parseSvg(String svgData) {
 // Widget to display the SVG and handle painting
 class SvgCanvas extends StatefulWidget {
   final VectorImage vectorImage;
-  final Color selectedColor;
+  final VectorImage coloredVectorImage; // Add this
+  final Color? selectedColor;
   final double scaleFactor;
+  final void Function(List<PathSvgItem>,bool)? onPaintUpdate; // Callback to notify painting updates
 
   const SvgCanvas({
     super.key,
     required this.vectorImage,
-    required this.selectedColor,
+    this.selectedColor,
     this.scaleFactor = 1.10, // Default scale factor
+    this.onPaintUpdate,
+    required this.coloredVectorImage,
   });
 
   @override
@@ -111,16 +117,49 @@ class SvgCanvas extends StatefulWidget {
 }
 
 class _SvgCanvasState extends State<SvgCanvas> {
-  void _onTap(Offset position) {
-    for (var item in widget.vectorImage.items) {
-      if (item.path.contains(position)) {
-        setState(() {
-          item.fill = widget.selectedColor;
-        });
-        break;
-      }
+ void _onTap(Offset position) {
+  for (var item in widget.vectorImage.items) {
+    if (item.path.contains(position)) {
+      setState(() {
+        item.fill = widget.selectedColor ?? item.fill; // Keep original color if no color selected
+      });
+
+      // Compute correctness
+      bool isCorrect = _isPaintingCorrect(widget.vectorImage.items);
+
+      // Notify parent widget
+      widget.onPaintUpdate?.call(widget.vectorImage.items, isCorrect);
+      break;
     }
   }
+}
+
+
+ bool _isPaintingCorrect(List<PathSvgItem> paintedRegions) {
+  int correctlyPainted = 0;
+  int totalRegions = paintedRegions.length;
+  int coloredTotalRegions = widget.coloredVectorImage.items.length;
+
+  int minRegions = totalRegions < coloredTotalRegions ? totalRegions : coloredTotalRegions;
+
+  for (int i = 0; i < minRegions; i++) {
+    if (paintedRegions[i].fill == widget.coloredVectorImage.items[i].originalColor) {
+      correctlyPainted++;
+    }
+  }
+
+  double accuracy = (correctlyPainted / minRegions) * 100;
+
+  bool isCorrect = accuracy >= 54.0;
+
+  // // Print debugging info
+  print("Painting Accuracy: $accuracy%");
+  print("Correctly Painted Regions: $correctlyPainted / $minRegions");
+  print("isPaintingCorrect: $isCorrect");
+
+  return isCorrect;
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -140,3 +179,6 @@ class _SvgCanvasState extends State<SvgCanvas> {
     );
   }
 }
+
+
+

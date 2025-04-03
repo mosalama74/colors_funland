@@ -146,3 +146,43 @@ class GetChildInfoErrorState extends AuthState {
 
   const GetChildInfoErrorState({required this.errorMessage});
 }
+
+
+class GetChildDataSuccessState extends AuthState {
+  final Map<String, dynamic> child;
+
+  const GetChildDataSuccessState({
+    required this.child,
+  });
+
+  @override
+  List<Object?> get props => [child];
+}
+
+class GetChildDataErrorState extends AuthState {
+      final String? errorMessage;
+
+    const GetChildDataErrorState(
+          {required this.errorMessage}
+
+    );
+
+}
+
+class ForgetPasswordError extends AuthState {
+  final String message;
+
+  const ForgetPasswordError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class ForgetPasswordSuccess extends AuthState {
+  final String message;
+
+  const ForgetPasswordSuccess({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}

@@ -45,8 +45,7 @@ class Games extends StatelessWidget {
                 horizontal: enabledFeatures <= 2 ? 120.w : 20.w,
                 vertical: 20.h,
               ),
-              child:
-               Row(
+              child: Row(
                 mainAxisAlignment: enabledFeatures <= 2
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.spaceAround,
@@ -92,7 +91,7 @@ class Games extends StatelessWidget {
       FeatureAwareGameItem(
         featureId: 'learning_colors',
         featureService: featureService,
-        onTap: () {},
+        onTap: () => Navigator.pushNamed(context, '/learningColorsboard'),
         child: _buildGameItemContent(
           image: AppImages.learningColors,
           title: AppStrings.learningColors,

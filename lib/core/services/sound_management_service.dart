@@ -10,7 +10,14 @@ class SoundManagementService {
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
   Stream<List<SoundConfig>> getSoundConfigs() {
-    return _firestore.collection('sounds').snapshots().map((snapshot) {
+    // return _firestore.collection('sounds').snapshots().map((snapshot) {  // fetches all sounds. We need to filter it to only fetch the enabled sound.
+    return _firestore.collection('sounds')
+    .where('isEnabled', isEqualTo: true) // Only fetch enabled sound
+    .limit(1) // Ensure only one sound is fetched
+    .snapshots()
+    .map((snapshot) {  
+
+      
       return snapshot.docs
           .map((doc) => SoundConfig.fromMap({...doc.data(), 'id': doc.id}))
           .toList();

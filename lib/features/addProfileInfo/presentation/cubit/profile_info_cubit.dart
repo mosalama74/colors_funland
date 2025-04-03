@@ -1,12 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:color_funland/core/components/background_sound.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:color_funland/features/addProfileInfo/presentation/cubit/profile_info_state.dart';
 import 'dart:io';
-
 
 class ProfileInfoCubit extends Cubit<ProfileInfoState> {
   final ImagePicker _picker;
@@ -106,8 +104,19 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
     }
   }
 
-  Future<void> saveChildData(
-      String childName, String childAge, String? imageUrl) async {
+  Future<void> saveChildData({
+   required String childName,
+   required String childAge,
+   required String? imageUrl,
+   required int paintingGameCounter,
+   required int paintingLevelCounter,
+   required int colorMixingGameCounter,
+   required int colorMixingLevelCounter,
+   required int colorMatchGameCounter,
+   required int colorMatchLevelCounter,
+   required int learningColorsGameCounter,
+   required int learningColorsLevelCounter,
+  }) async {
     try {
       emit(ProfileInfoLoadingState());
 
@@ -154,6 +163,14 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
         'name': childName,
         'age': parsedAge,
         'profileImage': imageUrl,
+        'paintingGameCounter': paintingGameCounter,
+        'paintingLevelCounter': paintingLevelCounter,
+        'colorMixingGameCounter': colorMixingGameCounter,
+        'colorMixingLevelCounter': colorMixingLevelCounter,
+        'colorMatchGameCounter': colorMatchGameCounter,
+        'colorMatchLevelCounter': colorMatchLevelCounter,
+        'learningColorsGameCounter': learningColorsGameCounter,
+        'learningColorsLevelCounter': learningColorsLevelCounter,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
@@ -448,13 +465,262 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
           'id': childDoc.id,
           'name': childData['name'],
           'age': childData['age'],
-          'imageUrl': childData['profileImage'],
+          'profileImage': childData['profileImage'],
+          'paintingGameCounter': childData['paintingGameCounter'],
+          'paintingLevelCounter': childData['paintingLevelCounter'],
+          'colorMixingGameCounter': childData['colorMixingGameCounter'],
+          'colorMixingLevelCounter': childData['colorMixingLevelCounter'],
+          'colorMatchGameCounter': childData['colorMatchGameCounter'],
+          'colorMatchLevelCounter': childData['colorMatchLevelCounter'],
+          'learningColorsGameCounter': childData['learningColorsGameCounter'],
+          'learningColorsLevelCounter': childData['learningColorsLevelCounter'],
         },
       ));
-      BackgroundAudio.listenForSoundUpdates();
+      // BackgroundAudio.listenForSoundUpdates();
     } catch (e) {
       emit(GetChildErrorState(
         errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> updatePaintingProgress({
+    required int paintingGameCounter,
+    required int paintingLevelCounter,
+  }) async {
+    try {
+      emit(ProfileInfoLoadingState());
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(UpdateChildProgressErrorState(
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+      // Get user document to find current child ID
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+
+      if (!userDoc.exists) {
+        emit(GetChildErrorState(
+          errorMessage: 'User document not found',
+        ));
+        return;
+      }
+
+      final userData = userDoc.data();
+      final String? currentChildId = userData?['currentChildId'];
+
+      if (currentChildId == null) {
+        emit(GetChildErrorState(
+          errorMessage: 'No current child set',
+        ));
+        return;
+      }
+
+      final Map<String, dynamic> updateData = {
+        'paintingGameCounter': paintingGameCounter,
+        'paintingLevelCounter': paintingLevelCounter,
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(currentChildId)
+          .update(updateData);
+
+      emit(UpdateChildProgressSuccessState(
+          message: 'Child Progress Updated successfully'));
+
+      // Fetch updated child data
+      await getCurrentChild();
+    } catch (e) {
+      emit(UpdateChildProgressErrorState(
+        errorMessage: 'Failed to Update child Progress: ${e.toString()}',
+      ));
+    }
+  }
+
+  Future<void> updateColorMixingProgress({
+    required int colorMixingGameCounter,
+    required int colorMixingLevelCounter,
+  }) async {
+    try {
+      emit(ProfileInfoLoadingState());
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(UpdateChildProgressErrorState(
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+      // Get user document to find current child ID
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+
+      if (!userDoc.exists) {
+        emit(GetChildErrorState(
+          errorMessage: 'User document not found',
+        ));
+        return;
+      }
+
+      final userData = userDoc.data();
+      final String? currentChildId = userData?['currentChildId'];
+
+      if (currentChildId == null) {
+        emit(GetChildErrorState(
+          errorMessage: 'No current child set',
+        ));
+        return;
+      }
+
+      final Map<String, dynamic> updateData = {
+        'colorMixingGameCounter': colorMixingGameCounter,
+        'colorMixingLevelCounter': colorMixingLevelCounter,
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(currentChildId)
+          .update(updateData);
+
+      emit(UpdateChildProgressSuccessState(
+          message: 'Child Progress Updated successfully'));
+      // Fetch updated child data
+      await getCurrentChild();
+    } catch (e) {
+      emit(UpdateChildProgressErrorState(
+        errorMessage: 'Failed to Update child Progress: ${e.toString()}',
+      ));
+    }
+  }
+
+  Future<void> updateColorMatchProgress({
+    required int colorMatchGameCounter,
+    required int colorMatchLevelCounter,
+  }) async {
+    try {
+      emit(ProfileInfoLoadingState());
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(UpdateChildProgressErrorState(
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      // Get user document to find current child ID
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+
+      if (!userDoc.exists) {
+        emit(GetChildErrorState(
+          errorMessage: 'User document not found',
+        ));
+        return;
+      }
+
+      final userData = userDoc.data();
+      final String? currentChildId = userData?['currentChildId'];
+
+      if (currentChildId == null) {
+        emit(GetChildErrorState(
+          errorMessage: 'No current child set',
+        ));
+        return;
+      }
+
+      final Map<String, dynamic> updateData = {
+        'colorMatchGameCounter': colorMatchGameCounter,
+        'colorMatchLevelCounter': colorMatchLevelCounter,
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(currentChildId)
+          .update(updateData);
+
+      emit(UpdateChildProgressSuccessState(
+          message: 'Child Progress Updated successfully'));
+
+      // Fetch updated child data
+      await getCurrentChild();
+    } catch (e) {
+      emit(UpdateChildProgressErrorState(
+        errorMessage: 'Failed to Update child Progress: ${e.toString()}',
+      ));
+    }
+  }
+
+  Future<void> updateLearningColorsProgress({
+    required int learningColorsGameCounter,
+    required int learningColorsLevelCounter,
+  }) async {
+    try {
+      emit(ProfileInfoLoadingState());
+
+      final User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        emit(UpdateChildProgressErrorState(
+          errorMessage: 'User not authenticated',
+        ));
+        return;
+      }
+
+      // Get user document to find current child ID
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+
+      if (!userDoc.exists) {
+        emit(GetChildErrorState(
+          errorMessage: 'User document not found',
+        ));
+        return;
+      }
+
+      final userData = userDoc.data();
+      final String? currentChildId = userData?['currentChildId'];
+
+      if (currentChildId == null) {
+        emit(GetChildErrorState(
+          errorMessage: 'No current child set',
+        ));
+        return;
+      }
+
+      final Map<String, dynamic> updateData = {
+        'learningColorsGameCounter': learningColorsGameCounter,
+        'learningColorsLevelCounter': learningColorsLevelCounter,
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('children')
+          .doc(currentChildId)
+          .update(updateData);
+
+      emit(UpdateChildProgressSuccessState(
+          message: 'Child Progress Updated successfully'));
+
+      // Fetch updated child data
+      await getCurrentChild();
+    } catch (e) {
+      emit(UpdateChildProgressErrorState(
+        errorMessage: 'Failed to Update child Progress: ${e.toString()}',
       ));
     }
   }

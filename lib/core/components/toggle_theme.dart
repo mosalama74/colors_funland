@@ -23,7 +23,9 @@ class _ToggleThemeState extends State<ToggleTheme> {
       builder: (context, isLightMode, child) {
         return GestureDetector(
           onTap: () {
+
             ToggleTheme.isLight.value = !ToggleTheme.isLight.value;
+            
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),

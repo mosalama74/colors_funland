@@ -71,47 +71,7 @@ class _ColorToolsState extends State<ColorTools> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // RotatedBox(
-                //   quarterTurns: midPoint,
-                //   child: Row(
-                //     children: [
-                //       SizedBox(
-                //         width: 330.w,
-    
-                //         // child: SliderTheme(
-                //         //   data: SliderTheme.of(context).copyWith(
-                //         //     activeTrackColor: widget.activeTrackColor,
-                //         //     showValueIndicator:
-                //         //         ShowValueIndicator.onlyForDiscrete,
-                //         //     inactiveTrackColor: Colors.white.withOpacity(0.1),
-                //         //     thumbColor: Colors.white,
-                //         //     trackHeight: 30,
-                //         //     thumbShape: SliderComponentShape.noOverlay,
-                //         //     overlayColor: Colors.white.withOpacity(0.1),
-                //         //     valueIndicatorColor: Colors.white,
-                //         //     valueIndicatorTextStyle: const TextStyle(
-                //         //       color: Color(0xFF2A0B4F),
-                //         //     ),
-                //         //   ),
-                //         //   child: Slider(
-                //         //     value: _currentStrokeWidth,
-                //         //     min: 5.0,
-                //         //     max: 50.0,
-                //         //     divisions: 45,
-                //         //     label: _currentStrokeWidth.round().toString(),
-                //         //     onChanged: (value) {
-                //         //       setState(() {
-                //         //         _currentStrokeWidth = value;
-                //         //       });
-                //         //       widget.onStrokeWidthChanged?.call(value);
-                //         //     },
-                //         //   ),
-                //         // ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Left column
+             
                 Padding(
                   padding: EdgeInsets.only(top: 20.h),
                   child: SingleChildScrollView(
@@ -136,13 +96,6 @@ class _ColorToolsState extends State<ColorTools> {
               ],
             ),
           ),
-    
-          SizedBox(height: 16.h),
-    
-          // Brush size slider
-          if (widget.onStrokeWidthChanged != null) ...[
-            const SizedBox(height: 16),
-          ],
         ],
       ),
     );
@@ -150,7 +103,6 @@ class _ColorToolsState extends State<ColorTools> {
 
   Widget _buildColorButton(Color color) {
     final isSelected = widget.selectedColor == color;
-
     return Container(
       width: 89,
       height: 89,
